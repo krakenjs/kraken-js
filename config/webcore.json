@@ -1,0 +1,19 @@
+{
+
+  "ip": "127.0.0.1",
+  "port": 8000,
+
+  "viewEngine": {
+    "module": "express-dustjs",
+    "ext": "dust",
+    "templatePath": ["public", "templates"],
+    "helpers": null,
+    "cache": false,
+    "read": null
+  },
+
+  "routes": {
+    "routePath": ["controllers"]
+  }
+
+}

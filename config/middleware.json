@@ -1,0 +1,34 @@
+{
+    "middleware": {
+
+        "session": {
+            "module": null,
+            "key": "",
+            "secret": "keyboard cat",
+            "cookie": {
+                "path": "/",
+                "httpOnly": true,
+                "maxAge": null
+            },
+            "proxy": null
+        },
+
+        "static": {
+            "rootPath": "public"
+        },
+
+        "appsec": {
+            "csrf": true,
+            "xframe": "SAMEORIGIN",
+            "p3p": "NOI DSP CUR ADMa OUR IND NAV STA PUR",
+            "csp": {
+                "reportOnly": false,
+                "policy": {
+                    "default-src": "* 'unsafe-eval'"
+                },
+                "reportUri": ""
+            }
+        }
+
+    }
+}
