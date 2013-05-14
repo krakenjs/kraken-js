@@ -9,10 +9,10 @@ var path = require('path'),
     middleware = require('./lib/middleware');
 
 
-if (__dirname !== process.cwd()) {
+if (path.dirname(require.main.filename) !== process.cwd()) {
     console.warn('WARNING: Process not started from application root.');
     console.warn('Current directory:', process.cwd());
-    console.warn('Application root:', __dirname);
+    console.warn('Application root:', path.dirname(require.main.filename));
 }
 
 var pathutil = {
