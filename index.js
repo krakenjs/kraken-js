@@ -60,7 +60,7 @@ var pathutil = {
 
 
 function AppCore(delegate) {
-    this._delegate = delegate;
+    this._delegate = delegate || {};
     this._application = express();
     this._server = null;
     this._config = null;
@@ -114,7 +114,7 @@ AppCore.prototype = {
             this._delegate.configure(nconf, next);
             return;
         }
-        
+
         next(null, nconf);
     },
 
