@@ -29,9 +29,7 @@ describe('compiler', function () {
 
 
     it('should compile a template', function (next) {
-        var start = process.hrtime();
         inject('/templates/index.js', function (err, data) {
-            console.log(process.hrtime(start));
             assert.ok(!err);
             assert.ok(data);
             next();
@@ -66,9 +64,7 @@ describe('compiler', function () {
 
 
     it('should compile less to css', function (next) {
-        var start = process.hrtime();
         inject('/css/app.css', function (err, data) {
-            console.log(process.hrtime(start));
             assert.ok(!err);
             assert.ok(data);
             next();
@@ -76,9 +72,7 @@ describe('compiler', function () {
     });
 
     it('should compile less files in nested directories', function (next) {
-        var start = process.hrtime();
         inject('/css/inc/colors.css', function (err, data) {
-            console.log(process.hrtime(start));
             assert.ok(!err);
             assert.ok(data);
             next();
@@ -87,9 +81,7 @@ describe('compiler', function () {
 
 
     it('should copy unhandled files', function (next) {
-        var start = process.hrtime();
         inject('/img/nyan.jpg', function (err, data) {
-            console.log(process.hrtime(start));
             assert.ok(!err);
             assert.ok(data);
             next();

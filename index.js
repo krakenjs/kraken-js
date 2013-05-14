@@ -2,6 +2,7 @@
 
 var path = require('path'),
     nconf = require('nconf'),
+    domain = require('domain'),
     express = require('express'),
     i18n = require('webcore-i18n'),
     enrouten = require('express-enrouten'),
@@ -149,6 +150,7 @@ AppCore.prototype = {
         staticRoot = pathutil.resolve(settings.static.rootPath);
 
         app.use(express.favicon());
+        // app.use(middleware.domain()); // TODO: This hangs for some reason. Investigate.
         app.use(middleware.compiler(srcRoot, staticRoot, settings.compiler)); // Only set when env === 'dev'
         app.use(express.static(staticRoot));
         app.use(middleware.logger(settings.logger));
@@ -202,6 +204,9 @@ exports.stop = function (callback) {
         callback(new Error('Application not initialized.'));
         return;
     }
-    application.stop(callback);
-    application = undefined;
+
+    application.stop(function () {
+        application = undefined;
+        callback();
+    });
 };
