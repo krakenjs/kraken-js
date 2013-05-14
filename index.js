@@ -196,6 +196,11 @@ AppCore.prototype = {
 var application;
 
 exports.start = function (delegate, callback) {
+    if (typeof delegate === 'function') {
+        callback = delegate;
+        delegate = undefined;
+    }
+    
     var app = new AppCore(delegate);
     app.init(function (err) {
         if (err) {
