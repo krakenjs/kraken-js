@@ -94,7 +94,8 @@ AppCore.prototype = {
         app  = this._application;
 
         require('./lib/config').load(nconf);
-        this._delegate.configure(nconf, function (err, config) {
+
+        function next(err, config) {
             if (err) {
                 callback(err);
                 return;
@@ -107,7 +108,14 @@ AppCore.prototype = {
             that._views();
             that._middleware();
             callback();
-        });
+        }
+
+        if (typeof this._delegate.configure === 'function') {
+            this._delegate.configure(nconf, next);
+            return;
+        }
+        
+        next(null, nconf);
     },
 
 
