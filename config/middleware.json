@@ -13,8 +13,11 @@
             "proxy": null
         },
 
+        "compiler": null,
+
         "static": {
-            "rootPath": "public"
+            "srcRoot": "public",
+            "rootPath": ".build"
         },
 
         "appsec": {
@@ -30,5 +33,12 @@
             }
         }
 
+    },
+
+    "testcase": {
+        "prop1": "webcore-all",
+        "prop2": "webcore-all",
+        "prop3": "webcore-all",
+        "prop4": "webcore-all"
     }
 }

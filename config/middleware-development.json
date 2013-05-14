@@ -1,0 +1,15 @@
+{
+    "middleware": {
+        "compiler": {
+            "dust": "templates",
+            "less": "css",
+            "default": ""
+        }
+    },
+
+    "testcase": {
+        "prop2": "webcore-dev",
+        "prop3": "webcore-dev",
+        "prop4": "webcore-dev"
+    }
+}

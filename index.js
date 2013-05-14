@@ -3,6 +3,7 @@
 var path = require('path'),
     nconf = require('nconf'),
     express = require('express'),
+    i18n = require('webcore-i18n'),
     enrouten = require('express-enrouten'),
     middleware = require('./lib/middleware');
 
@@ -13,22 +14,48 @@ if (__dirname !== process.cwd()) {
     console.warn('Application root:', __dirname);
 }
 
-
 var pathutil = {
     resolve: function () {
         var args, segments;
 
         args = Array.prototype.slice.call(arguments);
         segments = args.reduce(function (prev, curr) {
-            if (!Array.isArray(curr)) {
-                curr = [curr];
+            if (curr !== undefined) {
+                if (!Array.isArray(curr)) {
+                    curr = [curr];
+                }
+                return prev.concat(curr);
             }
-            return prev.concat(curr);
+            return prev;
         }, [ process.cwd() ]);
 
         return path.join.apply(null, segments);
     }
 };
+
+// Deps
+// Peer
+// - enrouten?
+// - express-dustjs?
+// - express?
+//
+// Peer Dev (untracked)
+// - LESS
+// - consolidate
+// - Jade (Testing only)
+// - r.js
+//
+// Self
+// - webcore-appsec
+// - express-winston?
+// - nconf
+//
+// Self Dev
+// - Mocha
+// - chai
+// - webcore-devtools
+
+
 
 
 function AppCore(delegate) {
@@ -60,14 +87,12 @@ AppCore.prototype = {
 
 
     _configure: function (callback) {
-        var that, app;
+        var that, app, config;
+
         that = this;
         app  = this._application;
 
-        nconf.argv().env();
-        nconf.file('webcore', { file: path.join(__dirname, 'config', 'webcore.json') });
-        nconf.file('middleware', { file: path.join(__dirname, 'config', 'middleware.json') });
-
+        require('./lib/config').load(nconf);
         this._delegate.configure(nconf, function (err, config) {
             if (err) {
                 callback(err);
@@ -75,12 +100,7 @@ AppCore.prototype = {
             }
 
             app.disable('x-powered-by');
-            app.set('env', config.get('env'));
-
-            // Configure routes
-            enrouten(app).withRoutes({
-                directory: pathutil.resolve(config.get('routes:routePath'))
-            });
+            app.set('env', config.get('env:env'));
 
             that._config = config;
             that._views();
@@ -91,59 +111,69 @@ AppCore.prototype = {
 
 
     _views: function () {
-        var engine, renderer, app;
+        var config, engine, renderer, app;
 
         // API for view renderer can either be module.name or module.name(config)
         // Supports 'consolidate' as well as express-dustjs.
-        engine = this._config.get('viewEngine');
-        renderer = require(engine.module)[engine.ext];
+        config = this._config.get('viewEngine');
+        engine = require(config.module);
+        renderer = engine[config.ext];
+
+        // Assume a single argument renderer means it's actually a factory method and needs to be configured.
         if (typeof renderer === 'function' && renderer.length === 1) {
-            // Optionally configure a read handler (for renderers that honor it).
-            if (typeof engine.read !== 'function') {
-                engine.read = require('./lib/view/read')[engine.ext];
-            }
-            renderer = renderer(engine);
+            // Now create the real renderer
+            renderer = renderer(config);
         }
 
         app = this._application;
-        app.engine(engine.ext, renderer);
-        app.set('view engine', engine.ext);
+        app.engine(config.ext, renderer);
+        app.set('view engine', config.ext);
         app.set('view cache', false);
-        app.set('views', pathutil.resolve(engine.templatePath));
+        app.set('views', pathutil.resolve(config.templatePath));
+
+        config = this._config.get('i18n');
+        if (config) {
+            config.contentPath = pathutil.resolve(config.contentPath);
+            i18n.init(app, engine, config);
+        }
     },
 
 
     _middleware: function () {
-        var app, delegate, settings;
+        var app, delegate, settings, srcRoot, staticRoot;
 
         app = this._application;
         delegate = this._delegate;
         settings = this._config.get('middleware');
+        srcRoot = pathutil.resolve(settings.static.srcRoot);
+        staticRoot = pathutil.resolve(settings.static.rootPath);
 
         app.use(express.favicon());
+        app.use(middleware.compiler(srcRoot, staticRoot, settings.compiler)); // Only set when env === 'dev'
+        app.use(express.static(staticRoot));
         app.use(middleware.logger(settings.logger));
 
         if (typeof delegate.requestStart === 'function') {
-            delegate.requestStart( /* TODO: Pass facade, not *real* server */ );
+            delegate.requestStart(app); // TODO: Pass facade, not *real* server?
         }
 
-        app.use(middleware.devCompiler(settings.devCompiler)); // Only set when env === 'dev*'
         app.use(express.bodyParser(settings.bodyParser || { limit: 2097152 })); // default to 2mb limit
         app.use(express.cookieParser(settings.session.secret));
         app.use(middleware.session(settings.session));
         app.use(middleware.appsec(settings.appsec));
 
         if (typeof delegate.requestBeforeRoute === 'function') {
-            delegate.requestBeforeRoute( /* TODO: Pass facade, not *real* server */ );
+            delegate.requestBeforeRoute(app); // TODO: Pass facade, not *real* server?
         }
 
-        app.use(app.routes);
+        enrouten(app).withRoutes({
+            directory: pathutil.resolve(this._config.get('routes:routePath'))
+        });
 
         if (typeof delegate.requestAfterRoute === 'function') {
-            delegate.requestAfterRoute( /* TODO: Pass facade, not *real* server */ );
+            delegate.requestAfterRoute(app); // TODO: Pass facade, not *real* server?
         }
 
-        app.use(express.static(pathutil.resolve(settings.static.rootPath)));
         app.use(middleware.errorHandler(settings.errorHandler));
 
         // TODO: Optional requestError?

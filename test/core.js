@@ -1,7 +1,8 @@
 /*global describe:false, it:false, before:false, after:false*/
 'use strict';
 
-var webcore = require('../index'),
+var path = require('path'),
+    webcore = require('../index'),
     assert = require('chai').assert;
 
 describe('webcore', function () {
@@ -9,7 +10,7 @@ describe('webcore', function () {
     before(function () {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
-        process.chdir(__dirname);
+        process.chdir(path.join(__dirname, 'fixtures'));
     });
 
     var application = {
@@ -20,7 +21,6 @@ describe('webcore', function () {
         configure: function (config, callback) {
             this._config = config;
             config.set('foo:bar', 'baz');
-            config.set('routes:routePath', ['fixtures', 'controllers']);
             callback(null, config);
         },
 
