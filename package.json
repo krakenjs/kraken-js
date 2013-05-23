@@ -30,7 +30,8 @@
     "dustjs-helpers": "~1.1.1",
     "grunt": "~0.4.1",
     "grunt-ci-suite": "~0.1.2",
-    "winston": "~0.7.1"
+    "winston": "~0.7.1",
+    "nconf": "~0.6.7"
   },
   "dependencies": {
     "express-enrouten": "~0.0.2",
