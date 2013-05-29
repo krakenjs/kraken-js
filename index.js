@@ -74,10 +74,12 @@ AppCore.prototype = {
 
 
     start: function (callback) {
-        var port, host;
+        var config, port, host;
 
-        port = this._config.get('port');
-        host = this._config.get('host');
+        // First check environment variables, then try config.
+        config = this._config;
+        port = config.get('PORT') || config.get('port') || 8000;
+        host = config.get('HOST') || config.get('IP') || config.get('host') || config.get('ip') || 'localhost';
 
         this._server = this._application.listen(port, host, function () {
             callback(null, port);
