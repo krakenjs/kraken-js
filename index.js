@@ -74,8 +74,12 @@ AppCore.prototype = {
 
 
     start: function (callback) {
-        var port = this._config.get('port');
-        this._server = this._application.listen(port, function () {
+        var port, host;
+
+        port = this._config.get('port');
+        host = this._config.get('host');
+
+        this._server = this._application.listen(port, host, function () {
             callback(null, port);
         });
     },
