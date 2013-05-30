@@ -4,7 +4,8 @@
 var webcore = require('../index'),
     http = require('http'),
     path = require('path'),
-    assert = require('chai').assert;
+    assert = require('chai').assert,
+    configutil = require('../lib/util/configutil');
 
 
 describe('config', function () {
@@ -43,6 +44,35 @@ describe('config', function () {
         assert.strictEqual(testcase.prop2, 'webcore-dev');
         assert.strictEqual(testcase.prop3, 'app-all');
         assert.strictEqual(testcase.prop4, 'app-dev');
+    });
+
+
+    it('should check env variables for port', function () {
+        var port;
+
+        port = configutil.getPort(nconf);
+        assert.strictEqual(port, 8000);
+
+        nconf.set('OPENSHIFT_NODEJS_PORT', 8001);
+
+        port = configutil.getPort(nconf);
+        assert.strictEqual(port, 8001);
+
+        nconf.set('OPENSHIFT_NODEJS_PORT', undefined);
+    });
+
+
+    it('should check env variables for host', function () {
+        var host;
+
+        host = configutil.getHost(nconf);
+        assert.strictEqual(host, undefined);
+
+        nconf.set('OPENSHIFT_NODEJS_IP', '127.0.0.1');
+
+        host = configutil.getHost(nconf);
+        assert.strictEqual(host, '127.0.0.1');
+
     });
 
 

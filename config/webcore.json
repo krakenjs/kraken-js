@@ -1,6 +1,8 @@
 {
 
-  "port": 8000,
+  "port": ["OPENSHIFT_NODEJS_PORT", "VCAP_APP_PORT", "PORT", 8000],
+
+  "host": ["OPENSHIFT_NODEJS_IP", "VCAP_APP_HOST", "HOST", "IP"],
 
   "viewEngine": {
     "module": "express-dustjs",

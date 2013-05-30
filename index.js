@@ -6,7 +6,8 @@ var path = require('path'),
     express = require('express'),
     i18n = require('webcore-i18n'),
     enrouten = require('express-enrouten'),
-    middleware = require('./lib/middleware');
+    middleware = require('./lib/middleware'),
+    configutil = require('./lib/util/configutil');
 
 
 if (path.dirname(require.main.filename) !== process.cwd()) {
@@ -74,12 +75,10 @@ AppCore.prototype = {
 
 
     start: function (callback) {
-        var config, port, host;
+        var port, host;
 
-        // First check environment variables, then try config.
-        config = this._config;
-        port = config.get('PORT') || config.get('port') || 8000;
-        host = config.get('HOST') || config.get('IP') || config.get('host') || config.get('ip') || 'localhost';
+        port = configutil.getPort(this._config);
+        host = configutil.getHost(this._config);
 
         this._server = this._application.listen(port, host, function () {
             callback(null, port);
@@ -94,12 +93,12 @@ AppCore.prototype = {
 
 
     _configure: function (callback) {
-        var that, app, config;
+        var that, app;
 
         that = this;
         app  = this._application;
 
-        require('./lib/config').load(nconf);
+        configutil.load(nconf);
 
         function next(err, config) {
             if (err) {
