@@ -57,6 +57,17 @@ describe('compiler', function () {
     });
 
 
+    it('should fail on a nonexistent template', function (next) {
+        inject('/templates/US/en/wat.js', function (err, body) {
+            err && console.dir(err);
+            body && console.log(body);
+            assert.ok(err);
+            assert.ok(!body);
+            next();
+        });
+    });
+
+
     it('should load javascript', function (next) {
         inject('/js/main.js', function (err, data) {
             assert.ok(!err);
