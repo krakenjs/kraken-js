@@ -23,7 +23,6 @@ describe('view', function () {
 
 
     afterEach(function (next) {
-        i18n.onLoad = undefined;
         webcore.stop(next);
     });
 

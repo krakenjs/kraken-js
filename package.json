@@ -37,7 +37,9 @@
     "express-enrouten": "~0.0.2",
     "webcore-appsec": "~0.0.2",
     "webcore-devtools": "~0.0.1",
-    "webcore-i18n": "~0.0.2"
+    "webcore-i18n": "~0.0.2",
+    "mkdirp": "~0.3.5",
+    "rimraf": "~2.1.4"
   },
   "peerDependencies": {
     "express": "~3.2.0",

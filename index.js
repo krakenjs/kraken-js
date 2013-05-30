@@ -7,6 +7,7 @@ var path = require('path'),
     i18n = require('webcore-i18n'),
     enrouten = require('express-enrouten'),
     middleware = require('./lib/middleware'),
+    pathutil = require('./lib/util/pathutil'),
     configutil = require('./lib/util/configutil');
 
 
@@ -16,24 +17,6 @@ if (path.dirname(require.main.filename) !== process.cwd()) {
     console.warn('Application root:', path.dirname(require.main.filename));
 }
 
-var pathutil = {
-    resolve: function () {
-        var args, segments;
-
-        args = Array.prototype.slice.call(arguments);
-        segments = args.reduce(function (prev, curr) {
-            if (curr !== undefined) {
-                if (!Array.isArray(curr)) {
-                    curr = [curr];
-                }
-                return prev.concat(curr);
-            }
-            return prev;
-        }, [ process.cwd() ]);
-
-        return path.join.apply(null, segments);
-    }
-};
 
 // Deps
 // Peer
@@ -145,6 +128,14 @@ AppCore.prototype = {
         app.set('view cache', false);
         app.set('views', pathutil.resolve(config.templatePath));
 
+        // States to handle
+        //  - Production - server (static localized templates) - if locality/i18n config, resolve to /XX/yy/template and fall back
+        //  - Production - server (static non-localized templates) - no locality so resolve to template name
+        //  - Production - client - CDN
+        //  - Dev - server - (dynamic localized templates) - localize, write, compile, delete
+        //  - Dev - server - (dynamic non-localized templates) - resolve to template
+        //  - Dev - client - (dynamic localized templates) - localize (url or fallback), write, compile, delete
+        //  - Dev - client - (dynamic non-localized templates) - localize (url or fallback), write, compile, delete
         config = this._config.get('i18n');
         if (config) {
             config.contentPath = pathutil.resolve(config.contentPath);
@@ -164,7 +155,7 @@ AppCore.prototype = {
 
         app.use(express.favicon());
         // app.use(middleware.domain()); // TODO: This hangs for some reason. Investigate.
-        app.use(middleware.compiler(srcRoot, staticRoot, settings.compiler)); // Only set when env === 'dev'
+        app.use(middleware.compiler(srcRoot, staticRoot, this._config));
         app.use(express.static(staticRoot));
         app.use(middleware.logger(settings.logger));
 
@@ -205,7 +196,7 @@ exports.start = function (delegate, callback) {
         callback = delegate;
         delegate = undefined;
     }
-    
+
     var app = new AppCore(delegate);
     app.init(function (err) {
         if (err) {

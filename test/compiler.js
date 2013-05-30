@@ -9,6 +9,8 @@ var webcore = require('../index'),
 
 describe('compiler', function () {
 
+    var VALID_LOCALIZED_TEMPLATE = '(function(){dust.register("localized",body_0);function body_0(chk,ctx){return chk.write("<!DOCTYPE html><html lang=\\"en\\"><head><title>").reference(ctx.get("title"),ctx,"h").write("</title></head><body><h1>node template test</h1></body></html>");}return body_0;})();';
+
     before(function (next) {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
@@ -41,6 +43,15 @@ describe('compiler', function () {
         inject('/templates/inc/partial.js', function (err, data) {
             assert.ok(!err);
             assert.ok(data);
+            next();
+        });
+    });
+
+
+    it('should compile a localized template', function (next) {
+        inject('/templates/US/en/localized.js', function (err, body) {
+            assert.ok(!err);
+            assert.strictEqual(body, VALID_LOCALIZED_TEMPLATE);
             next();
         });
     });
