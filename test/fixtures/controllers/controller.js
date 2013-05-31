@@ -4,6 +4,8 @@ module.exports = function (app) {
 
     app.get('/', function (req, res) {
 
+        res.locals.context = {};
+
         res.render('index', {
             title: 'Hello, world'
         });
@@ -13,9 +15,11 @@ module.exports = function (app) {
 
     app.get('/localized', function (req, res) {
 
-        res.locals.locality = {
-            country: 'US',
-            locale: 'en'
+        res.locals.context = {
+            locality: {
+                country: 'US',
+                language: 'en'
+            }
         };
 
         res.render('localized', {
