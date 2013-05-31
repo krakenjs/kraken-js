@@ -9,11 +9,11 @@
     "ext": "js",
     "templatePath": [".build", "templates"],
     "helpers": null,
-    "cache": false
+    "cache": true
   },
 
   "i18n": {
-      "fallback": "en_US",
+      "fallback": "en-US",
       "contentPath": ["locales"]
   },
 

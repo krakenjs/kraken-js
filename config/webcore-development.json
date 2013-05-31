@@ -1,6 +1,7 @@
 {
     "viewEngine": {
         "ext": "dust",
-        "templatePath": ["public", "templates"]
+        "templatePath": ["public", "templates"],
+        "cache": false
     }
 }

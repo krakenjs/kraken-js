@@ -103,6 +103,27 @@ describe('view', function () {
     });
 
 
+    it('should support cached views', function (next) {
+        application = {
+            configure: function (config, callback) {
+                config.set('viewEngine:ext', 'js');
+                config.set('viewEngine:templatePath', ['.build', 'templates']);
+                config.set('viewEngine:cache')
+                callback(null, config);
+            }
+        };
+
+        webcore.start(application, function () {
+            inject('/localized', function (err, body) {
+                err && console.log(err.message);
+                assert.ok(!err);
+                assert.strictEqual(body, VALID_RESPONSE);
+                next();
+            });
+        });
+    });
+
+
     it('should use the jade view engine', function (next) {
         application = {
             configure: function (config, callback) {

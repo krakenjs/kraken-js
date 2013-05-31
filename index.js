@@ -108,38 +108,38 @@ AppCore.prototype = {
 
 
     _views: function () {
-        var config, engine, renderer, app;
+        var viewEngineConfig, i18nConfig, engine, renderer, app;
 
         // API for view renderer can either be module.name or module.name(config)
         // Supports 'consolidate' as well as express-dustjs.
-        config = this._config.get('viewEngine');
-        engine = require(config.module);
-        renderer = engine[config.ext];
+        viewEngineConfig = this._config.get('viewEngine');
+        engine = require(viewEngineConfig.module);
+        renderer = engine[viewEngineConfig.ext];
 
-        // Assume a single argument renderer means it's actually a factory method and needs to be configured.
+        i18nConfig = this._config.get('i18n');
+        if (i18nConfig && viewEngineConfig.cache) {
+            // If i18n is enabled, disable view renderer cache
+            // and use i18n internal cache.
+            i18nConfig.cache = viewEngineConfig.cache;
+            viewEngineConfig.cache = !viewEngineConfig.cache;
+        }
+
+        // Assume a single argument renderer means it's actually a factory
+        // method and needs to be configured.
         if (typeof renderer === 'function' && renderer.length === 1) {
             // Now create the real renderer
-            renderer = renderer(config);
+            renderer = renderer(viewEngineConfig);
         }
 
         app = this._application;
-        app.engine(config.ext, renderer);
-        app.set('view engine', config.ext);
+        app.engine(viewEngineConfig.ext, renderer);
+        app.set('view engine', viewEngineConfig.ext);
         app.set('view cache', false);
-        app.set('views', pathutil.resolve(config.templatePath));
+        app.set('views', pathutil.resolve(viewEngineConfig.templatePath));
 
-        // States to handle
-        //  - Production - server (static localized templates) - if locality/i18n config, resolve to /XX/yy/template and fall back
-        //  - Production - server (static non-localized templates) - no locality so resolve to template name
-        //  - Production - client - CDN
-        //  - Dev - server - (dynamic localized templates) - localize, write, compile, delete
-        //  - Dev - server - (dynamic non-localized templates) - resolve to template
-        //  - Dev - client - (dynamic localized templates) - localize (url or fallback), write, compile, delete
-        //  - Dev - client - (dynamic non-localized templates) - localize (url or fallback), write, compile, delete
-        config = this._config.get('i18n');
-        if (config) {
-            config.contentPath = pathutil.resolve(config.contentPath);
-            i18n.init(app, engine, config);
+        if (i18nConfig) {
+            i18nConfig.contentPath = pathutil.resolve(i18nConfig.contentPath);
+            i18n.init(app, engine, i18nConfig);
         }
     },
 
