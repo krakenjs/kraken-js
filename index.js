@@ -1,6 +1,7 @@
 'use strict';
 
-var path = require('path'),
+var http = require('http'),
+    path = require('path'),
     nconf = require('nconf'),
     domain = require('domain'),
     express = require('express'),
@@ -84,10 +85,16 @@ AppCore.prototype = {
         configutil.load(nconf);
 
         function next(err, config) {
+            var agentSettings;
+
             if (err) {
                 callback(err);
                 return;
             }
+
+            // Make global agent maxSocket setting configurable
+            agentSettings = config.get('globalAgent');
+            http.globalAgent.maxSockets = agentSettings && agentSettings.maxSockets ? agentSettings.maxSockets : Infinity;
 
             app.disable('x-powered-by');
             app.set('env', config.get('env:env'));

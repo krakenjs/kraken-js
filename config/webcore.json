@@ -4,6 +4,10 @@
 
   "host": ["OPENSHIFT_NODEJS_IP", "VCAP_APP_HOST", "HOST", "IP"],
 
+  "globalAgent": {
+      "maxSockets": 250
+  },
+
   "viewEngine": {
     "module": "express-dustjs",
     "ext": "js",
