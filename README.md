@@ -127,5 +127,8 @@ A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for
 
 ## FAQ
 
+### Why would I use Webcore?
+Webcore is the glue to your open source. It sits on top of grunt and express, but offers you a more robust feature set in a web application framework. The benefits include support for externalized content, localization, compile-on-the-fly editing, environment-based configuration, baked-in application security and more.
+
 ### How do I run in production mode?
 Build your project first and then `export NODE_ENV=production` before running the app.
