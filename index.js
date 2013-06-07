@@ -106,8 +106,12 @@ AppCore.prototype = {
         }
 
         if (typeof this._delegate.configure === 'function') {
-            this._delegate.configure(nconf, next);
-            return;
+            if (this._delegate.configure.length > 1) {
+                this._delegate.configure(nconf, next);
+                return;
+            }
+
+            this._delegate.configure(nconf);
         }
 
         next(null, nconf);
