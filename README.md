@@ -38,18 +38,47 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 *app.json values:*
 
 - **host** - The application host. *Default: localhost*
-- **port** - The application port to bind to. *Default: 8000*
+- **port** - The application port to bind to. *Default: `8000`*
 - **globalAgent**
-  - **maxSockets** - Max number of socket connections to open. *Default: 250*
+  - **maxSockets** - Max number of socket connections to open. *Default: `250`*
 - **viewEngine**
-  - **ext** - Which template extension to use. *Defaut: "dust"*
-  - **templatePath** - Root path to templates. *Default: [".build", "templates"]*
-  - **helpers** - Array of view helpers to load. *Default: null*
-  - **cache** - Enables view cache. *Default: true*
+  - **ext** - Which template extension to use. *Defaut: `"dust"`*
+  - **templatePath** - Root path to templates. *Default: `[".build", "templates"]`*
+  - **helpers** - Array of view helpers to load. *Default: `null`*
+  - **cache** - Enables view cache. *Default: `true`*
 - **i18n**
-  - **fallback** - Locale fallback to use if content files aren't found. *Default: "en-US"*
-  - **contentPath** - Root path to content files. *Default: ["locales"]*
+  - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
+  - **contentPath** - Root path to content files. *Default: `["locales"]`*
 
+*middleware.json values:*
+
+- **middleware**
+  - **appsec**
+      - **csrf** - Should CSRF tokens be required. *Default: `true`*
+      - **csp** - Should CSP headers be sent. *Default: `{ ... }`*
+          - **reportOnly** - Report only enabled. *Default: `false`*
+          - **report-uri** - URI the browser should send the report to. *Default: `""`*
+          - **policy** - Key value object of the CSP policy. *Default: `{ "default-src": " * 'unsafe-eval'" }`*
+      - **p3p** - Setting for P3P header. *Default: `false`*
+      - **xframe** - Setting for XFRAME headers. *Default: `"SAMEORIGIN"`*
+  - **compiler**
+      - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
+      - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
+  
+  - **session**
+      - **module** - Connect-based module name to require for sessions. *Default: `false`*
+      - **secret** - Secret used to hash your cookie. *Default: `"keyboard cat"`*
+      - **cookie**
+          - **path** - Path to set on the cookie. *Default: `"/"`*
+          - **httpOnly** - HTTP only setting for the cookie. *Default: `true`*
+          - **maxAge** - Maximum age the cookie should exist. *Default: `null`*
+        },
+
+
+  - **static**
+      - **srcRoot** - Where the compiler should look for files. *Default: `"public"`*
+      - **rootPath** - Where the compiler should put compiled files. *Default: `".build"`*
+  
 
 
 ## Customization
@@ -127,7 +156,7 @@ A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for
 
 ## FAQ
 
-### Why would I use Webcore?
+### Why use Webcore?
 Webcore is the glue to your open source. It sits on top of grunt and express, but offers you a more robust feature set in a web application framework. The benefits include support for externalized content, localization, compile-on-the-fly editing, environment-based configuration, baked-in application security and more.
 
 ### How do I run in production mode?
