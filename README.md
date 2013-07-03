@@ -8,7 +8,7 @@ A Node.js web application framework.
 
 To create a new project:
 
-1. Download [example app](http://github.paypal.com/api/v3/repos/webcore/example-app/tarball/master) 
+1. Download [basic app](http://github.paypal.com/api/v3/repos/webcore/basic-app/tarball/master) 
 2. `npm install`
 3. `node index.js`
 
