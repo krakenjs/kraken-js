@@ -1,6 +1,6 @@
 {
   "name": "webcore",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A Node.js web application framework",
   "main": "index.js",
   "scripts": {
