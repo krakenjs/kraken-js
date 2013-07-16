@@ -7,10 +7,17 @@ var path = require('path'),
 
 describe('webcore', function () {
 
+    var cwd, server;
+
     before(function () {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
+        cwd = process.cwd();
         process.chdir(path.join(__dirname, 'fixtures'));
+    });
+
+    after(function () {
+        process.chdir(cwd);
     });
 
     var application = {
@@ -18,10 +25,10 @@ describe('webcore', function () {
         _config: undefined,
         _methods: [],
 
-        configure: function (config, callback) {
+        configure: function (config) {
             this._config = config;
             config.set('foo:bar', 'baz');
-            callback(null, config);
+            config.set('routes:routePath', ['controllers']);
         },
 
         requestStart: function () {
@@ -47,7 +54,7 @@ describe('webcore', function () {
 
 
     it('should error on bad configuration', function (next) {
-        webcore.start(appBadConfig, function (err, port) {
+        webcore.create(appBadConfig).listen(function (err, server) {
             assert.ok(err);
             assert.strictEqual(err.message, 'Config Error');
             next();
@@ -55,18 +62,33 @@ describe('webcore', function () {
     });
 
 
-    it('should not allow stop prior to successful start', function (next) {
-        webcore.stop(function (err) {
-            assert.instanceOf(err, Error);
-            next();
+    it('should start server without optional port', function (next) {
+        process.env.PORT = 8001;
+        process.env.HOST = '127.0.0.1';
+
+        webcore.create(application).listen(function (err, server) {
+            var address;
+
+            delete process.env.PORT;
+            delete process.env.HOST;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address.port, 8001);
+            assert.strictEqual(address.address, '127.0.0.1');
+
+            server.close(next);
         });
     });
 
 
     it('should start the server', function (next) {
-        webcore.start(application, function (err, port) {
-            assert.ok(!err);
-            assert.typeOf(port, 'number');
+        webcore.create(application).listen(8000, function (err, srvr) {
+            assert.isNull(err);
+            assert.isObject(srvr);
+            server = srvr;
             next();
         });
     });
@@ -92,7 +114,7 @@ describe('webcore', function () {
 
 
     it('should shutdown the server', function (next) {
-        webcore.stop(next);
+        server.close(next);
     });
 
 });

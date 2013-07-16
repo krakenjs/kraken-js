@@ -11,22 +11,28 @@ describe('compiler', function () {
 
     var VALID_LOCALIZED_TEMPLATE = '(function(){dust.register("localized",body_0);function body_0(chk,ctx){return chk.write("<!DOCTYPE html><html lang=\\"en\\"><head><title>").reference(ctx.get("title"),ctx,"h").write("</title></head><body><h1>node template test</h1></body></html>");}return body_0;})();';
 
+    var cwd, server;
+
     before(function (next) {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
+        cwd = process.cwd();
         process.chdir(path.join(__dirname, 'fixtures'));
 
-        var application = {
-            configure: function (config, callback) {
-                callback(null, config);
-            }
-        };
-        webcore.start(application, next);
+        var application = {};
+        webcore
+            .create(application)
+            .listen()
+            .then(function (srvr) {
+                server = srvr;
+            })
+            .then(next, next);
     });
 
 
     after(function (next) {
-        webcore.stop(next);
+        process.chdir(cwd);
+        server.close(next);
     });
 
 
@@ -59,8 +65,6 @@ describe('compiler', function () {
 
     it('should fail on a nonexistent template', function (next) {
         inject('/templates/US/en/wat.js', function (err, body) {
-            err && console.dir(err);
-            body && console.log(body);
             assert.ok(err);
             assert.ok(!body);
             next();
@@ -75,14 +79,6 @@ describe('compiler', function () {
             next();
         });
     });
-
-//    it.skip('should invoke r.js for javascript', function (next) {
-//        inject('/js/main.js', function (err, data) {
-//            assert.ok(!err);
-//            assert.ok(data);
-//            next();
-//        });
-//    });
 
 
     it('should compile less to css', function (next) {

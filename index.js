@@ -1,232 +1,167 @@
 'use strict';
 
-var http = require('http'),
-    path = require('path'),
-    nconf = require('nconf'),
-    domain = require('domain'),
-    express = require('express'),
-    i18n = require('webcore-i18n'),
-    enrouten = require('express-enrouten'),
-    middleware = require('./lib/middleware'),
-    pathutil = require('./lib/util/pathutil'),
-    configutil = require('./lib/util/configutil');
+var Q = require('q'),
+    appcore = require('./lib/appcore');
 
 
-if (path.dirname(require.main.filename) !== process.cwd()) {
-    console.warn('WARNING: Process not started from application root.');
-    console.warn('Current directory:', process.cwd());
-    console.warn('Application root:', path.dirname(require.main.filename));
-}
+var webcore = {
 
-
-// Deps
-// Peer
-// - enrouten?
-// - express-dustjs?
-// - express?
-//
-// Peer Dev (untracked)
-// - LESS
-// - consolidate
-// - Jade (Testing only)
-// - r.js
-//
-// Self
-// - webcore-appsec
-// - express-winston?
-// - nconf
-//
-// Self Dev
-// - Mocha
-// - chai
-// - webcore-devtools
-
-
-
-
-function AppCore(delegate) {
-    this._delegate = delegate || {};
-    this._application = express();
-    this._server = null;
-    this._config = null;
-}
-
-AppCore.prototype = {
-
-    init: function (callback) {
-        this._configure(callback);
+    get app () {
+        return this._app;
     },
 
+    use: function (route, delegate) {
+        var that = this, chain;
 
-    start: function (callback) {
-        var port, host;
+        if (typeof route !== 'string') {
+            delegate = route;
+            route = '/';
+        }
 
-        port = configutil.getPort(this._config);
-        host = configutil.getHost(this._config);
+        function assign(app) {
+            // Keep a handle to the provided app. If app wasn't defined, this will get an
+            // express app. If it WAS defined it's a noop. Then, if a webcore instance was provided
+            // pass along its express app, otherwise pass the delegate/express.
+            that._app = app;
+            return exports.isWebcore(delegate) ? delegate.app : delegate;
+        }
 
-        this._server = this._application.listen(port, host, function () {
-            callback(null, port);
-        });
-    },
+        function mount(app) {
+            // Mount an app, optionally grabbing its port/host.
+            that._app.use(route, app);
 
-
-    stop: function (callback) {
-        this._server.once('close', callback);
-        this._server.close();
-    },
-
-
-    _configure: function (callback) {
-        var that, app;
-
-        that = this;
-        app  = this._application;
-
-        configutil.load(nconf);
-
-        function next(err, config) {
-            var agentSettings;
-
-            if (err) {
-                callback(err);
-                return;
+            if (!that.port) {
+                // First app to declare `port` wins. `host` is gravy.
+                that.port = app.get('port');
+                that.host = app.get('host');
             }
 
-            // Make global agent maxSocket setting configurable
-            agentSettings = config.get('globalAgent');
-            http.globalAgent.maxSockets = agentSettings && agentSettings.maxSockets ? agentSettings.maxSockets : Infinity;
-
-            app.disable('x-powered-by');
-            app.set('env', config.get('env:env'));
-
-            that._config = config;
-            that._views();
-            that._middleware();
-            callback();
+            return that._app;
         }
 
-        if (typeof this._delegate.configure === 'function') {
-            if (this._delegate.configure.length > 1) {
-                this._delegate.configure(nconf, next);
-                return;
+        chain = appcore.create(this._app)
+            .then(assign)
+            .then(appcore.create)
+            .then(mount);
+
+        this._promise = this._promise ? this._promise.then(chain) : chain;
+        return this;
+    },
+
+    listen: function (port, host, callback) {
+        var that = this;
+
+        // All args are optional, so see if callback is the first arg...
+        if (typeof port === 'function') {
+            callback = port;
+            port = host = undefined;
+        }
+
+        // .. then see if it's the second arg.
+        if (typeof host === 'function') {
+            callback = host;
+            host = undefined;
+        }
+
+        function bind(app) {
+            var deferred, server;
+
+            if (typeof port !== 'number' && typeof that.port === 'number') {
+                port = that.port;
+                if (typeof host === 'undefined') {
+                    host = that.host;
+                }
             }
 
-            this._delegate.configure(nconf);
+            deferred = Q.defer();
+
+            function resolve() {
+                server.removeListener('error', reject);
+                deferred.resolve(server);
+            }
+
+            function reject(err) {
+                server.removeListener('listening', resolve);
+                deferred.reject(err);
+            }
+
+
+            server = app.listen(port, host);
+            server.once('listening', resolve);
+            server.once('error', reject);
+
+            return deferred.promise;
         }
 
-        next(null, nconf);
-    },
-
-
-    _views: function () {
-        var viewEngineConfig, i18nConfig, engine, renderer, app;
-
-        // API for view renderer can either be module.name or module.name(config)
-        // Supports 'consolidate' as well as express-dustjs.
-        viewEngineConfig = this._config.get('viewEngine');
-        engine = require(viewEngineConfig.module);
-        renderer = engine[viewEngineConfig.ext];
-
-        i18nConfig = this._config.get('i18n');
-        if (i18nConfig && viewEngineConfig.cache) {
-            // If i18n is enabled, disable view renderer cache
-            // and use i18n internal cache.
-            i18nConfig.cache = viewEngineConfig.cache;
-            viewEngineConfig.cache = !viewEngineConfig.cache;
-        }
-
-        // Assume a single argument renderer means it's actually a factory
-        // method and needs to be configured.
-        if (typeof renderer === 'function' && renderer.length === 1) {
-            // Now create the real renderer
-            renderer = renderer(viewEngineConfig);
-        }
-
-        app = this._application;
-        app.engine(viewEngineConfig.ext, renderer);
-        app.set('view engine', viewEngineConfig.ext);
-        app.set('view cache', false);
-        app.set('views', pathutil.resolve(viewEngineConfig.templatePath));
-
-        if (i18nConfig) {
-            i18nConfig.contentPath = pathutil.resolve(i18nConfig.contentPath);
-            i18n.init(app, engine, i18nConfig);
-        }
-    },
-
-
-    _middleware: function () {
-        var app, delegate, settings, srcRoot, staticRoot;
-
-        app = this._application;
-        delegate = this._delegate;
-        settings = this._config.get('middleware');
-        srcRoot = pathutil.resolve(settings.static.srcRoot);
-        staticRoot = pathutil.resolve(settings.static.rootPath);
-
-        app.use(express.favicon());
-        // app.use(middleware.domain()); // TODO: This hangs for some reason. Investigate.
-        app.use(middleware.compiler(srcRoot, staticRoot, this._config));
-        app.use(express.static(staticRoot));
-        app.use(middleware.logger(settings.logger));
-
-        if (typeof delegate.requestStart === 'function') {
-            delegate.requestStart(app); // TODO: Pass facade, not *real* server?
-        }
-
-        app.use(express.bodyParser(settings.bodyParser || { limit: 2097152 })); // default to 2mb limit
-        app.use(express.cookieParser(settings.session.secret));
-        app.use(middleware.session(settings.session));
-        app.use(middleware.appsec(settings.appsec));
-
-        if (typeof delegate.requestBeforeRoute === 'function') {
-            delegate.requestBeforeRoute(app); // TODO: Pass facade, not *real* server?
-        }
-
-        enrouten(app).withRoutes({
-            directory: pathutil.resolve(this._config.get('routes:routePath'))
-        });
-
-        if (typeof delegate.requestAfterRoute === 'function') {
-            delegate.requestAfterRoute(app); // TODO: Pass facade, not *real* server?
-        }
-
-        app.use(middleware.errorHandler(settings.errorHandler));
-
-        // TODO: Optional requestError?
-        // TODO: Optional requestEnd?
+        return this._promise
+            .then(bind)
+            .nodeify(callback);
     }
 
 };
 
 
-var application;
+function create() {
+    return Object.create(webcore, {
+        _app: {
+            enumerable: true,
+            writable: true,
+            value: null
+        },
+        _promise: {
+            enumerable: true,
+            writable: true,
+            value: null
+        },
+        host: {
+            enumerable: true,
+            writable: true,
+            value: null
+        },
+        port: {
+            enumerable: true,
+            writable: true,
+            value: null
+        }
+    });
+}
+
+
+exports.create = function (route, delegate) {
+    return create().use(route, delegate);
+};
+
+
+exports.isWebcore = function (obj) {
+    return obj && Object.getPrototypeOf(obj) === webcore;
+};
+
+
+
+/**
+ * LEGACY SUPPORT - Hey people in the future! Remove this!
+ */
+
+var SERVER;
 
 exports.start = function (delegate, callback) {
-    if (typeof delegate === 'function') {
-        callback = delegate;
-        delegate = undefined;
-    }
+    console.warn('`webcore.start()` is deprecated and will be removed in future versions. Use `webcore.create().listen()` instead.');
 
-    var app = new AppCore(delegate);
-    app.init(function (err) {
-        if (err) {
-            callback(err);
-            return;
-        }
-        application = app;
-        application.start(callback);
-    });
+    exports.create(delegate).listen().then(function (server) {
+        SERVER = server;
+        callback(null, server.address().port);
+    }, callback);
 };
+
 
 exports.stop = function (callback) {
-    if (!application) {
-        callback(new Error('Application not initialized.'));
-        return;
-    }
-
-    application.stop(function () {
-        application = undefined;
-        callback();
+    console.warn('`webcore.stop()` is deprecated and will be removed in future versions. Use `server.close()` instead.');
+    SERVER && SERVER.close(function () {
+        SERVER = undefined;
+        callback.apply(null, arguments);
     });
 };
+
+/**
+ * END LEGACY SUPPORT
+ */

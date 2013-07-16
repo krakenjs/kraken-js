@@ -10,30 +10,41 @@ var webcore = require('../index'),
 
 describe('config', function () {
 
-    var nconf;
+    var nconf, cwd, server;
 
     before(function (next) {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
+        cwd = process.cwd();
         process.chdir(path.join(__dirname, 'fixtures'));
 
         var application = {
-            configure: function (config, callback) {
+            configure: function (config) {
                 nconf = config;
-                callback(null, config);
             }
         };
-        webcore.start(application, next);
+
+        webcore
+            .create(application)
+            .listen()
+            .then(function (srvr) {
+                server = srvr;
+            })
+            .then(next, next);
+
     });
 
 
     after(function (next) {
-//        nconf.reset();
-//        nconf.remove('file');
-//        nconf.remove('memory');
-//        nconf.remove('argv');
-//        nconf.remove('env');
-        webcore.stop(next);
+        server.close(function () {
+            process.chdir(cwd);
+            nconf.reset();
+            nconf.remove('file');
+            nconf.remove('memory');
+            nconf.remove('argv');
+            nconf.remove('env');
+            next();
+        });
     });
 
 
@@ -73,6 +84,7 @@ describe('config', function () {
         host = configutil.getHost(nconf);
         assert.strictEqual(host, '127.0.0.1');
 
+        nconf.set('OPENSHIFT_NODEJS_IP', undefined);
     });
 
 
