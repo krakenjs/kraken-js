@@ -62,6 +62,28 @@ describe('webcore', function () {
     });
 
 
+    it('should support listening on a socket', function (next) {
+        process.env.PORT = '/tmp/webcore.sock';
+        process.env.HOST = '127.0.0.1'; // HOST should be ignored
+
+        webcore.create(application).listen(function (err, server) {
+            var address;
+
+            delete process.env.PORT;
+            delete process.env.HOST;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.ok(!isNaN(address.port));
+            assert.strictEqual(address.address, '0.0.0.0');
+
+            server.close(next);
+        });
+    });
+
+
     it('should start server without optional port', function (next) {
         process.env.PORT = 8001;
         process.env.HOST = '127.0.0.1';

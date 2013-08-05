@@ -73,6 +73,27 @@ describe('config', function () {
     });
 
 
+
+    it('should accept a socket instead of number for PORT', function () {
+        var port, host;
+
+        port = configutil.getPort(nconf);
+        assert.strictEqual(port, 8000);
+
+        nconf.set('PORT', '\\tmp\\test.sock');
+
+        port = configutil.getPort(nconf);
+        assert.strictEqual(port, '\\tmp\\test.sock');
+
+        // If port is a socket, host is noop/undefined.
+        host = configutil.getHost(nconf);
+        assert.isUndefined(host);
+
+        nconf.set('PORT', undefined);
+    });
+
+
+
     it('should check env variables for host', function () {
         var host;
 
