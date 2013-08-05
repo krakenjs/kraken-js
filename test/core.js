@@ -62,6 +62,57 @@ describe('webcore', function () {
     });
 
 
+    it('should support listening on a socket', function (next) {
+        process.env.PORT = '/tmp/webcore.sock';
+        process.env.HOST = '127.0.0.1'; // HOST should be ignored
+
+        webcore.create(application).listen(function (err, server) {
+            var address;
+
+            delete process.env.PORT;
+            delete process.env.HOST;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address, '/tmp/webcore.sock');
+
+            server.close(next);
+        });
+    });
+
+
+    it('should start server on provided socket', function (next) {
+        webcore.create(application).listen('/tmp/webcore2.sock', function (err, server) {
+            var address;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address, '/tmp/webcore2.sock');
+
+            server.close(next);
+        });
+    });
+
+
+    it('should ignore host when socket is provided', function (next) {
+        webcore.create(application).listen('/tmp/webcore3.sock', 'localhost', function (err, server) {
+            var address;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address, '/tmp/webcore3.sock');
+
+            server.close(next);
+        });
+    });
+
+
     it('should start server without optional port', function (next) {
         process.env.PORT = 8001;
         process.env.HOST = '127.0.0.1';

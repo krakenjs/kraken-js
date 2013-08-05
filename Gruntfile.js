@@ -18,11 +18,15 @@ module.exports = function (grunt) {
                 ui: 'bdd',
                 reporter: 'spec'
             }
+        },
+        clean: {
+            'tmp': '/tmp/webcore*'
         }
     });
 
     grunt.loadNpmTasks('grunt-ci-suite');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('test', ['jshint', 'mochatest']);
+    grunt.registerTask('test', ['jshint', 'mochatest', 'clean:tmp']);
 
 };
