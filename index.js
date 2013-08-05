@@ -66,11 +66,15 @@ var webcore = {
         function bind(app) {
             var deferred, server;
 
-            if (typeof port !== 'number' && typeof that.port === 'number') {
+            if (port === undefined) {
                 port = that.port;
-                if (typeof host === 'undefined') {
+                if (host === undefined) {
                     host = that.host;
                 }
+            }
+
+            if (typeof port === 'string') {
+                host = undefined;
             }
 
             deferred = Q.defer();
@@ -84,7 +88,6 @@ var webcore = {
                 server.removeListener('listening', resolve);
                 deferred.reject(err);
             }
-
 
             server = app.listen(port, host);
             server.once('listening', resolve);
@@ -116,12 +119,12 @@ function create() {
         host: {
             enumerable: true,
             writable: true,
-            value: null
+            value: undefined
         },
         port: {
             enumerable: true,
             writable: true,
-            value: null
+            value: undefined
         }
     });
 }

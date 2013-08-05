@@ -76,8 +76,37 @@ describe('webcore', function () {
             assert.isObject(server);
 
             address = server.address();
-            assert.ok(!isNaN(address.port));
-            assert.strictEqual(address.address, '0.0.0.0');
+            assert.strictEqual(address, '/tmp/webcore.sock');
+
+            server.close(next);
+        });
+    });
+
+
+    it('should start server on provided socket', function (next) {
+        webcore.create(application).listen('/tmp/webcore2.sock', function (err, server) {
+            var address;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address, '/tmp/webcore2.sock');
+
+            server.close(next);
+        });
+    });
+
+
+    it('should ignore host when socket is provided', function (next) {
+        webcore.create(application).listen('/tmp/webcore3.sock', 'localhost', function (err, server) {
+            var address;
+
+            assert.isNull(err);
+            assert.isObject(server);
+
+            address = server.address();
+            assert.strictEqual(address, '/tmp/webcore3.sock');
 
             server.close(next);
         });
