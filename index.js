@@ -108,9 +108,16 @@ var webcore = {
             return app;
         }
 
+        function print(server) {
+            var socket = server.address();
+            console.log('Listening on %s', typeof socket === 'string' ? socket : String(socket.port));
+            return server;
+        }
+
         return this._promise
             .then(handleErrors)
             .then(bind)
+            .then(print)
             .nodeify(callback);
     }
 
