@@ -1,7 +1,8 @@
 'use strict';
 
 var Q = require('q'),
-    appcore = require('./lib/appcore');
+    appcore = require('./lib/appcore'),
+    EventEmitter = require('events').EventEmitter;
 
 
 var webcore = {
@@ -96,7 +97,19 @@ var webcore = {
             return deferred.promise;
         }
 
+        function handleErrors(app) {
+            if (!EventEmitter.listenerCount(process, 'uncaughtException')) {
+                process.on('uncaughtException', function (err) {
+                    console.error(new Date().toUTCString(), 'uncaughtException', err.message);
+                    console.error(err.stack);
+                    process.exit(1);
+                });
+            }
+            return app;
+        }
+
         return this._promise
+            .then(handleErrors)
             .then(bind)
             .nodeify(callback);
     }
