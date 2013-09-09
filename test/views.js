@@ -29,8 +29,9 @@ describe('view', function () {
 
     it('should use the default view engine (dust)', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine:templatePath', ['public', 'templates']);
+                callback();
             }
         };
 
@@ -46,8 +47,9 @@ describe('view', function () {
 
     it('should localize using the default view engine (dust)', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine:templatePath', ['public', 'templates']);
+                callback();
             }
         };
 
@@ -63,9 +65,10 @@ describe('view', function () {
 
     it('should use the precompiled view engine (dust)', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine:ext', 'js');
                 config.set('viewEngine:templatePath', ['.build', 'templates']);
+                callback();
             }
         };
 
@@ -81,9 +84,10 @@ describe('view', function () {
 
     it('should localize using the precompiled view engine (dust)', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine:ext', 'js');
                 config.set('viewEngine:templatePath', ['.build', 'templates']);
+                callback();
             }
         };
 
@@ -99,10 +103,11 @@ describe('view', function () {
 
     it('should support cached views', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine:ext', 'js');
                 config.set('viewEngine:templatePath', ['.build', 'templates']);
                 config.set('viewEngine:cache');
+                callback();
             }
         };
 
@@ -118,12 +123,13 @@ describe('view', function () {
 
     it('should use the jade view engine', function (next) {
         application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 config.set('viewEngine', {
                     ext: 'jade',
                     module: 'consolidate',
                     templatePath: ['public', 'templates']
                 });
+                callback();
             }
         };
 

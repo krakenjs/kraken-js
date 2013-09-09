@@ -25,10 +25,11 @@ describe('webcore', function () {
         _config: undefined,
         _methods: [],
 
-        configure: function (config) {
+        configure: function (config, callback) {
             this._config = config;
             config.set('foo:bar', 'baz');
             config.set('routes:routePath', ['controllers']);
+            callback();
         },
 
         requestStart: function () {
