@@ -11,9 +11,10 @@ describe('webcore', function () {
     var config;
 
     var delegate = {
-        configure: function (nconf) {
+        configure: function (nconf, callback) {
             nconf.set('routes:routePath', path.join('test', 'fixtures', 'controllers'));
             config = nconf;
+            callback();
         }
     };
 

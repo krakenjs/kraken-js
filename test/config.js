@@ -19,8 +19,9 @@ describe('config', function () {
         process.chdir(path.join(__dirname, 'fixtures'));
 
         var application = {
-            configure: function (config) {
+            configure: function (config, callback) {
                 nconf = config;
+                callback();
             }
         };
 
