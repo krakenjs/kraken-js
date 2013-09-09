@@ -65,5 +65,5 @@
     "maxparams": 5,
     "maxdepth": 3,
     "maxstatements": 25,
-    "maxcomplexity": 6
+    "maxcomplexity": 8
 }
