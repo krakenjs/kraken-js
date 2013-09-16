@@ -28,4 +28,9 @@ module.exports = function (app) {
 
     });
 
+
+    app.get('/ohnoes', function (req, res) {
+        throw new Error('uh oh');
+    });
+
 };
