@@ -8,7 +8,7 @@ A Node.js web application framework.
 
 To create a new project:
 
-1. Download [basic app](http://github.paypal.com/api/v3/repos/webcore/basic-app/tarball/master) 
+1. Download [basic app](http://github.paypal.com/api/v3/repos/webcore/basic-app/tarball/master)
 2. `npm install`
 3. `node index.js`
 
@@ -31,7 +31,7 @@ To create a new project:
 
 Configuration is stored in JSON format. Each settings file can be overridden in development mode by creating a `-development` version, e.g. app-development.json.
 
-- **/config/app.json** - Application specific settings 
+- **/config/app.json** - Application specific settings
 - **/config/middleware.json** - Custom middleware specfic settings
 
 
@@ -55,16 +55,21 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 - **middleware**
   - **appsec**
       - **csrf** - Should CSRF tokens be required. *Default: `true`*
-      - **csp** - Should CSP headers be sent. *Default: `{ ... }`*
-          - **reportOnly** - Report only enabled. *Default: `false`*
-          - **report-uri** - URI the browser should send the report to. *Default: `""`*
-          - **policy** - Key value object of the CSP policy. *Default: `{ "default-src": " * 'unsafe-eval'" }`*
+      - **csp** - Should CSP headers be sent. *Default: `false`*
+          - **reportOnly** - Report only enabled.
+          - **report-uri** - URI the browser should send the report to.
+          - **policy** - Key value object of the CSP policy.
       - **p3p** - Setting for P3P header. *Default: `false`*
       - **xframe** - Setting for XFRAME headers. *Default: `"SAMEORIGIN"`*
+
   - **compiler**
       - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
       - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
-  
+
+  - **errorPages**
+      - **404** - Template to load when a file is not found. *Default: `undefined`*
+      - **500** - Template to load when a server error occurs. *Default: `undefined`*
+
   - **session**
       - **module** - Connect-based module name to require for sessions. *Default: `false`*
       - **secret** - Secret used to hash your cookie. *Default: `"keyboard cat"`*
@@ -72,13 +77,11 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
           - **path** - Path to set on the cookie. *Default: `"/"`*
           - **httpOnly** - HTTP only setting for the cookie. *Default: `true`*
           - **maxAge** - Maximum age the cookie should exist. *Default: `null`*
-        },
-
 
   - **static**
       - **srcRoot** - Where the compiler should look for files. *Default: `"public"`*
       - **rootPath** - Where the compiler should put compiled files. *Default: `".build"`*
-  
+
 
 
 ## Customization
@@ -86,7 +89,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 
 ### Application Life-cycle
 
-You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file. 
+You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file.
 
 - **app.configure(config, next)** - Async method run on startup. `next` must be called to continue.
 - **app.requestStart(server)** -  Run at the start of an incoming request.
@@ -98,19 +101,19 @@ You can customize your application's life-cycle by adding methods to the app del
 
 To add a route you need to create a new file in `/controllers` that exports a function which accepts an express server. From there it's all [express](http://expressjs.com/)!
 
-*Example:* 
+*Example:*
 
 ```
 module.exports = function (server) {
     server.get('/path', function (req, res) {
     	// Awesome code!
-    }); 
+    });
 };
 ```
 
 
 
-## Content 
+## Content
 
 
 ### Format
@@ -127,7 +130,7 @@ myPage.greeting=Hello, {user}. How are you?
 
 ### File Structure
 
-Content is loaded from country and language subdirectories inside `/locales` based on the user locale. Convention is used to automatically determine which content file to load: the base template file name and path are looked for in the locales folder. 
+Content is loaded from country and language subdirectories inside `/locales` based on the user locale. Convention is used to automatically determine which content file to load: the base template file name and path are looked for in the locales folder.
 
 *Example:*
 
