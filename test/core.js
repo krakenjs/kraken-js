@@ -26,6 +26,8 @@ describe('webcore', function () {
         _methods: [],
 
         configure: function (config, callback) {
+            this._methods.push('configure');
+
             this._config = config;
             config.set('foo:bar', 'baz');
             config.set('routes:routePath', ['controllers']);
@@ -154,6 +156,8 @@ describe('webcore', function () {
 
     it('should have invoked lifecycle functions', function () {
         var invoked = application._methods;
+
+        assert.ok(~invoked.indexOf('configure'));
         assert.ok(~invoked.indexOf('requestStart'));
         assert.ok(~invoked.indexOf('requestBeforeRoute'));
         assert.ok(~invoked.indexOf('requestAfterRoute'));

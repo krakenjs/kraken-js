@@ -142,6 +142,44 @@ describe('view', function () {
         });
     });
 
+
+    it('should support 404 pages', function (next) {
+        application = {
+            configure: function (config, callback) {
+                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('middleware:errorPages:404', 'errors/404');
+                callback();
+            }
+        };
+
+        webcore.create(application).listen(8000).then(function (server) {
+            inject('/fourohfour', function (err, body) {
+                console.log(err.message);
+                assert.strictEqual(err.message, '<h1>500 template</h1><p>/fourohfour</p>');
+                server.close(next);
+            }, next);
+        });
+    });
+
+
+    it('should support 500 pages', function (next) {
+        application = {
+            configure: function (config, callback) {
+                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('middleware:errorPages:500', 'errors/500');
+                callback();
+            }
+        };
+
+        webcore.create(application).listen(8000).then(function (server) {
+            inject('/ohnoes', function (err, body) {
+                console.log(err.message);
+                assert.strictEqual(err.message, '<h1>500 template</h1><p>/ohnoes</p><p>uh oh</p>');
+                server.close(next);
+            }, next);
+        });
+    });
+
 });
 
 
