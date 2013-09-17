@@ -42,7 +42,8 @@
     "webcore-devtools": "~0.0.1",
     "mkdirp": "~0.3.5",
     "rimraf": "~2.1.4",
-    "q": "~0.9.6"
+    "q": "~0.9.6",
+    "jsonminify": "~0.1.2"
   },
   "peerDependencies": {
     "express": "~3.4",

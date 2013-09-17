@@ -1,5 +1,7 @@
 {
+    /* This is a comment */
     "test":"foo",
+    // This is another comment
     "middleware": {
 
     }
