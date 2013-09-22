@@ -1,8 +1,24 @@
 'use strict';
 
 var Q = require('q'),
+    path = require('path'),
     appcore = require('./lib/appcore'),
+    pathutil = require('./lib/util/pathutil'),
     EventEmitter = require('events').EventEmitter;
+
+
+function resolveRoot() {
+    var current, root;
+
+    current = module;
+    while (!root && (current = current.parent)) {
+        if (exports.isWebcore(current.exports)) {
+            root = path.dirname(current.filename);
+        }
+    }
+
+    return root || process.cwd();
+}
 
 
 var webcore = {
@@ -24,7 +40,11 @@ var webcore = {
             // express app. If it WAS defined it's a noop. Then, if a webcore instance was provided
             // pass along its express app, otherwise pass the delegate/express.
             that._app = app;
-            return exports.isWebcore(delegate) ? delegate.app : delegate;
+            return exports.isWebcore(delegate) ? delegate._promise : delegate;
+        }
+
+        function create(delegate) {
+            return appcore.create(delegate, pathutil.create(resolveRoot));
         }
 
         function mount(app) {
@@ -40,9 +60,9 @@ var webcore = {
             return that._app;
         }
 
-        chain = appcore.create(this._app)
+        chain = create(this._app)
             .then(assign)
-            .then(appcore.create)
+            .then(create)
             .then(mount);
 
         this._promise = this._promise ? this._promise.then(chain) : chain;
@@ -145,6 +165,13 @@ function create() {
             enumerable: true,
             writable: true,
             value: undefined
+        },
+        '☯': {
+            // This is silly, but since a require-d app may be using
+            // webcore, but the proto isn't a reference to the same
+            // object, we need to have a unique identifier for the
+            // `isWebcore` check. (Non-enumerable.)
+            value: '☯'
         }
     });
 }
@@ -156,7 +183,7 @@ exports.create = function (route, delegate) {
 
 
 exports.isWebcore = function (obj) {
-    return obj && Object.getPrototypeOf(obj) === webcore;
+    return obj && (Object.getPrototypeOf(obj) === webcore || '☯' in obj);
 };
 
 
