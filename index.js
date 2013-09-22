@@ -2,6 +2,7 @@
 
 var Q = require('q'),
     path = require('path'),
+    http = require('http'),
     appcore = require('./lib/appcore'),
     pathutil = require('./lib/util/pathutil'),
     EventEmitter = require('events').EventEmitter;
@@ -110,7 +111,7 @@ var webcore = {
                 deferred.reject(err);
             }
 
-            server = app.listen(port, host);
+            server = http.createServer(app).listen(port, host);
             server.once('listening', resolve);
             server.once('error', reject);
 
