@@ -121,6 +121,27 @@ describe('view', function () {
     });
 
 
+    it('should support streaming views (when applicable)', function (next) {
+        application = {
+            configure: function (config, callback) {
+                config.set('viewEngine:ext', 'js');
+                config.set('viewEngine:templatePath', ['.build', 'templates']);
+                config.set('viewEngine:cache', false);
+                config.set('viewEngine:stream', true);
+                callback();
+            }
+        };
+
+        webcore.create(application).listen(8000).then(function (server) {
+            inject('/localized', function (err, body) {
+                assert.ok(!err);
+                assert.strictEqual(body, VALID_RESPONSE);
+                server.close(next);
+            }, next);
+        });
+    });
+
+
     it('should use the jade view engine', function (next) {
         application = {
             configure: function (config, callback) {
