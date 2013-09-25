@@ -1,17 +1,17 @@
 {
   "name": "webcore",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A Node.js web application framework",
   "main": "index.js",
   "scripts": {
     "test": "make test"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.paypal.com/webcore/webcore.git"
+    "type": "git",
+    "url": "https://github.paypal.com/webcore/webcore.git"
   },
   "publishConfig": {
-      "registry": "http://npm.paypal.com"
+    "registry": "http://npm.paypal.com"
   },
   "keywords": [
     "node.js",
@@ -30,14 +30,14 @@
     "consolidate": "~0.9.0",
     "jade": "~0.29.0",
     "less": "~1.3.3",
-    "express-dustjs": "~0.0.13",
+    "express-dustjs": "~0.1.0",
     "dustjs-linkedin": "~2.0.2",
     "dustjs-helpers": "~1.1.1",
     "grunt": "~0.4.1",
     "grunt-ci-suite": "~0.1.2",
     "grunt-contrib-clean": "~0.5.0",
     "nconf": "~0.6.7",
-    "dustjs-i18n": "~0.1.0"
+    "dustjs-i18n": "~0.2.0"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -45,7 +45,7 @@
   "dependencies": {
     "express-enrouten": "~0.0.3",
     "express-appsec": "~0.1.1",
-    "webcore-devtools": "~0.0.1",
+    "webcore-devtools": "~0.0.3",
     "mkdirp": "~0.3.5",
     "rimraf": "~2.1.4",
     "q": "~0.9.6",
