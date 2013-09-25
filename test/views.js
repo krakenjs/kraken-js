@@ -134,9 +134,8 @@ describe('view', function () {
 
         webcore.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
-                console.log(err);
-//                assert.ok(!err);
-//                assert.strictEqual(body, VALID_RESPONSE);
+                assert.ok(!err);
+                assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
             }, next);
         });
