@@ -23,6 +23,10 @@
 
   "routes": {
     "routePath": ["controllers"]
+  },
+
+  "proxy": {
+    "trust": false
   }
 
 }
