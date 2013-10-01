@@ -2,6 +2,7 @@
     "express": {
         "view cache": false,
         "view engine": "dust",
+        "json spaces": 2,
         "views": ["public", "templates"]
     }
 }
