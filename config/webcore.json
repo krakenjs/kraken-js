@@ -1,32 +1,51 @@
 {
 
-  "port": ["OPENSHIFT_NODEJS_PORT", "VCAP_APP_PORT", "PORT", 8000],
+    "port": ["OPENSHIFT_NODEJS_PORT", "VCAP_APP_PORT", "PORT", 8000],
 
-  "host": ["OPENSHIFT_NODEJS_IP", "VCAP_APP_HOST", "HOST", "IP"],
+    "host": ["OPENSHIFT_NODEJS_IP", "VCAP_APP_HOST", "HOST", "IP"],
 
-  "globalAgent": {
-      "maxSockets": 250
-  },
+    "globalAgent": {
+        "maxSockets": 250
+    },
 
-  "viewEngine": {
-    "module": "express-dustjs",
-    "ext": "js",
-    "templatePath": [".build", "templates"],
-    "helpers": null,
-    "cache": true
-  },
+    "i18n": {
+        "fallback": "en-US",
+        "contentPath": ["locales"]
+    },
 
-  "i18n": {
-      "fallback": "en-US",
-      "contentPath": ["locales"]
-  },
+    "routes": {
+        "routePath": ["controllers"]
+    },
 
-  "routes": {
-    "routePath": ["controllers"]
-  },
 
-  "proxy": {
-    "trust": false
-  }
+    "view engines": {
+        "js": {
+            "module": "express-dustjs",
+            "settings": {
+                "helpers": null
+            }
+        },
+
+        "dust": {
+            "module": "express-dustjs",
+            "settings": {
+                "helpers": null
+            }
+        }
+    },
+
+    "express": {
+        "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
+        "x-powered-by": false,
+        "trust proxy": false,
+        "jsonp callback name": null,
+        "json replacer": null,
+        "json spaces": 0,
+        "case sensitive routing": false,
+        "strict routing": false,
+        "view cache": true,
+        "view engine": "js",
+        "views": [".build", "templates"]
+    }
 
 }

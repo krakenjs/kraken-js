@@ -1,7 +1,7 @@
 {
-    "viewEngine": {
-        "ext": "dust",
-        "templatePath": ["public", "templates"],
-        "cache": false
+    "express": {
+        "view cache": false,
+        "view engine": "dust",
+        "views": ["public", "templates"]
     }
 }
