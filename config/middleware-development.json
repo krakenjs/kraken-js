@@ -1,8 +1,8 @@
 {
     "middleware": {
         "compiler": {
-            "dust": "path:./templates",
-            "less": "path:./css",
+            "dust": "templates",
+            "less": "css",
             "default": ""
         }
     },
