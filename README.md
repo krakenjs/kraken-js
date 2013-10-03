@@ -43,12 +43,14 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **maxSockets** - Max number of socket connections to open. *Default: `250`*
 - ~~**viewEngine**~~ (Deprecated.)
   - ~~**ext** - Which template extension to use. *Defaut: `"dust"`*~~
-  - ~~**templatePath** - Root path to templates. *Default: `[".build", "templates"]`*~~
+  - ~~**templatePath** - Root path to templates. *Default: `"path:./.build/templates"`*~~
   - ~~**helpers** - Array of view helpers to load. *Default: `null`*~~
   - ~~**cache** - Enables view cache. *Default: `true`*~~
 - **i18n**
   - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
-  - **contentPath** - Root path to content files. *Default: `["locales"]`*
+  - **contentPath** - Root path to content files. *Default: `"path:locales"`*
+- **routes**
+  - **routePath** - The directory to scan for routes: `"path:./controllers"`
 - **express**
   - **trust proxy** Enables reverse proxy support, disabled by default
   - **jsonp callback** name Changes the default callback name of ?callback=
@@ -94,8 +96,8 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
           - **maxAge** - Maximum age the cookie should exist. *Default: `null`*
 
   - **static**
-      - **srcRoot** - Where the compiler should look for files. *Default: `"public"`*
-      - **rootPath** - Where the compiler should put compiled files. *Default: `".build"`*
+      - **srcRoot** - Where the compiler should look for files. *Default: `"path:./public"`*
+      - **rootPath** - Where the compiler should put compiled files. *Default: `"path:./.build"`*
 
 
 
