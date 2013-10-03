@@ -41,14 +41,31 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 - **port** - The application port to bind to. *Default: `8000`*
 - **globalAgent**
   - **maxSockets** - Max number of socket connections to open. *Default: `250`*
-- **viewEngine**
-  - **ext** - Which template extension to use. *Defaut: `"dust"`*
-  - **templatePath** - Root path to templates. *Default: `[".build", "templates"]`*
-  - **helpers** - Array of view helpers to load. *Default: `null`*
-  - **cache** - Enables view cache. *Default: `true`*
+- ~~**viewEngine**~~ (Deprecated.)
+  - ~~**ext** - Which template extension to use. *Defaut: `"dust"`*~~
+  - ~~**templatePath** - Root path to templates. *Default: `"path:./.build/templates"`*~~
+  - ~~**helpers** - Array of view helpers to load. *Default: `null`*~~
+  - ~~**cache** - Enables view cache. *Default: `true`*~~
 - **i18n**
   - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
-  - **contentPath** - Root path to content files. *Default: `["locales"]`*
+  - **contentPath** - Root path to content files. *Default: `"path:./locales"`*
+- **routes**
+  - **routePath** - The directory to scan for routes: `"path:./controllers"`
+- **express**
+  - **trust proxy** Enables reverse proxy support, disabled by default
+  - **jsonp callback** name Changes the default callback name of ?callback=
+  - **json replacer** JSON replacer callback, null by default
+  - **json spaces** JSON response spaces for formatting, defaults to 2 in development, 0 in production
+  - **case sensitive** routing Enable case sensitivity, disabled by default, treating "/Foo" and "/foo" as the same
+  - **strict routing** Enable strict routing, by default "/foo" and "/foo/" are treated the same by the router
+  - **view cache** Enables view template compilation caching, enabled in production by default
+  - **view engine** The default engine extension to use when omitted
+  - **views** The view directory path, defaulting to "./views"
+- **view engines** - A map of view engines to register for the given app.
+  - **{extension}** - View engine identifier for use by express.
+     - **module** - The node module used to support this view engine.
+     - **settings** - Any configuration settings needed by the identified module.
+
 
 *middleware.json values:*
 
@@ -79,8 +96,8 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
           - **maxAge** - Maximum age the cookie should exist. *Default: `null`*
 
   - **static**
-      - **srcRoot** - Where the compiler should look for files. *Default: `"public"`*
-      - **rootPath** - Where the compiler should put compiled files. *Default: `".build"`*
+      - **srcRoot** - Where the compiler should look for files. *Default: `"path:./public"`*
+      - **rootPath** - Where the compiler should put compiled files. *Default: `"path:./.build"`*
 
 
 
