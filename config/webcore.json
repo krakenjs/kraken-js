@@ -10,11 +10,11 @@
 
     "i18n": {
         "fallback": "en-US",
-        "contentPath": ["locales"]
+        "contentPath": "path:./locales"
     },
 
     "routes": {
-        "routePath": ["controllers"]
+        "routePath": "path:./controllers"
     },
 
 
@@ -22,14 +22,16 @@
         "js": {
             "module": "express-dustjs",
             "settings": {
-                "helpers": null
+                "helpers": null,
+                "stream": false
             }
         },
 
         "dust": {
             "module": "express-dustjs",
             "settings": {
-                "helpers": null
+                "helpers": null,
+                "stream": false
             }
         }
     },
@@ -45,7 +47,7 @@
         "strict routing": false,
         "view cache": true,
         "view engine": "js",
-        "views": [".build", "templates"]
+        "views": "path:./.build/templates"
     }
 
 }

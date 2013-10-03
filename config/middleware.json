@@ -16,8 +16,8 @@
         "compiler": null,
 
         "static": {
-            "srcRoot": "public",
-            "rootPath": ".build"
+            "srcRoot": "path:./public",
+            "rootPath": "path:./.build"
         },
 
         "appsec": {
