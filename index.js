@@ -36,6 +36,10 @@ var webcore = {
             route = '/';
         }
 
+        function create(delegate) {
+            return appcore.create(delegate, pathutil.create(resolveRoot));
+        }
+
         function assign(app) {
             // Keep a handle to the provided app. If app wasn't defined, this will get an
             // express app. If it WAS defined it's a noop. Then, if a webcore instance was provided
@@ -44,13 +48,10 @@ var webcore = {
             return exports.isWebcore(delegate) ? delegate._promise : delegate;
         }
 
-        function create(delegate) {
-            return appcore.create(delegate, pathutil.create(resolveRoot));
-        }
-
         function mount(app) {
             // Mount an app, optionally grabbing its port/host.
             that._app.use(route, app);
+            that._app.set('x-powered-by', app.get('x-powered-by'));
 
             if (!that.port) {
                 // First app to declare `port` wins. `host` is gravy.
