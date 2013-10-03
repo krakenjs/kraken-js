@@ -48,7 +48,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - ~~**cache** - Enables view cache. *Default: `true`*~~
 - **i18n**
   - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
-  - **contentPath** - Root path to content files. *Default: `"path:locales"`*
+  - **contentPath** - Root path to content files. *Default: `"path:./locales"`*
 - **routes**
   - **routePath** - The directory to scan for routes: `"path:./controllers"`
 - **express**
