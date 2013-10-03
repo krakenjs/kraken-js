@@ -41,7 +41,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 - **port** - The application port to bind to. *Default: `8000`*
 - **globalAgent**
   - **maxSockets** - Max number of socket connections to open. *Default: `250`*
-- ~~**viewEngine**~~
+- ~~**viewEngine**~~ (Deprecated.)
   - ~~**ext** - Which template extension to use. *Defaut: `"dust"`*~~
   - ~~**templatePath** - Root path to templates. *Default: `[".build", "templates"]`*~~
   - ~~**helpers** - Array of view helpers to load. *Default: `null`*~~
