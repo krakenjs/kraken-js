@@ -2,6 +2,7 @@
 'use strict';
 
 var path = require('path'),
+    http = require('http'),
     webcore = require('../index'),
     assert = require('chai').assert;
 
@@ -169,6 +170,17 @@ describe('webcore', function () {
     });
 
 
+    it('should have x-powered-by disabled by default', function (next) {
+        inject('/', function(err, body, headers) {
+            assert.isNull(err);
+            assert.isString(body);
+            assert.isObject(headers);
+            assert.isUndefined(headers['x-powered-by']);
+            next();
+        });
+    });
+
+
     it('should shutdown the server', function (next) {
         server.close(next);
     });
@@ -176,3 +188,24 @@ describe('webcore', function () {
 });
 
 
+
+function inject(path, callback) {
+    var req = http.request({ method: 'GET', port: 8000, path: path }, function (res) {
+        var data = [];
+
+        res.on('data', function (chunk) {
+            data.push(chunk)
+        });
+
+        res.on('end', function () {
+            var body = Buffer.concat(data).toString('utf8');
+            if (res.statusCode !== 200) {
+                callback(new Error(body));
+                return;
+            }
+            callback(null, body, res.headers);
+        });
+    });
+    req.on('error', callback);
+    req.end();
+}
