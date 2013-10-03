@@ -61,8 +61,8 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **views** The view directory path, defaulting to "./views"
 - **view engines** - A map of view engines to register for the given app.
   - **{extension}** - View engine identifier for use by express.
-    - **module** - The node module used to support this view engine.
-    - **settings** - Any configuration settings needed by the identified module.
+     - **module** - The node module used to support this view engine.
+     - **settings** - Any configuration settings needed by the identified module.
 
 
 *middleware.json values:*
