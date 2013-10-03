@@ -50,7 +50,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
   - **contentPath** - Root path to content files. *Default: `"path:./locales"`*
 - **routes**
-  - **routePath** - The directory to scan for routes: `"path:./controllers"`
+  - **routePath** - The directory to scan for routes: *Default: `"path:./controllers"`*
 - **express**
   - **trust proxy** Enables reverse proxy support, disabled by default
   - **jsonp callback** name Changes the default callback name of ?callback=
