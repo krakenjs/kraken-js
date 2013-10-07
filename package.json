@@ -23,7 +23,12 @@
     "framework"
   ],
   "author": "Erik Toth <ertoth@paypal.com>",
-  "license": "BSD",
+  "licenses": [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ],
   "devDependencies": {
     "mocha": "~1.9.0",
     "chai": "~1.5.0",
