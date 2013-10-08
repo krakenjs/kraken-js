@@ -26,6 +26,14 @@ describe('config', function () {
     });
 
 
+
+    it('should not fail on empty object or file', function () {
+        var store = configutil.create(path.join(__dirname, 'fixtures', 'config'));
+        assert.isObject(store);
+    });
+
+
+
     it('should cascade properties', function () {
         var testcase = config.get('testcase');
         assert.isObject(testcase);
@@ -85,6 +93,5 @@ describe('config', function () {
 
         config.set('OPENSHIFT_NODEJS_IP', undefined);
     });
-
 
 });
