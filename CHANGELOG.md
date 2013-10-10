@@ -10,3 +10,4 @@
 **Bugs**
 - Fix error handling to pass along error object.
 - Issue #78 - Config files should allow empty JSON object
+- Fix caching regression 
