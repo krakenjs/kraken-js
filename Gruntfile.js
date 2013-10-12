@@ -24,7 +24,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-ci-suite');
+    //grunt.loadNpmTasks('grunt-ci-suite');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('test', ['jshint', 'mochatest', 'clean:tmp']);
