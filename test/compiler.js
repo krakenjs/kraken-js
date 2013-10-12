@@ -1,7 +1,7 @@
 /*global describe:false, it:false, before:false, after:false, afterEach:false*/
 'use strict';
 
-var webcore = require('../index'),
+var kreaken = require('../index'),
     http = require('http'),
     path = require('path'),
     assert = require('chai').assert;
@@ -20,7 +20,7 @@ describe('compiler', function () {
         process.chdir(path.join(__dirname, 'fixtures'));
 
         var application = {};
-        webcore
+        kreaken
             .create(application)
             .listen()
             .then(function (srvr) {

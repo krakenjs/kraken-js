@@ -20,7 +20,7 @@
 
     "view engines": {
         "js": {
-            "module": "express-dustjs",
+            "module": "adaro",
             "settings": {
                 "helpers": null,
                 "stream": false
@@ -28,7 +28,7 @@
         },
 
         "dust": {
-            "module": "express-dustjs",
+            "module": "adaro",
             "settings": {
                 "helpers": null,
                 "stream": false

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            'tmp': '/tmp/webcore*'
+            'tmp': '/tmp/kraken*'
         }
     });
 
