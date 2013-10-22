@@ -31,7 +31,7 @@ function resolveRoot() {
 
     current = module;
     while (!root && (current = current.parent)) {
-        if (exports.isWebcore(current.exports)) {
+        if (exports.isKraken(current.exports)) {
             root = path.dirname(current.filename);
         }
     }
@@ -40,7 +40,7 @@ function resolveRoot() {
 }
 
 
-var webcore = {
+var kraken = {
 
     get app () {
         return this._app;
@@ -60,10 +60,10 @@ var webcore = {
 
         function assign(app) {
             // Keep a handle to the provided app. If app wasn't defined, this will get an
-            // express app. If it WAS defined it's a noop. Then, if a webcore instance was provided
+            // express app. If it WAS defined it's a noop. Then, if a kraken instance was provided
             // pass along its express app, otherwise pass the delegate/express.
             that._app = app;
-            return exports.isWebcore(delegate) ? delegate._promise : delegate;
+            return exports.isKraken(delegate) ? delegate._promise : delegate;
         }
 
         function mount(app) {
@@ -165,7 +165,7 @@ var webcore = {
 
 
 function create() {
-    return Object.create(webcore, {
+    return Object.create(kraken, {
         _app: {
             enumerable: true,
             writable: true,
@@ -188,9 +188,9 @@ function create() {
         },
         '☯': {
             // This is silly, but since a require-d app may be using
-            // webcore, but the proto isn't a reference to the same
+            // kraken, but the proto isn't a reference to the same
             // object, we need to have a unique identifier for the
-            // `isWebcore` check. (Non-enumerable.)
+            // `isKraken` check. (Non-enumerable.)
             value: '☯'
         }
     });
@@ -202,8 +202,8 @@ exports.create = function (route, delegate) {
 };
 
 
-exports.isWebcore = function (obj) {
-    return obj && (Object.getPrototypeOf(obj) === webcore || '☯' in obj);
+exports.isKraken = function (obj) {
+    return obj && (Object.getPrototypeOf(obj) === kraken || '☯' in obj);
 };
 
 
@@ -215,7 +215,7 @@ exports.isWebcore = function (obj) {
 var SERVER;
 
 exports.start = function (delegate, callback) {
-    console.warn('`webcore.start()` is deprecated and will be removed in future versions. Use `webcore.create().listen()` instead.');
+    console.warn('`kraken.start()` is deprecated and will be removed in future versions. Use `kraken.create().listen()` instead.');
 
     exports.create(delegate).listen().then(function (server) {
         SERVER = server;
@@ -225,7 +225,7 @@ exports.start = function (delegate, callback) {
 
 
 exports.stop = function (callback) {
-    console.warn('`webcore.stop()` is deprecated and will be removed in future versions. Use `server.close()` instead.');
+    console.warn('`kraken.stop()` is deprecated and will be removed in future versions. Use `kraken.close()` instead.');
     SERVER && SERVER.close(function () {
         SERVER = undefined;
         callback.apply(null, arguments);

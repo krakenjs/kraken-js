@@ -2,7 +2,7 @@
 'use strict';
 
 var path = require('path'),
-    webcore = require('../index'),
+    kraken = require('../index'),
     http = require('http'),
     assert = require('chai').assert;
 
@@ -35,7 +35,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -53,7 +53,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -72,7 +72,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -91,7 +91,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -111,7 +111,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -132,7 +132,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -154,7 +154,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
                 assert.ok(!err);
                 assert.strictEqual(body, VALID_RESPONSE);
@@ -174,7 +174,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/fourohfour', function (err, body) {
                 assert(err);
                 assert.strictEqual(err.code, 404);
@@ -195,7 +195,7 @@ describe('view', function () {
             }
         };
 
-        webcore.create(application).listen(8000).then(function (server) {
+        kraken.create(application).listen(8000).then(function (server) {
             inject('/ohnoes', function (err, body) {
                 assert(err);
                 assert.strictEqual(err.code, 500);

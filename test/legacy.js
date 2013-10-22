@@ -2,7 +2,7 @@
 'use strict';
 
 var path = require('path'),
-    webcore = require('../index'),
+    kraken = require('../index'),
     assert = require('chai').assert;
 
 describe('legacy', function () {
@@ -20,10 +20,10 @@ describe('legacy', function () {
 
 
     it('should support the legacy API', function (next) {
-        webcore.start({}, function (err, port) {
+        kraken.start({}, function (err, port) {
             assert.isNull(err);
             assert.isNumber(port);
-            webcore.stop(next);
+            kraken.stop(next);
         });
     });
 

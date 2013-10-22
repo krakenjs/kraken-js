@@ -2,7 +2,7 @@
 'use strict';
 
 var path = require('path'),
-    webcore = require('../index'),
+    kraken = require('../index'),
     assert = require('chai').assert;
 
 describe.skip('middleware', function () {
@@ -28,7 +28,7 @@ describe.skip('middleware', function () {
     it('should allow custom middleware', function (next) {
         var application = {};
 
-        webcore.create(application).listen(8000, function (err, srvr) {
+        kraken.create(application).listen(8000, function (err, srvr) {
             assert.isNull(err);
             server = srvr;
             next();

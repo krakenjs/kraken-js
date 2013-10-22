@@ -2,11 +2,11 @@
 'use strict';
 
 var path = require('path'),
-    webcore = require('../index'),
+    kraken = require('../index'),
     express = require('express'),
     assert = require('chai').assert;
 
-describe('webcore', function () {
+describe('kraken', function () {
 
     var config;
 
@@ -25,31 +25,31 @@ describe('webcore', function () {
     describe('create', function () {
 
         it('should provide a `create` factory method', function () {
-            var server = webcore.create('/', {});
+            var server = kraken.create('/', {});
             assert.isFunction(server.use);
             assert.isFunction(server.listen);
         });
 
 
         it('should support optional arguments', function () {
-            var server = webcore.create();
+            var server = kraken.create();
             assert.isFunction(server.use);
             assert.isFunction(server.listen);
         });
 
 
         it('should expose the root application', function (next) {
-            var wc = webcore.create();
-            wc.listen(8000, function (err, server) {
+            var kk = kraken.create();
+            kk.listen(8000, function (err, server) {
                 assert.isNull(err);
-                assert.isFunction(wc.app); // express is a function
+                assert.isFunction(kk.app); // express is a function
                 server.close(next);
             })
         });
 
 
         it('should accept a mount point', function (next) {
-            webcore.create('/').listen(8000, function (err, server) {
+            kraken.create('/').listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -58,7 +58,7 @@ describe('webcore', function () {
 
 
         it('should accept an express application', function (next) {
-            webcore.create(express()).listen(8000, function (err, server) {
+            kraken.create(express()).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -67,7 +67,7 @@ describe('webcore', function () {
 
 
         it('should accept a mount point and express application', function (next) {
-            webcore.create('/', express()).listen(8000, function (err, server) {
+            kraken.create('/', express()).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -76,7 +76,7 @@ describe('webcore', function () {
 
 
         it('should accept an app delegate', function (next) {
-            webcore.create(delegate).listen(8000, function (err, server) {
+            kraken.create(delegate).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -85,7 +85,7 @@ describe('webcore', function () {
 
 
         it('should accept a mount point and app delegate', function (next) {
-            webcore.create('/', delegate).listen(8000, function (err, server) {
+            kraken.create('/', delegate).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -93,8 +93,8 @@ describe('webcore', function () {
         });
 
 
-        it('should accept a webcore instance', function (next) {
-            webcore.create(webcore.create()).listen(8000, function (err, server) {
+        it('should accept a kraken instance', function (next) {
+            kraken.create(kraken.create()).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -102,8 +102,8 @@ describe('webcore', function () {
         });
 
 
-        it('should accept a mount point and webcore instance', function (next) {
-            webcore.create('/app', webcore.create()).listen(8000, function (err, server) {
+        it('should accept a mount point and kraken instance', function (next) {
+            kraken.create('/app', kraken.create()).listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -112,9 +112,9 @@ describe('webcore', function () {
 
 
         it('should support complex app composition', function (next) {
-            webcore.create()
+            kraken.create()
                 .use('/baz', delegate)
-                .use('/app', webcore.create('/foo', delegate))
+                .use('/app', kraken.create('/foo', delegate))
                 .use('/bam', express())
                 .listen(8000, function (err, server) {
                     assert.isNull(err);
@@ -129,7 +129,7 @@ describe('webcore', function () {
     describe('use', function () {
 
         it('should allow chaining of mounted applications', function (next) {
-            webcore.create()
+            kraken.create()
                 .use('/foo')
                 .use('/bar')
                 .listen(8000, function (err, server) {
@@ -145,7 +145,7 @@ describe('webcore', function () {
     describe('listen', function () {
 
         it('should support no optional arguments', function (next) {
-            webcore.create().listen(8000).then(function (server) {
+            kraken.create().listen(8000).then(function (server) {
                 assert.isObject(server);
                 server.close(next);
             });
@@ -153,7 +153,7 @@ describe('webcore', function () {
 
 
         it('should support an optional `host`', function (next) {
-            webcore.create().listen(8000, 'localhost').then(function (server) {
+            kraken.create().listen(8000, 'localhost').then(function (server) {
                 assert.isObject(server);
                 server.close(next);
             });
@@ -161,7 +161,7 @@ describe('webcore', function () {
 
 
         it('should support an optional `callback`', function (next) {
-            webcore.create().listen(8000, function (err, server) {
+            kraken.create().listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -170,7 +170,7 @@ describe('webcore', function () {
 
 
         it('should support both `host` and `callback`', function (next) {
-            webcore.create().listen(8000, 'localhost', function (err, server) {
+            kraken.create().listen(8000, 'localhost', function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -179,7 +179,7 @@ describe('webcore', function () {
 
 
         it('should not return a promise if `callback` if defined', function (next) {
-            var promise = webcore.create().listen(8000, 'localhost', function (err, server) {
+            var promise = kraken.create().listen(8000, 'localhost', function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
                 server.close(next);
@@ -190,20 +190,20 @@ describe('webcore', function () {
     });
 
 
-    describe('isWebcore', function () {
+    describe('isKraken', function () {
 
-        it('should identify a webcore instance', function (next) {
-            var wc = webcore.create();
-            assert.ok(webcore.isWebcore(wc));
+        it('should identify a kraken instance', function (next) {
+            var kk = kraken.create();
+            assert.ok(kraken.isKraken(kk));
 
-            wc = wc.use('/foo', delegate);
-            assert.ok(webcore.isWebcore(wc));
+            kk = kk.use('/foo', delegate);
+            assert.ok(kraken.isKraken(kk));
 
-            wc.listen(8000, function (err, server) {
+            kk.listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
-                assert.isFalse(webcore.isWebcore(server));
-                assert.isFalse(webcore.isWebcore(wc.app));
+                assert.isFalse(kraken.isKraken(server));
+                assert.isFalse(kraken.isKraken(kk.app));
                 server.close(next);
             });
         });

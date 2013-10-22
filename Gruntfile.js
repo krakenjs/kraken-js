@@ -20,11 +20,11 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            'tmp': '/tmp/webcore*'
+            'tmp': '/tmp/kraken*'
         }
     });
 
-    grunt.loadNpmTasks('grunt-ci-suite');
+    //grunt.loadNpmTasks('grunt-ci-suite');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('test', ['jshint', 'mochatest', 'clean:tmp']);
