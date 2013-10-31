@@ -8,19 +8,7 @@ var path = require('path'),
 
 describe('kraken', function () {
 
-    var config;
-
-    var delegate = {
-        configure: function (nconf, callback) {
-            nconf.set('routes:routePath', path.join('test', 'fixtures', 'controllers'));
-            config = nconf;
-            callback();
-        }
-    };
-
-    after(function () {
-        config.set('routes:routePath', undefined);
-    });
+    var delegate = {};
 
     describe('create', function () {
 

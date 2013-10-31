@@ -12,13 +12,15 @@ describe('view', function () {
     var VALID_RESPONSE = '<!DOCTYPE html><html lang="en"><head><title>Hello, world</title></head><body><h1>node template test</h1></body></html>';
 
 
-    var application, cwd;
+    var application, cwd, src, bin;
 
     before(function () {
         // Ensure the test case assumes it's being run from application root.
         // Depending on the test harness this may not be the case, so shim.
         cwd = process.cwd();
         process.chdir(path.join(__dirname, 'fixtures'));
+        src = path.join(process.cwd(), 'public', 'templates');
+        bin = path.join(process.cwd(), '.build', 'templates');
     });
 
 
@@ -30,7 +32,7 @@ describe('view', function () {
     it('should use the default view engine (dust)', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('express:views', src);
                 callback();
             }
         };
@@ -48,7 +50,7 @@ describe('view', function () {
     it('should localize using the default view engine (dust)', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('express:views', src);
                 callback();
             }
         };
@@ -66,8 +68,8 @@ describe('view', function () {
     it('should use the precompiled view engine (dust)', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'js');
-                config.set('viewEngine:templatePath', ['.build', 'templates']);
+                config.set('express:view engine', 'js');
+                config.set('express:views', bin);
                 callback();
             }
         };
@@ -85,8 +87,8 @@ describe('view', function () {
     it('should localize using the precompiled view engine (dust)', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'js');
-                config.set('viewEngine:templatePath', ['.build', 'templates']);
+                config.set('express:view engine', 'js');
+                config.set('express:views', bin);
                 callback();
             }
         };
@@ -104,9 +106,9 @@ describe('view', function () {
     it('should support cached views', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'js');
-                config.set('viewEngine:templatePath', ['.build', 'templates']);
-                config.set('viewEngine:cache', true);
+                config.set('view engines:js:cache', true);
+                config.set('express:view engine', 'js');
+                config.set('express:views', bin);
                 callback();
             }
         };
@@ -124,10 +126,9 @@ describe('view', function () {
     it('should support streaming views (when applicable)', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'js');
-                config.set('viewEngine:templatePath', ['.build', 'templates']);
-                config.set('viewEngine:cache', false);
-                config.set('viewEngine:stream', true);
+                config.set('view engines:js', { cache: false, stream: true });
+                config.set('express:view engine', 'js');
+                config.set('express:views', bin);
                 callback();
             }
         };
@@ -145,11 +146,9 @@ describe('view', function () {
     it('should use the jade view engine', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine', {
-                    ext: 'jade',
-                    module: 'consolidate',
-                    templatePath: ['public', 'templates']
-                });
+                config.set('view engines:jade', { module: 'consolidate' });
+                config.set('express:view engine', 'jade');
+                config.set('express:views', src);
                 callback();
             }
         };
@@ -167,8 +166,8 @@ describe('view', function () {
     it('should support 404 pages', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'dust');
-                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('express:view engine', 'dust');
+                config.set('express:views', src);
                 config.set('middleware:errorPages:404', 'errors/404');
                 callback();
             }
@@ -188,8 +187,8 @@ describe('view', function () {
     it('should support 500 pages', function (next) {
         application = {
             configure: function (config, callback) {
-                config.set('viewEngine:ext', 'dust');
-                config.set('viewEngine:templatePath', ['public', 'templates']);
+                config.set('express:view engine', 'dust');
+                config.set('express:views', src);
                 config.set('middleware:errorPages:500', 'errors/500');
                 callback();
             }

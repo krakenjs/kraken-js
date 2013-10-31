@@ -31,7 +31,7 @@ describe('kraken', function () {
 
             this._config = config;
             config.set('foo:bar', 'baz');
-            config.set('routes:routePath', ['controllers']);
+            config.set('routes:routePath', path.join(process.cwd(), 'controllers'));
             callback();
         },
 
