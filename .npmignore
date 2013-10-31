@@ -1,6 +1,7 @@
 node_modules
 .idea
 .settings
+.iml
 logs
 test
 *.log
