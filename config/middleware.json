@@ -30,9 +30,9 @@
     },
 
     "testcase": {
-        "prop1": "webcore-all",
-        "prop2": "webcore-all",
-        "prop3": "webcore-all",
-        "prop4": "webcore-all"
+        "prop1": "kraken-all",
+        "prop2": "kraken-all",
+        "prop3": "kraken-all",
+        "prop4": "kraken-all"
     }
 }

@@ -8,8 +8,8 @@
     },
 
     "testcase": {
-        "prop2": "webcore-dev",
-        "prop3": "webcore-dev",
-        "prop4": "webcore-dev"
+        "prop2": "kraken-dev",
+        "prop3": "kraken-dev",
+        "prop4": "kraken-dev"
     }
 }

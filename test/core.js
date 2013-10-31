@@ -3,10 +3,10 @@
 
 var path = require('path'),
     http = require('http'),
-    webcore = require('../index'),
+    kraken = require('../index'),
     assert = require('chai').assert;
 
-describe('webcore', function () {
+describe('kraken', function () {
 
     var cwd, server;
 
@@ -58,7 +58,7 @@ describe('webcore', function () {
 
 
     it('should error on bad configuration', function (next) {
-        webcore.create(appBadConfig).listen(function (err, server) {
+        kraken.create(appBadConfig).listen(function (err, server) {
             assert.ok(err);
             assert.strictEqual(err.message, 'Config Error');
             next();
@@ -67,10 +67,10 @@ describe('webcore', function () {
 
 
     it('should support listening on a socket', function (next) {
-        process.env.PORT = '/tmp/webcore.sock';
+        process.env.PORT = '/tmp/kraken.sock';
         process.env.HOST = '127.0.0.1'; // HOST should be ignored
 
-        webcore.create(application).listen(function (err, server) {
+        kraken.create(application).listen(function (err, server) {
             var address;
 
             delete process.env.PORT;
@@ -80,7 +80,7 @@ describe('webcore', function () {
             assert.isObject(server);
 
             address = server.address();
-            assert.strictEqual(address, '/tmp/webcore.sock');
+            assert.strictEqual(address, '/tmp/kraken.sock');
 
             server.close(next);
         });
@@ -88,14 +88,14 @@ describe('webcore', function () {
 
 
     it('should start server on provided socket', function (next) {
-        webcore.create(application).listen('/tmp/webcore2.sock', function (err, server) {
+        kraken.create(application).listen('/tmp/kraken2.sock', function (err, server) {
             var address;
 
             assert.isNull(err);
             assert.isObject(server);
 
             address = server.address();
-            assert.strictEqual(address, '/tmp/webcore2.sock');
+            assert.strictEqual(address, '/tmp/kraken2.sock');
 
             server.close(next);
         });
@@ -103,14 +103,14 @@ describe('webcore', function () {
 
 
     it('should ignore host when socket is provided', function (next) {
-        webcore.create(application).listen('/tmp/webcore3.sock', 'localhost', function (err, server) {
+        kraken.create(application).listen('/tmp/kraken3.sock', 'localhost', function (err, server) {
             var address;
 
             assert.isNull(err);
             assert.isObject(server);
 
             address = server.address();
-            assert.strictEqual(address, '/tmp/webcore3.sock');
+            assert.strictEqual(address, '/tmp/kraken3.sock');
 
             server.close(next);
         });
@@ -121,7 +121,7 @@ describe('webcore', function () {
         process.env.PORT = 8001;
         process.env.HOST = '127.0.0.1';
 
-        webcore.create(application).listen(function (err, server) {
+        kraken.create(application).listen(function (err, server) {
             var address;
 
             delete process.env.PORT;
@@ -140,7 +140,7 @@ describe('webcore', function () {
 
 
     it('should start the server', function (next) {
-        webcore.create(application).listen(8000, function (err, srvr) {
+        kraken.create(application).listen(8000, function (err, srvr) {
             assert.isNull(err);
             assert.isObject(srvr);
             server = srvr;

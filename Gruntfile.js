@@ -9,7 +9,7 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc'
             }
         },
-        mochatest: {
+        mochaTest: {
             src: ['test/*.js'],
             options: {
                 globals: ['chai'],
@@ -20,13 +20,14 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            'tmp': '/tmp/webcore*'
+            'tmp': '/tmp/kraken*'
         }
     });
 
-    grunt.loadNpmTasks('grunt-ci-suite');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('test', ['jshint', 'mochatest', 'clean:tmp']);
+    grunt.registerTask('test', ['jshint', 'mochaTest', 'clean:tmp']);
 
 };

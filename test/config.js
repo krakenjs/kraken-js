@@ -1,7 +1,7 @@
 /*global describe:false, it:false, before:false, after:false, afterEach:false*/
 'use strict';
 
-var webcore = require('../index'),
+var kraken = require('../index'),
     http = require('http'),
     path = require('path'),
     assert = require('chai').assert,
@@ -37,8 +37,8 @@ describe('config', function () {
     it('should cascade properties', function () {
         var testcase = config.get('testcase');
         assert.isObject(testcase);
-        assert.strictEqual(testcase.prop1, 'webcore-all');
-        assert.strictEqual(testcase.prop2, 'webcore-dev');
+        assert.strictEqual(testcase.prop1, 'kraken-all');
+        assert.strictEqual(testcase.prop2, 'kraken-dev');
         assert.strictEqual(testcase.prop3, 'app-all');
         assert.strictEqual(testcase.prop4, 'app-dev');
     });
