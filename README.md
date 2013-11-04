@@ -190,7 +190,7 @@ Please keep your branch up to date by rebasing upstream changes from master.
 
 ### New Functionality
 
-If you wish to add new functionality to harp, please provide [the Kraken team](mailto:DL-PP-NodeJS-CoreTeam@paypal.com) a harp application that demonstrates deficiency in current design or desired additional behaviour. You may also submit a pull request with the steps above.
+If you wish to add new functionality to the Kraken, please provide [the Kraken team](mailto:DL-PP-NodeJS-CoreTeam@paypal.com) an example application that demonstrates deficiency in current design or desired additional behaviour. You may also submit a pull request with the steps above.
 
 
 ## FAQ
