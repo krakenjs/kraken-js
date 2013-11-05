@@ -20,7 +20,7 @@ describe('kraken ssl', function () {
     });
 
     after(function () {
-        config.set('express:ssl', undefined);
+        config.set('ssl', undefined);
         server.close();
         process.chdir(cwd);
     });
@@ -31,7 +31,7 @@ describe('kraken ssl', function () {
 
         configure: function (cfg, callback) {
             config = cfg;
-            config.set('express:ssl', {
+            config.set('ssl', {
                 key: fs.readFileSync('./config/ssl/key.pem'),
                 cert: fs.readFileSync('./config/ssl/cert.pem')
             });
