@@ -191,6 +191,25 @@ public/
 A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for production run `grunt build` which will create new files in the `.build` directory. This task must be done before running your app in production mode.
 
 
+# Contributing to the Kraken Suite
+
+### Bug Fixes
+
+If you find a bug you would like fixed. Open up a [ticket](https://github.com/PayPal/kraken-js/issues/new) with a detailed description of the bug and the expected behaviour. If you would like to fix the problem yourself please do the following steps.
+
+1. Fork it.
+2. Create a branch (`git checkout -b fix-for-that-thing`)
+3. Commit a failing test (`git commit -am "adds a failing test to demonstrate that thing"`)
+3. Commit a fix that makes the test pass (`git commit -am "fixes that thing"`)
+4. Push to the branch (`git push origin fix-for-that-thing`)
+5. Open a [Pull Request](https://github.com/PayPal/kraken-js/pulls)
+
+Please keep your branch up to date by rebasing upstream changes from master.
+
+### New Functionality
+
+If you wish to add new functionality to the Kraken, please provide [the Kraken team](mailto:DL-PP-NodeJS-CoreTeam@paypal.com) an example application that demonstrates deficiency in current design or desired additional behaviour. You may also submit a pull request with the steps above.
+
 
 ## FAQ
 

@@ -36,10 +36,64 @@ describe('kraken', function () {
         });
 
 
+        it('should allow route configuration', function (next) {
+            var delegate, config, app;
+
+            delegate = {
+                configure: function (nconf, callback) {
+                    config = nconf;
+                    config.set('express:route', '/foo');
+                    callback();
+                },
+
+                requestStart: function (server) {
+                    app = server;
+                }
+            };
+
+            kraken.create(delegate).listen(8000, function (err, server) {
+                assert.isNull(err);
+                assert.isObject(server);
+                assert.strictEqual(app.route, '/foo');
+
+                // Undo config muckage.
+                config.set('express:route', '/');
+                server.close(next);
+            });
+        });
+
+
         it('should accept a mount point', function (next) {
             kraken.create('/').listen(8000, function (err, server) {
                 assert.isNull(err);
                 assert.isObject(server);
+                server.close(next);
+            });
+        });
+
+
+        it('should favor mount point over config', function (next) {
+            var delegate, config, app;
+
+            delegate = {
+                configure: function (nconf, callback) {
+                    config = nconf;
+                    config.set('express:route', '/foo');
+                    callback();
+                },
+
+                requestStart: function (server) {
+                    app = server;
+                }
+            };
+
+            kraken.create('/bar', delegate).listen(8000, function (err, server) {
+                assert.isNull(err);
+                assert.isObject(server);
+                assert.strictEqual(app.route, '/bar');
+
+                // Undo config muckage.
+                config.set('express:route', '/');
                 server.close(next);
             });
         });

@@ -51,7 +51,7 @@ var kraken = {
 
         if (typeof route !== 'string') {
             delegate = route;
-            route = '/';
+            route = undefined;
         }
 
         function create(delegate) {
@@ -68,7 +68,7 @@ var kraken = {
 
         function mount(app) {
             // Mount an app, optionally grabbing its port/host.
-            that._app.use(route, app);
+            that._app.use(route || app.get('route') || '/', app);
             that._app.set('x-powered-by', app.get('x-powered-by'));
 
             if (!that.port) {
