@@ -70,14 +70,13 @@ var kraken = {
             // Mount an app, optionally grabbing its port/host.
             that._app.use(route || app.get('route') || '/', app);
             that._app.set('x-powered-by', app.get('x-powered-by'));
+            that._app.set('ssl', app.get('ssl'));
 
             if (!that.port) {
                 // First app to declare `port` wins. `host` is gravy.
                 that.port = app.get('port');
                 that.host = app.get('host');
             }
-
-            that._app.set('ssl', app.get('ssl'));
 
             return that._app;
         }
