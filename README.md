@@ -63,7 +63,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **{extension}** - View engine identifier for use by express.
      - **module** - The node module used to support this view engine.
      - **settings** - Any configuration settings needed by the identified module.
-- **ssl** Also see (tls.createServer)[http://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener]
+- **ssl** Also see tls.createServer http://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener
   - **pfx** - A string or Buffer containing the private key, certificate and CA certs of the server in PFX or PKCS12 format.
   - **key** - A string or Buffer containing the private key of the server in PEM format. (Required)
   - **passphrase** - A string of passphrase for the private key or pfx.
@@ -79,7 +79,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **SNICallback** - A function that will be called if client supports SNI TLS extension. Only one argument will be passed to it: servername. Should return SecureContext instance.
   - **sessionIdContext** - A string containing a opaque identifier for session resumption.
   - **secureProtocol** - The SSL method to use.
-  - **slabBufferSize** - Size of slab buffer used by all tls servers and clients. Default: ```10 * 1024 * 1024```.
+  - **slabBufferSize** - Size of slab buffer used by all tls servers and clients. Default: ```10 * 1024 * 1024```. *Note: only change this if you know what you are doing.*
   - **clientRenegotiationLimit** - Renegotiation limit, default is 3. *Note: only change this if you know what you are doing.*
   - **clientRenegotiationWindow** - Renegotiation window in seconds, default is 10 minutes. *Note: only change this if you know what you are doing.*
 
