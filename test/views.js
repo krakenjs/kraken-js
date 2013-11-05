@@ -39,7 +39,7 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
             });
@@ -57,11 +57,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -76,11 +76,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -95,11 +95,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -115,11 +115,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -135,11 +135,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/localized', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -155,11 +155,11 @@ describe('view', function () {
 
         kraken.create(application).listen(8000).then(function (server) {
             inject('/', function (err, body) {
-                assert.ok(!err);
+                assert.isNull(err);
                 assert.strictEqual(body, VALID_RESPONSE);
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -179,8 +179,8 @@ describe('view', function () {
                 assert.strictEqual(err.code, 404);
                 assert.strictEqual(err.message, '<h1>404 template</h1><p>/fourohfour</p>');
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 
@@ -200,8 +200,8 @@ describe('view', function () {
                 assert.strictEqual(err.code, 500);
                 assert.strictEqual(err.message, '<h1>500 template</h1><p>/ohnoes</p><p>uh oh</p>');
                 server.close(next);
-            }, next);
-        });
+            });
+        }, next);
     });
 
 });

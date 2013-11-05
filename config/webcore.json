@@ -47,7 +47,8 @@
         "strict routing": false,
         "view cache": true,
         "view engine": "js",
-        "views": "path:./.build/templates"
+        "views": "path:./.build/templates",
+        "route": "/"
     }
 
 }
