@@ -94,4 +94,17 @@ describe('config', function () {
         config.set('OPENSHIFT_NODEJS_IP', undefined);
     });
 
+    it('should read file protocol', function () {
+        var buffer = config.get('file');
+        assert.isNotNull(buffer);
+    });
+
+    it('should read base64 protocol', function () {
+        var buffer = config.get('base64');
+        assert.isNotNull(buffer);
+
+        buffer = new Buffer(buffer);
+        assert.strictEqual(buffer.toString(), 'hello world');
+    });
+
 });

@@ -4,5 +4,7 @@
     // This is another comment
     "middleware": {
 
-    }
+    },
+    "file": "file:./config/middleware.json",
+    "base64": "base64:aGVsbG8gd29ybGQ="
 }

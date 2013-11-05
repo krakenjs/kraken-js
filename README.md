@@ -39,8 +39,6 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 
 - **host** - The application host. *Default: localhost*
 - **port** - The application port to bind to. *Default: `8000`*
-- **globalAgent**
-  - **maxSockets** - Max number of socket connections to open. *Default: `250`*
 - ~~**viewEngine**~~ (Deprecated.)
   - ~~**ext** - Which template extension to use. *Defaut: `"dust"`*~~
   - ~~**templatePath** - Root path to templates. *Default: `"path:./.build/templates"`*~~
@@ -65,6 +63,26 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **{extension}** - View engine identifier for use by express.
      - **module** - The node module used to support this view engine.
      - **settings** - Any configuration settings needed by the identified module.
+- **ssl** Also see tls.createServer http://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener
+  - **pfx** - A string or Buffer containing the private key, certificate and CA certs of the server in PFX or PKCS12 format.
+  - **key** - A string or Buffer containing the private key of the server in PEM format. (Required)
+  - **passphrase** - A string of passphrase for the private key or pfx.
+  - **cert** - A string or Buffer containing the certificate key of the server in PEM format. (Required)
+  - **ca** - An array of strings or Buffers of trusted certificates in PEM format.
+  - **crl** - Either a string or list of strings of PEM encoded CRLs (Certificate Revocation List)
+  - **ciphers** - A string describing the ciphers to use or exclude. Default: ```AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH```.
+  - **handshakeTimeout** - Abort the connection if the SSL/TLS handshake does not finish in this many milliseconds. The default is 120 seconds.
+  - **honorCipherOrder** - When choosing a cipher, use the server's preferences instead of the client preferences.
+  - **requestCert** - If true the server will request a certificate from clients that connect and attempt to verify that certificate. Default: ```false```.
+  - **rejectUnauthorized** - If true the server will reject any connection which is not authorized with the list of supplied CAs. This option only has an effect if requestCert is true. Default: ```false```.
+  - **NPNProtocols** - An array or Buffer of possible NPN protocols. (Protocols should be ordered by their priority).
+  - **SNICallback** - A function that will be called if client supports SNI TLS extension. Only one argument will be passed to it: servername. Should return SecureContext instance.
+  - **sessionIdContext** - A string containing a opaque identifier for session resumption.
+  - **secureProtocol** - The SSL method to use.
+  - **slabBufferSize** - Size of slab buffer used by all tls servers and clients. Default: ```10 * 1024 * 1024```. *Note: only change this if you know what you are doing.*
+  - **clientRenegotiationLimit** - Renegotiation limit, default is 3. *Note: only change this if you know what you are doing.*
+  - **clientRenegotiationWindow** - Renegotiation window in seconds, default is 10 minutes. *Note: only change this if you know what you are doing.*
+
 
 
 *middleware.json values:*
