@@ -20,6 +20,7 @@
 var Q = require('q'),
     path = require('path'),
     http = require('http'),
+    https = require('https'),
     appcore = require('./lib/appcore'),
     pathutil = require('./lib/util/pathutil'),
     EventEmitter = require('events').EventEmitter;
@@ -76,6 +77,8 @@ var kraken = {
                 that.host = app.get('host');
             }
 
+            that._app.set('ssl', app.get('ssl'));
+
             return that._app;
         }
 
@@ -104,7 +107,7 @@ var kraken = {
         }
 
         function bind(app) {
-            var deferred, server;
+            var deferred, server, ssl;
 
             if (port === undefined) {
                 port = that.port;
@@ -129,7 +132,17 @@ var kraken = {
                 deferred.reject(err);
             }
 
-            server = http.createServer(app).listen(port, host);
+            ssl = app.get('ssl');
+
+            if (ssl) {
+                server = https.createServer(ssl, app);
+            }
+            else {
+                server = http.createServer(app);
+            }
+
+            server.listen(port, host);
+
             server.once('listening', resolve);
             server.once('error', reject);
 
