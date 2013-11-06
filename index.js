@@ -133,17 +133,10 @@ var kraken = {
 
             ssl = app.get('ssl');
 
-            if (ssl) {
-                server = https.createServer(ssl, app);
-            }
-            else {
-                server = http.createServer(app);
-            }
-
-            server.listen(port, host);
-
+            server = ssl ? https.createServer(ssl, app) : http.createServer(app);
             server.once('listening', resolve);
             server.once('error', reject);
+            server.listen(port, host);
 
             return deferred.promise;
         }
