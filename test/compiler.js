@@ -1,17 +1,17 @@
-/*global describe:false, it:false, before:false, after:false, afterEach:false*/
+/*global describe:false, it:false, before:false, after:false*/
 'use strict';
 
 var kraken = require('../index'),
     http = require('http'),
     path = require('path'),
-    assert = require('chai').assert;
-
+    assert = require('chai').assert,
+    request = require('supertest');
 
 describe('compiler', function () {
 
     var VALID_LOCALIZED_TEMPLATE = '(function(){dust.register("localized",body_0);function body_0(chk,ctx){return chk.write("<!DOCTYPE html><html lang=\\"en\\"><head><title>").reference(ctx.get("title"),ctx,"h").write("</title></head><body><h1>node template test</h1></body></html>");}return body_0;})();';
 
-    var cwd, server;
+    var cwd, app;
 
     before(function (next) {
         // Ensure the test case assumes it's being run from application root.
@@ -19,113 +19,93 @@ describe('compiler', function () {
         cwd = process.cwd();
         process.chdir(path.join(__dirname, 'fixtures'));
 
-        var application = {};
-        kraken
-            .create(application)
-            .listen()
-            .then(function (srvr) {
-                server = srvr;
-            })
-            .then(next, next);
+        var builder = kraken.create({});
+        builder.listen(function (err, server) {
+            if (err) {
+                next(err);
+                return;
+            }
+            app = builder.app;
+            server.close(next);
+        });
     });
 
 
     after(function (next) {
         process.chdir(cwd);
-        server.close(next);
+        next();
     });
 
 
     it('should compile a template', function (next) {
-        inject('/templates/index.js', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+        request(app)
+            .get('/templates/index.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
     });
 
 
     it('should compile a namespaced template', function (next) {
-        inject('/templates/inc/partial.js', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+        request(app)
+            .get('/templates/inc/partial.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
     });
 
 
     it('should compile a localized template', function (next) {
-        inject('/templates/US/en/localized.js', function (err, body) {
-            assert.ok(!err);
-            assert.strictEqual(body, VALID_LOCALIZED_TEMPLATE);
-            next();
-        });
+        request(app)
+            .get('/templates/US/en/localized.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200)
+            .expect(VALID_LOCALIZED_TEMPLATE, next);
     });
 
 
     it('should fail on a nonexistent template', function (next) {
-        inject('/templates/US/en/wat.js', function (err, body) {
-            assert.ok(err);
-            assert.ok(!body);
-            next();
-        });
+        request(app)
+            .get('/templates/US/en/wat.js')
+            .expect(404, next);
     });
 
 
     it('should load javascript', function (next) {
-        inject('/js/main.js', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+        request(app)
+            .get('/js/main.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
     });
 
 
     it('should compile less to css', function (next) {
-        inject('/css/app.css', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+        request(app)
+            .get('/css/app.css')
+            .expect('Content-Type', /css/)
+            .expect(200, next);
     });
 
     it('should compile less files in nested directories', function (next) {
-        inject('/css/inc/colors.css', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+        request(app)
+            .get('/css/inc/colors.css')
+            .expect('Content-Type', /css/)
+            .expect(200, next);
     });
 
 
-    it('should copy unhandled files', function (next) {
-        inject('/img/nyan.jpg', function (err, data) {
-            assert.ok(!err);
-            assert.ok(data);
-            next();
-        });
+    it('should copy misc files', function (next) {
+        request(app)
+            .get('/img/nyan.jpg')
+            .expect('Content-Type', /jpeg/)
+            .expect(200, next);
+    });
+
+
+    it('should copy misc files in subdirectories', function (next) {
+        request(app)
+            .get('/misc/dur/foo.txt')
+            .expect('Content-Type', /plain/)
+            .expect(200)
+            .expect('foo', next);
     });
 
 });
-
-
-function inject(path, callback) {
-    var req = http.request({ method: 'GET', port: 8000, path: path }, function (res) {
-        var data = [];
-
-        res.on('data', function (chunk) {
-            data.push(chunk)
-        });
-
-        res.on('end', function () {
-            var body = Buffer.concat(data).toString('utf8');
-            if (res.statusCode !== 200) {
-                callback(new Error(body));
-                return;
-            }
-            callback(null, body);
-        });
-    });
-    req.on('error', callback);
-    req.end();
-}
