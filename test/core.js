@@ -2,13 +2,14 @@
 'use strict';
 
 var path = require('path'),
-    http = require('http'),
-    kraken = require('../index'),
-    assert = require('chai').assert;
+    request = require('supertest'),
+    assert = require('chai').assert,
+    kraken = require('../index');
+
 
 describe('kraken', function () {
 
-    var cwd, server;
+    var cwd;
 
     before(function () {
         // Ensure the test case assumes it's being run from application root.
@@ -21,44 +22,15 @@ describe('kraken', function () {
         process.chdir(cwd);
     });
 
-    var application = {
-
-        _config: undefined,
-        _methods: [],
-
-        configure: function (config, callback) {
-            this._methods.push('configure');
-
-            this._config = config;
-            config.set('foo:bar', 'baz');
-            config.set('routes:routePath', path.join(process.cwd(), 'controllers'));
-            callback();
-        },
-
-        requestStart: function () {
-            this._methods.push('requestStart');
-        },
-
-        requestBeforeRoute: function () {
-            this._methods.push('requestBeforeRoute');
-        },
-
-        requestAfterRoute: function () {
-            this._methods.push('requestAfterRoute');
-        }
-
-    };
-
-
-    var appBadConfig = {
-        configure: function (config, callback) {
-            callback(new Error('Config Error'));
-        }
-    };
-
 
     it('should error on bad configuration', function (next) {
-        kraken.create(appBadConfig).listen(function (err, server) {
+        var app = {
+            configure: function (config, callback) {
+                callback(new Error('Config Error'));
+            }
+        };
+
+        kraken.create(app).listen(function (err) {
             assert.ok(err);
             assert.strictEqual(err.message, 'Config Error');
             next();
@@ -70,7 +42,7 @@ describe('kraken', function () {
         process.env.PORT = '/tmp/kraken.sock';
         process.env.HOST = '127.0.0.1'; // HOST should be ignored
 
-        kraken.create(application).listen(function (err, server) {
+        kraken.create({}).listen(function (err, server) {
             var address;
 
             delete process.env.PORT;
@@ -88,7 +60,7 @@ describe('kraken', function () {
 
 
     it('should start server on provided socket', function (next) {
-        kraken.create(application).listen('/tmp/kraken2.sock', function (err, server) {
+        kraken.create({}).listen('/tmp/kraken2.sock', function (err, server) {
             var address;
 
             assert.isNull(err);
@@ -103,7 +75,7 @@ describe('kraken', function () {
 
 
     it('should ignore host when socket is provided', function (next) {
-        kraken.create(application).listen('/tmp/kraken3.sock', 'localhost', function (err, server) {
+        kraken.create({}).listen('/tmp/kraken3.sock', 'localhost', function (err, server) {
             var address;
 
             assert.isNull(err);
@@ -121,7 +93,7 @@ describe('kraken', function () {
         process.env.PORT = 8001;
         process.env.HOST = '127.0.0.1';
 
-        kraken.create(application).listen(function (err, server) {
+        kraken.create({}).listen(function (err, server) {
             var address;
 
             delete process.env.PORT;
@@ -139,73 +111,85 @@ describe('kraken', function () {
     });
 
 
-    it('should start the server', function (next) {
-        kraken.create(application).listen(8000, function (err, srvr) {
-            assert.isNull(err);
-            assert.isObject(srvr);
-            server = srvr;
-            next();
+    describe('smoketest', function () {
+        var server, application;
+
+        application = {
+
+            _config: undefined,
+            _methods: [],
+
+            configure: function (config, callback) {
+                this._methods.push('configure');
+
+                this._config = config;
+                config.set('foo:bar', 'baz');
+                config.set('routes:routePath', path.join(process.cwd(), 'controllers'));
+                callback();
+            },
+
+            requestStart: function () {
+                this._methods.push('requestStart');
+            },
+
+            requestBeforeRoute: function () {
+                this._methods.push('requestBeforeRoute');
+            },
+
+            requestAfterRoute: function () {
+                this._methods.push('requestAfterRoute');
+            }
+
+        };
+
+
+        it('should start the server', function (next) {
+            kraken.create(application).listen(8000, function (err, srvr) {
+                assert.isNull(err);
+                assert.isObject(srvr);
+                server = srvr;
+                next();
+            });
         });
-    });
 
 
-    it('should have read custom configuration', function () {
-        assert.typeOf(application._config, 'object');
-        assert.strictEqual(application._config.get('foo:bar'), 'baz');
-    });
-
-
-    it('should have invoked lifecycle functions', function () {
-        var invoked = application._methods;
-
-        assert.ok(~invoked.indexOf('configure'));
-        assert.ok(~invoked.indexOf('requestStart'));
-        assert.ok(~invoked.indexOf('requestBeforeRoute'));
-        assert.ok(~invoked.indexOf('requestAfterRoute'));
-    });
-
-
-    it('should run 5 seconds', function (next) {
-        setTimeout(next, 5000);
-    });
-
-
-    it('should have x-powered-by disabled by default', function (next) {
-        inject('/', function(err, body, headers) {
-            assert.isNull(err);
-            assert.isString(body);
-            assert.isObject(headers);
-            assert.isUndefined(headers['x-powered-by']);
-            next();
+        it('should have read custom configuration', function () {
+            assert.typeOf(application._config, 'object');
+            assert.strictEqual(application._config.get('foo:bar'), 'baz');
         });
-    });
 
 
-    it('should shutdown the server', function (next) {
-        server.close(next);
+        it('should have invoked lifecycle functions', function () {
+            var invoked = application._methods;
+            assert.ok(~invoked.indexOf('configure'));
+            assert.ok(~invoked.indexOf('requestStart'));
+            assert.ok(~invoked.indexOf('requestBeforeRoute'));
+            assert.ok(~invoked.indexOf('requestAfterRoute'));
+        });
+
+
+        it('should run 5 seconds', function (next) {
+            setTimeout(next, 5000);
+        });
+
+
+        it('should have x-powered-by disabled by default', function (next) {
+            request('http://localhost:8000')
+                .get('/')
+                .expect('Content-Type', /html/)
+                .expect(200)
+                .end(function (err, res) {
+                    assert.isNull(err);
+                    assert.isUndefined(res.headers['x-powered-by']);
+                    next();
+                });
+        });
+
+
+        it('should shutdown the server', function (next) {
+            server.close(next);
+        });
+
     });
 
 });
-
-
-
-function inject(path, callback) {
-    var req = http.request({ method: 'GET', port: 8000, path: path }, function (res) {
-        var data = [];
-
-        res.on('data', function (chunk) {
-            data.push(chunk)
-        });
-
-        res.on('end', function () {
-            var body = Buffer.concat(data).toString('utf8');
-            if (res.statusCode !== 200) {
-                callback(new Error(body));
-                return;
-            }
-            callback(null, body, res.headers);
-        });
-    });
-    req.on('error', callback);
-    req.end();
-}

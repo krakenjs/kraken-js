@@ -10,7 +10,7 @@ var path = require('path'),
 
 describe('kraken ssl', function () {
 
-    var cwd, config, server;
+    var cwd, config;
 
     before(function () {
         // Ensure the test case assumes it's being run from application root.
@@ -19,36 +19,35 @@ describe('kraken ssl', function () {
         process.chdir(path.join(__dirname, 'fixtures'));
     });
 
+
     after(function () {
-        config.set('ssl', undefined);
-        server.close();
         process.chdir(cwd);
     });
 
-    var application = {
-
-        _config: undefined,
-
-        configure: function (cfg, callback) {
-            config = cfg;
-            config.set('ssl', {
-                key: fs.readFileSync('./config/ssl/key.pem'),
-                cert: fs.readFileSync('./config/ssl/cert.pem')
-            });
-            callback();
-        }
-
-    };
 
     it('should start an https server', function (next) {
-        kraken.create(application).listen(9000, function (err, srvr) {
+        var app, config;
+
+        app = {
+            configure: function (cfg, callback) {
+                config = cfg;
+                config.set('ssl', {
+                    key:  fs.readFileSync('./config/ssl/key.pem'),
+                    cert: fs.readFileSync('./config/ssl/cert.pem')
+                });
+                callback();
+            }
+        };
+
+        kraken.create(app).listen(8000, function (err, server) {
             assert.isNull(err);
-            assert.isObject(srvr);
-            assert.isObject(srvr.cert);
-            assert.isObject(srvr.key);
-            assert.isTrue(srvr instanceof https.Server);
-            server = srvr;
-            next();
+            assert.isObject(server);
+            assert.ok(Buffer.isBuffer(server.cert));
+            assert.ok(Buffer.isBuffer(server.key));
+            assert.isTrue(server instanceof https.Server);
+
+            config.set('ssl', undefined);
+            server.close(next);
         });
     });
 
