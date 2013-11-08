@@ -94,4 +94,45 @@ describe('config', function () {
         config.set('OPENSHIFT_NODEJS_IP', undefined);
     });
 
+
+    describe('protocols', function () {
+
+        it('should support the `path:` protocol', function () {
+            var protocols, string;
+
+            // XXX: config.get('protocols:path') returns the wrong thing ('object', not 'string'). Ugh.
+            protocols = config.get('protocols');
+            string = protocols.path;
+
+            assert.strictEqual(typeof string, 'string');
+            assert.strictEqual(path.resolve(string), string);
+        });
+
+
+        it('should support the `file:` protocol', function () {
+            var protocols, buffer;
+
+            // XXX: config.get('protocols:file') returns the wrong thing ('object', not Buffer). Ugh.
+            protocols = config.get('protocols');
+            buffer = protocols.file;
+
+            assert.ok(Buffer.isBuffer(buffer));
+            assert.strictEqual(buffer.length, 891);
+        });
+
+
+        it('should support the `base64:` protocol', function () {
+            var protocols, buffer;
+
+            // XXX: config.get('protocols:base64') returns the wrong thing ('object', not Buffer). Ugh.
+            protocols = config.get('protocols');
+            buffer = protocols.base64;
+
+            assert.ok(Buffer.isBuffer(buffer));
+            assert.strictEqual(buffer.length, 11);
+            assert.strictEqual(buffer.toString(), 'hello world');
+        });
+
+    });
+
 });

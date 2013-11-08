@@ -6,6 +6,7 @@ Copyright (c) 2013, eBay Software Foundation All rights reserved.  Use of the ac
 var Q = require('q'),
     path = require('path'),
     http = require('http'),
+    https = require('https'),
     appcore = require('./lib/appcore'),
     pathutil = require('./lib/util/pathutil'),
     EventEmitter = require('events').EventEmitter;
@@ -36,7 +37,7 @@ var kraken = {
 
         if (typeof route !== 'string') {
             delegate = route;
-            route = '/';
+            route = undefined;
         }
 
         function create(delegate) {
@@ -53,8 +54,9 @@ var kraken = {
 
         function mount(app) {
             // Mount an app, optionally grabbing its port/host.
-            that._app.use(route, app);
+            that._app.use(route || app.get('route') || '/', app);
             that._app.set('x-powered-by', app.get('x-powered-by'));
+            that._app.set('ssl', app.get('ssl'));
 
             if (!that.port) {
                 // First app to declare `port` wins. `host` is gravy.
@@ -90,7 +92,7 @@ var kraken = {
         }
 
         function bind(app) {
-            var deferred, server;
+            var deferred, server, ssl;
 
             if (port === undefined) {
                 port = that.port;
@@ -115,9 +117,12 @@ var kraken = {
                 deferred.reject(err);
             }
 
-            server = http.createServer(app).listen(port, host);
+            ssl = app.get('ssl');
+
+            server = ssl ? https.createServer(ssl, app) : http.createServer(app);
             server.once('listening', resolve);
             server.once('error', reject);
+            server.listen(port, host);
 
             return deferred.promise;
         }
