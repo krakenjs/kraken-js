@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Erik Toth       -- Crazy Genius     -- ertoth
+    Jeff Harrell    -- Evil Mastermind  -- @juxtajeff
+    Lenny Markus    -- Squid Wrangler   -- @lmarkus
+
+# THANKS
+
+    User Interface Engineering
+    PayPal Creative
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    Normalize.css, jQuery, Modernizr
