@@ -15,13 +15,6 @@ To create a new project:
 3. Start your project. By default, it will listen on port 8000:
 `npm start`
 
-#### Alternatively ~~Deprecated~~:
-1. Download [basic app](http://github.paypal.com/api/v3/repos/webcore/basic-app/tarball/master)
-2. `npm install`
-3. `node index.js`
-
-
-
 
 ## Directory structure
 
