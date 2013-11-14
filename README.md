@@ -9,18 +9,11 @@ A Node.js web application framework.
 To create a new project:
 
 1. Install Yeoman and the Kraken Generator:
-`sudo npm install -g yo git+https://github.com/paypal/generator-kraken.git`
+`sudo npm install -g generator-kraken`
 2. Generate a Kraken project:
 `yo kraken`
 3. Start your project. By default, it will listen on port 8000:
 `npm start`
-
-#### Alternatively ~~Deprecated~~:
-1. Download [basic app](http://github.paypal.com/api/v3/repos/webcore/basic-app/tarball/master)
-2. `npm install`
-3. `node index.js`
-
-
 
 
 ## Directory structure
