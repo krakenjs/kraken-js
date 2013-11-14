@@ -41,11 +41,6 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 
 - **host** - The application host. *Default: localhost*
 - **port** - The application port to bind to. *Default: `8000`*
-- ~~**viewEngine**~~ (Deprecated.)
-  - ~~**ext** - Which template extension to use. *Defaut: `"dust"`*~~
-  - ~~**templatePath** - Root path to templates. *Default: `"path:./.build/templates"`*~~
-  - ~~**helpers** - Array of view helpers to load. *Default: `null`*~~
-  - ~~**cache** - Enables view cache. *Default: `true`*~~
 - **i18n**
   - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
   - **contentPath** - Root path to content files. *Default: `"path:./locales"`*
