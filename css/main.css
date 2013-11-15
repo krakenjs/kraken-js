@@ -173,16 +173,25 @@ div.wrapper {
     z-index: 2;
 }
 
-#MainLogo {
+#MainLogo, #OldLogo {
     float: left;
     height: 175px;
     width: 175px;
+}
+
+#MainLogo {
     background-image: url(../img/KrakenLogoLarge.png);
     background-repeat: no-repeat;
 }
 
 #MainLogo:hover {
     background-image: url(../img/KrakenLogoLargeBlink.png);
+}
+
+
+#OldLogo {
+    background-image: url(../img/oldLogo@Low.png);
+    background-repeat: no-repeat;
 }
 
 #Intro h1 {
