@@ -12,7 +12,7 @@ To create a new project:
 `sudo npm install -g generator-kraken`
 2. Generate a Kraken project:
 `yo kraken`
-3. Start your project. By default, it will listen on port 8000:
+3. Go to your project directory and start your project. By default, it will listen on port 8000:
 `npm start`
 
 
