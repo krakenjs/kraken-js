@@ -14,7 +14,7 @@ $(function () {
         var r = Math.random() * 10;  //Radius
         var x = Math.round(Math.random() * bodyWidth); //Starting position along the bottom of the ocean
         var speed = Math.round(Math.random() * 20) + 10 + "s"; //How fast it rises.
-        var bubble = $("<div></div>").addClass("bubble float-up");
+        var bubble = $("<div></div>").addClass("bubble");
         bubble.css({
             width: r + "px", 
             height: r + "px", 
