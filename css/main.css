@@ -266,6 +266,49 @@ div.wrapper {
     height: 100%;
 }
 
+/* Keyframe animations */
+@-webkit-keyframes float-up {
+    0% {
+        -webkit-transition: -webkit-transform 0.3s ease;
+        -webkit-transform: translate3d(0, 0, 0); 
+    }
+    100% {
+        -webkit-transition: -webkit-transform 0.3s ease;
+        -webkit-transform: translate3d(0, -477px, 0);
+    }
+}
+
+@-moz-keyframes float-up {
+    0% {
+        -moz-transition: -moz-transform 0.3s ease;
+        -moz-transform: translate3d(0, 0, 0);
+    }
+    100% {
+        -moz-transition: -moz-transform 0.3s ease;
+        -moz-transform: translate3d(0, -477px, 0);
+    }
+}
+
+@-o-keyframes float-up {
+    0% {
+        -o-transition: -o-transform 0.3s ease;
+        -o-transform: translate3d(0, 0, 0);
+    }
+    100% {
+        -o-transition: -o-transform 0.3s ease;
+        -o-transform: translate3d(0, -477px, 0);
+    }
+}
+@keyframes float-up {
+    0% { 
+        transition: transform 0.3s ease;
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transition: transform 0.3s ease;
+        transform: translate3d(0, -477px, 0);
+    }
+}
 
 /*Just for fun*/
 .bubble {
@@ -275,6 +318,22 @@ div.wrapper {
     border-radius: 3em;
     border: solid 1px #169;
     background-color: rgba(255, 255, 255, 0.08);
+    /* Defaults to 5s delay at start, but delay is later set to a random duration. */
+    -webkit-animation-name: float-up;
+    -moz-animation-name: float-up;
+    -ms-animation-name: float-up;
+    -o-animation-name: float-up;
+    animation-name: float-up;
+    -webkit-animation-duration: 5s;
+    -moz-animation-duration: 5s;
+    -ms-animation-duration: 5s;
+    -o-animation-duration: 5s;
+    animation-duration: 5s;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -ms-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
 }
 
 /* ==========================================================================

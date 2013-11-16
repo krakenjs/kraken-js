@@ -5,35 +5,41 @@ $(function () {
     //Bubbles!
     //Make some seed bubbles
     for (var i = 0; i < 10; i++) {
-        setTimeout(makeBubble, Math.random() * 10000);
+        setTimeout(makeBubble, Math.random() * 10 * 1000);
     }
 
 
-//Make a bubble with some random initial values and make it rise.
+    //Make a bubble with some random initial values and make it rise.
     function makeBubble() {
         var r = Math.random() * 10;  //Radius
         var x = Math.round(Math.random() * bodyWidth); //Starting position along the bottom of the ocean
-        var speed = Math.round(Math.random() * 10 + 17) * 1000; //How fast it rises.
-        var bubble = $("<div></div>").addClass("bubble");
-        bubble.css({width: r + "px", height: r + "px", right: x + "px"});
+        var speed = Math.round(Math.random() * 20) + 10 + "s"; //How fast it rises.
+        var bubble = $("<div></div>").addClass("bubble float-up");
+        bubble.css({
+            width: r + "px", 
+            height: r + "px", 
+            right: x + "px",
+            webkitAnimationDuration: speed,
+            mozAnimationDuration: speed,
+            animationDuration: speed
+        });
+
         $("#MainBlock").prepend(bubble);
 
-        bubble
-            .animate({bottom: 580}, speed, "linear",
-            //Once it reaches the top, remove it, and launch a new random bubble
-            function () {
+        // When the bubble reaches the top, remove it and create a new one.
+        bubble.on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function (e) {
+            $(this).remove();
+            makeBubble();
+        //If it's moused over, pop it :)
+        }).on("mouseover", function () {
+            $(this).stop().animate({
+                width: 15, 
+                opacity: 0
+            }, function () {
                 $(this).remove();
                 makeBubble();
-            })
-            //If it's moused over, pop it :)
-            .on("mouseover", function () {
-                $(this)
-                    .stop()
-                    .animate({width: 15, opacity: 0}, function () {
-                        $(this).remove();
-                        makeBubble();
-                    })
-            })
+            });
+        });
     }
 
     //Parallax!
