@@ -2,6 +2,8 @@
 
 A Node.js web application framework.
 
+[![Build Status](https://travis-ci.org/paypal/kraken-js.png)](https://travis-ci.org/paypal/kraken-js)
+
 
 
 ## Getting Started
