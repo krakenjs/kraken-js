@@ -9,7 +9,7 @@ A Node.js web application framework.
 To create a new project:
 
 1. Install Yeoman and the Kraken Generator:
-`sudo npm install -g generator-kraken`
+`npm install -g yo generator-kraken`
 2. Generate a Kraken project:
 `yo kraken`
 3. Go to your project directory and start your project. By default, it will listen on port 8000:
