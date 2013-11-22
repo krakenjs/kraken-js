@@ -1,5 +1,45 @@
 $(function () {
 
+    //Format code blocks
+    prettyPrint();
+
+
+    //Keep the docs menu in place
+    var staticMenu = $(".staticMenu");
+    var initialMenuPadding = staticMenu.position().top;
+    var initialMenuPosition = staticMenu.offset().top - initialMenuPadding;
+    $(window).scroll(function(){
+
+        var diff =  $(window).scrollTop() - initialMenuPosition;
+        staticMenu.css("top",Math.max(initialMenuPadding,diff));
+
+    });
+
+    //Build the index by parsing the H2's in the documentation
+    var index=$("<ul class='nav'></ul>");
+    $(".docsContent section").each(function(){
+
+        var title = $($(this).find("h3")[0]);
+        var rand = title.html();//+Math.random();
+        rand = rand.split(" ")[0];
+        title.attr('id', rand);
+        var entry = $("<a data-target='#" + rand + "'></a>");
+        entry
+            .html(title.html())
+            .attr('href',"#"+rand);
+
+
+        index.append($("<li data-offset='0'></li>").append(entry));
+    });
+
+    staticMenu.append(index);
+
+    $('body').scrollspy({
+		target: '#staticMenuNav'
+    });
+
+
+
     var bodyWidth = $(document).width();
 
     //Bubbles!
@@ -16,8 +56,8 @@ $(function () {
         var speed = Math.round(Math.random() * 20) + 10 + "s"; //How fast it rises.
         var bubble = $("<div></div>").addClass("bubble");
         bubble.css({
-            width: r + "px", 
-            height: r + "px", 
+            width: r + "px",
+            height: r + "px",
             right: x + "px",
             webkitAnimationDuration: speed,
             mozAnimationDuration: speed,
@@ -30,16 +70,16 @@ $(function () {
         bubble.on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function (e) {
             $(this).remove();
             makeBubble();
-        //If it's moused over, pop it :)
+            //If it's moused over, pop it :)
         }).on("mouseover", function () {
-            $(this).stop().animate({
-                width: 15, 
-                opacity: 0
-            }, function () {
-                $(this).remove();
-                makeBubble();
+                $(this).stop().animate({
+                    width: 15,
+                    opacity: 0
+                }, function () {
+                    $(this).remove();
+                    makeBubble();
+                });
             });
-        });
     }
 
     //Parallax!
@@ -68,7 +108,7 @@ $(function () {
         {
             element: $("#Tentacle"),
             property: "right",
-            base: 20,
+            base: 5,
             suffix: "%",
             range: 0.75,
             direction: 1
@@ -211,7 +251,10 @@ $(function(){
 
     function replaceLogo(){
         var newLogo = $('#MainLogo');
-        var oldLogo = $('<div></div>').attr('id','OldLogo').hide();
+        var oldLogo = $('<div></div>')
+            .attr('id','OldLogo')
+            .addClass('mainLogo')
+            .hide();
         newLogo.fadeOut(function(){
             newLogo.replaceWith(oldLogo);
             oldLogo.fadeIn();
@@ -219,7 +262,7 @@ $(function(){
 
     }
 
-})
+});
 /*
  * Konami-JS ~
  * :: Now with support for touch events and multiple instances for

@@ -3,9 +3,7 @@
 
 # TEAM
 
-    Erik Toth       -- Crazy Genius     -- ertoth
-    Jeff Harrell    -- Evil Mastermind  -- @juxtajeff
-    Lenny Markus    -- Squid Wrangler   -- @lmarkus
+    Lenny Markus -- Squid Wrangler -- @lmarkus
 
 # THANKS
 
