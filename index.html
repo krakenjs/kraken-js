@@ -25,12 +25,6 @@
 </head>
 <body data-spy="scroll" data-target="#staticMenuNav">
 
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
-
-<!-- Add your site or application content here -->
 <header role="banner">
     <div class="wrapper">
         <nav role="navigation">
@@ -49,10 +43,6 @@
             </ul>
         </nav>
     </div>
-    <!--a id="forkMe" href="https://github.com/paypal/kraken-js"><img
-            style="position: absolute; top: 0; right: 0; border: 0;"
-            src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
-            alt="Fork me on GitHub"></a-->
 </header>
 <main role="main">
 <div id="MainBlock">
@@ -92,9 +82,7 @@
         <h2>The kraken suite</h2>
 
         <p>
-            Kraken is the main pillar of the framework, but it works in concert with the following modules to provide
-            a robust base for your applications.
-            Each of these modules can also be used independently according to your project needs.
+            Kraken is the main pillar of the framework, but the following modules can also be used independently.
         </p>
 
         <div id="modules">
@@ -182,56 +170,6 @@
                             </p>
                         </div>
                     </li>
-                    <!--
-                     <li class="shortstop">
-                        <a href="#">
-                            <div class="hex2">
-                                <div>S</div>
-                            </div>
-                        </a>
-
-                        <div class="info">
-                            <h4>Shortstop</h4>
-                            <p>
-                                Enables the use of protocols for special handling of json values.
-                            </p>
-                        </div>
-                    </li>
-                    <li class="findatag">
-                        <a href="#">
-                            <div class="hex2">
-                                <div>F</div>
-                            </div>
-                        </a>
-
-                        <div class="info">
-                            <strong>FindATag</strong>
-
-                            <p>
-                                A string tokenizer for a specific pattern
-                            </p>
-                        </div>
-                    </li>
-                    <li class="spud">
-                        <a href="#">
-                            <div class="hex2">
-                                <div>U</div>
-                            </div>
-                        </a>
-
-                        <div class="info">
-                            <strong>Spud</strong>
-
-                            <p>
-                                A content bundle transcoder. Converts between formats like
-                                .properties, .json, etc
-                            </p>
-                        </div>
-                    </li>
-
-
-                    -->
-
                 </ul>
             </div>
         </div>
@@ -359,6 +297,7 @@ Application entry point </pre>
     </p>
                 <pre class="prettyprint linenums">
 'use strict';
+
 var kraken = require('kraken-js'),
     app = {};
 
@@ -476,7 +415,7 @@ module.exports = function (server) {
     <h3 id="Templates">Templates</h3>
 
     <p>
-        Kraken uses LinkedIn's <a href="http://linkedin.github.io/dustjs/">DustJS</a> as the templating language of
+        Kraken uses LinkedIn's <a href="http://linkedin.github.io/dustjs/">Dust</a> as the templating language of
         choice (This can be changed by the user if desired). <a href="http://github.com/paypal/adaro">Adaro</a> is the module
         responsible for rendering and managing the templates.
     </p>
@@ -584,7 +523,7 @@ res.render(index,model);</pre>
     <ul>
         <li>
             <a href="https://github.com/lensam69/Kraken_Example_Localization">Localization and Internationalization</a>
-            <p>Greet users in diferent languages. Shows support for localized content bundles.</p>
+            <p>Greet users in different languages. Shows support for localized content bundles.</p>
         </li>
     </ul>
 </section>
@@ -608,8 +547,6 @@ res.render(index,model);</pre>
 <script src="js/vendor/bootstrap.scrollspy.js"></script>
 <script src="js/main.js"></script>
 
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -625,7 +562,6 @@ res.render(index,model);</pre>
 
     ga('create', 'UA-45342705-1', 'krakenjs.com');
     ga('send', 'pageview');
-
 </script>
 </body>
 </html>
