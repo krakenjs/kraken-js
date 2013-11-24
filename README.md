@@ -99,6 +99,8 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **compiler**
       - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
       - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
+      - **sass** - Where the dev-time compiler should look for SASS files. *Default: `"css"`*
+          - note: you need to install node-sass for this to work. grunt-contrib-sass would also be of help. 
 
   - **errorPages**
       - **404** - Template to load when a file is not found. *Default: `undefined`*
