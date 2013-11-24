@@ -346,7 +346,7 @@ kraken.create(app).listen(function (err) {
     <p>
         A common scenario is that development environments have slightly different parameters than
         production
-        (e.g.: Port numbers, host names, etc). Kraken allows you to define a second file <code>./config/app-developement.json</code>
+        (e.g.: Port numbers, host names, etc). Kraken allows you to define a second file <code>./config/app-development.json</code>
         with alternate values.
     </p>
 
@@ -445,7 +445,7 @@ module.exports = function (server) {
 var customerLocality = 'es_ES';
 res.locals.context = {locality: customerLocality};
 var model = {name: 'Antonio Banderas'};
-res.render(index,model);</pre>
+res.render('index',model);</pre>
     <p>
         We would also change our template as follows, using a <code>@pre content</code> tag:
     </p>
