@@ -126,9 +126,19 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file.
 
 - **app.configure(config, next)** - Async method run on startup. `next` must be called to continue.
-- **app.requestStart(server)** -  Run at the start of an incoming request.
-- **app.requestBeforeRoute(server)** - Run before each route.
-- **app.requestAfterRoute(server)** - Run after each route.
+- **app.requestStart(server)** -  Run before most express middleware has been registered.
+- **app.requestBeforeRoute(server)** - Run before any routes have been added.
+- **app.requestAfterRoute(server)** - Run after all routes have been added.
+
+*Example:*
+
+```javascript
+app.requestBeforeRoute = function (server) {
+    // Register passport-js middleware
+    server.use(passport.initialize());
+    server.use(passport.session());
+};
+```
 
 
 ### Routes
