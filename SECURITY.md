@@ -8,7 +8,7 @@ If you think you may have found a security bug we ask that you privately send th
 
 
 ## Expectations
-We will generally get back to you within **24 hours**, but a more detail response may take up to **48 hours**. If you feel we're not responding back in time, please send us a message *without detail* on Twitter [@kraken_js](https://twitter.com/kraken_js).
+We will generally get back to you within **24 hours**, but a more detailed response may take up to **48 hours**. If you feel we're not responding back in time, please send us a message *without detail* on Twitter [@kraken_js](https://twitter.com/kraken_js).
 
 
 ## History
