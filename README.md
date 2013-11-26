@@ -3,7 +3,11 @@
 A Node.js web application framework.
 
 [![Build Status](https://travis-ci.org/paypal/kraken-js.png)](https://travis-ci.org/paypal/kraken-js)
+[![NPM version](https://badge.fury.io/js/kraken-js.png)](http://badge.fury.io/js/kraken-js)
 
+
+## The Kraken Suite
+KrakenJS is part of the Kraken Suite. If you'd like to find out more about the other modules, please visit [krakenjs.com](http://krakenjs.com)
 
 
 ## Getting Started
