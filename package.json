@@ -47,6 +47,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
+  "engineStrict":true,
   "dependencies": {
     "express-enrouten": "~0.0.3",
     "lusca": "~0.1.1",
