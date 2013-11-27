@@ -108,7 +108,7 @@ var kraken = {
         }
 
         function bind(app) {
-            var deferred, server, ssl;
+            var deferred, server, ssl, httpServer;
 
             if (port === undefined) {
                 port = that.port;
@@ -138,7 +138,7 @@ var kraken = {
             server = ssl ? https.createServer(ssl, app) : http.createServer(app);
             server.once('listening', resolve);
             server.once('error', reject);
-            var httpServer = server.listen(port, host);
+            httpServer = server.listen(port, host);
             app.set('kraken:server', httpServer);
 
             return deferred.promise;
