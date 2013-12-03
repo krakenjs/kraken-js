@@ -32,7 +32,7 @@ describe('kraken', function () {
                 assert.isNull(err);
                 assert.isFunction(kk.app); // express is a function
                 server.close(next);
-            })
+            });
         });
 
 
