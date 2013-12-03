@@ -4,6 +4,8 @@
 
     "host": ["OPENSHIFT_NODEJS_IP", "VCAP_APP_HOST", "HOST", "IP"],
 
+    "shutdownTimeout": 30000,
+
     "globalAgent": {
         "maxSockets": 250
     },
