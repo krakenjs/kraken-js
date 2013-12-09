@@ -42,7 +42,7 @@ function resolveRoot() {
 
 var kraken = {
 
-    get app () {
+    get app() {
         return this._app;
     },
 
