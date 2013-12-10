@@ -40,7 +40,7 @@ To create a new project:
 Configuration is stored in JSON format. Each settings file can be overridden in development mode by creating a `-development` version, e.g. app-development.json.
 
 - **/config/app.json** - Application specific settings
-- **/config/middleware.json** - Custom middleware specfic settings
+- **/config/middleware.json** - Custom middleware specific settings
 
 
 *app.json values:*
