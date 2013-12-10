@@ -196,6 +196,40 @@ describe('view', function () {
                     .expect('Content-Type', /html/)
                     .expect(SERVER_ERROR, next);
             }
+        },
+
+        'should not require a view engine for json responses': {
+            delegate: {
+                configure: function (config, callback) {
+                    config.set('view engines', null);
+                    config.set('express:view engine', null);
+                    callback();
+                }
+            },
+            assert:  function (app, next) {
+                request(app)
+                    .get('/json')
+                    .expect(200)
+                    .expect('Content-Type', /json/)
+                    .expect('{\n  "call": "me maybe"\n}', next);
+            }
+        },
+
+        'should not require a view engine for plain text responses': {
+            delegate: {
+                configure: function (config, callback) {
+                    config.set('view engines', null);
+                    config.set('express:view engine', null);
+                    callback();
+                }
+            },
+            assert:  function (app, next) {
+                request(app)
+                    .get('/plain')
+                    .expect(200)
+                    .expect('Content-Type', /plain/)
+                    .expect('ok', next);
+            }
         }
     };
 
