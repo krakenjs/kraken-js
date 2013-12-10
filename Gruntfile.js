@@ -37,7 +37,8 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            'tmp': '/tmp/kraken*'
+            'tmp': '/tmp/kraken*',
+            'build': 'test/fixtures/.build'
         }
     });
 
@@ -45,6 +46,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('test', ['jshint', 'mochaTest', 'clean:tmp']);
+    grunt.registerTask('test', ['jshint', 'mochaTest', 'clean']);
 
 };
