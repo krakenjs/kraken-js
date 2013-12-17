@@ -62,6 +62,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
   - **view cache** Enables view template compilation caching, enabled in production by default
   - **view engine** The default engine extension to use when omitted
   - **views** The view directory path, defaulting to "./views"
+  - **route** The root URI prepended to all the routes	
 - **view engines** - A map of view engines to register for the given app.
   - **{extension}** - View engine identifier for use by express.
      - **module** - The node module used to support this view engine.

@@ -37,4 +37,14 @@ module.exports = function (app) {
         //error event handling here.
     });
 
+    app.get('/json', function (req, res) {
+        res.json({ call: 'me maybe' });
+    });
+
+
+    app.get('/plain', function (req, res) {
+        res.set('Content-Type', 'text/plain');
+        res.send(200, 'ok');
+    });
+
 };
