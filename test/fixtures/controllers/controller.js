@@ -34,7 +34,7 @@ module.exports = function (app) {
     });
 
     app.on('error', function (url, error) {
-        // any error handling app wants to do
+        //error event handling here.
     });
 
 };
