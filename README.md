@@ -126,14 +126,14 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 ## Customization
 
 
-### Application Life-cycle
+### Application Life-cycle (Middleware)
 
-You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file.
+You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file. This is the ideal place to apply any middleware you might want to use in your application.
 
-- **app.configure(config, next)** - Async method run on startup. `next` must be called to continue.
-- **app.requestStart(server)** -  Run before most express middleware has been registered.
-- **app.requestBeforeRoute(server)** - Run before any routes have been added.
-- **app.requestAfterRoute(server)** - Run after all routes have been added.
+- **app.configure(config, next)** - Run on startup. `next` must be called to continue. *Make any changes to your config here.*
+- **app.requestStart(server)** -  Run before most middleware has been registered. *Logging and other middleware that need to see every single request should get applied here.* 
+- **app.requestBeforeRoute(server)** - Run before the routes have been added. *Most of your middleware should be applied in this function.*
+- **app.requestAfterRoute(server)** - Run after the routes have been added. *Useful for adding error handling middleware.*
 
 *Example:*
 
@@ -145,6 +145,7 @@ app.requestBeforeRoute = function (server) {
 };
 ```
 
+For more information about where to apply your middlewhere you may want to review http://expressjs.com/guide.html#error-handling.
 
 ### Routes
 
