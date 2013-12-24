@@ -303,7 +303,7 @@ var kraken = require('kraken-js'),
 
 // Fired when an app configures itself
 app.configure = function (nconf, next) {
-    next(null);
+    next();
 };
 
 // Fired at the beginning of an incoming request
