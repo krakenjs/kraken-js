@@ -84,7 +84,10 @@ var kraken = {
         chain = create(this._app)
             .then(assign)
             .then(create)
-            .then(mount);
+            .then(mount)
+            .fail(function(e) {
+                console.log(e.stack);
+            });
 
         this._promise = this._promise ? this._promise.then(chain) : chain;
         return this;
