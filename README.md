@@ -147,6 +147,7 @@ app.configure = function configure(nconf, next) {
     // Retrieve a custom key from ./config/middleware.json or ./config/app.json
     console.log('My custom config is: ',nconf.get('myCustomKey'));
 };
+```
 
 *Example 2: Using middleware*
 
