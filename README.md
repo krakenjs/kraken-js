@@ -44,7 +44,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 
 ### Using custom configuration
 If you'd like to add your own configuration to these files, simply include a new key.
-To retrieve it in your application, you can do so during the [configuration step](/PayPal/kraken-js#application-life-cycle-middleware)
+To retrieve it in your application, you can do so during the [configuration step](#application-life-cycle-middleware)
 
 ### Default Values
 *app.json values:*
