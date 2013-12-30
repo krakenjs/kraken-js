@@ -145,7 +145,7 @@ You can customize your application's life-cycle by adding methods to the app del
 app.configure = function configure(nconf, next) {
     // Fired when an app configures itself
     // Retrieve a custom key from ./config/middleware.json or ./config/app.json
-    console.log('My custom config is: ',nconf.get('myCustomKey'));
+    console.log('My custom config is: ', nconf.get('myCustomKey'));
 };
 ```
 
