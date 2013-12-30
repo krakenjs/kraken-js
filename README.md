@@ -42,7 +42,11 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
 - **/config/app.json** - Application specific settings
 - **/config/middleware.json** - Custom middleware specific settings
 
+### Using custom configuration
+If you'd like to add your own configuration to these files, simply include a new key.
+To retrieve it in your application, you can do so during the [configuration step](/PayPal/kraken-js#application-life-cycle-middleware)
 
+### Default Values
 *app.json values:*
 
 - **host** - The application host. *Default: localhost*
@@ -135,7 +139,16 @@ You can customize your application's life-cycle by adding methods to the app del
 - **app.requestBeforeRoute(server)** - Run before the routes have been added. *Most of your middleware should be applied in this function.*
 - **app.requestAfterRoute(server)** - Run after the routes have been added. *Useful for adding error handling middleware.*
 
-*Example:*
+*Example 1: Retrieving custom configuration*
+
+```javascript
+app.configure = function configure(nconf, next) {
+    // Fired when an app configures itself
+    // Retrieve a custom key from ./config/middleware.json or ./config/app.json
+    console.log('My custom config is: ',nconf.get('myCustomKey'));
+};
+
+*Example 2: Using middleware*
 
 ```javascript
 app.requestBeforeRoute = function (server) {
