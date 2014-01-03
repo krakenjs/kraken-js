@@ -103,7 +103,7 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
       - **500** - Template to load when a server error occurs. *Default: `undefined`*
 
   - **multipart**
-      - **formidableSettings** - Settings to pass to [formidable](https://github.com/felixge/node-formidable), which powers Kraken's multipart form support. *Default: `undefined`*
+      - **params** - Settings to pass to [formidable](https://github.com/felixge/node-formidable), which powers Kraken's multipart form support. *Default: `undefined`*
 
   - **session**
       - **module** - Connect-based module name to require for sessions. *Default: `false`*
@@ -190,6 +190,11 @@ public/
 
 A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for production run `grunt build` which will create new files in the `.build` directory. This task must be done before running your app in production mode.
 
+## File upload
+
+Support for [multipart forms](http://en.wikipedia.org/wiki/File_select) is disabled by default. You can enable it by populating "multipart" in middleware.json and optionally pass parameters using [formidable's API](https://github.com/felixge/node-formidable).
+
+All temporary files uploaded will be automatically removed when the request is completed if you do not remove them yourself.
 
 # Contributing to the Kraken Suite
 
