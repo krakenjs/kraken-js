@@ -102,6 +102,9 @@ Configuration is stored in JSON format. Each settings file can be overridden in 
       - **404** - Template to load when a file is not found. *Default: `undefined`*
       - **500** - Template to load when a server error occurs. *Default: `undefined`*
 
+  - **multipart**
+      - **formidableSettings** - Settings to pass to [formidable](https://github.com/felixge/node-formidable), which powers Kraken's multipart form support. *Default: `undefined`*
+
   - **session**
       - **module** - Connect-based module name to require for sessions. *Default: `false`*
       - **secret** - Secret used to hash your cookie. *Default: `"keyboard cat"`*
