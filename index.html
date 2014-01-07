@@ -316,7 +316,9 @@ app.requestBeforeRoute = function (server) { };
 app.requestAfterRoute = function requestAfterRoute(server) { };
 
 kraken.create(app).listen(function (err) {
-    if (err) { console.error(err); }
+    if (err) {
+        console.error(err.stack);
+    }
 });</pre>
     <p>
         As you can see, the entry point simply provides hooks for configuration, and request-specific
