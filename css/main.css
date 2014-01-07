@@ -468,6 +468,18 @@ li.kappa div.moduleTitle  {
     margin: 0 0 0 240px;
 }
 
+section.examples li{
+    padding: 0.5em 0;
+}
+section.examples p{
+    margin: .25em 0;
+
+}
+
+div.author {
+    font-size: .75em;
+}
+
 footer {
     padding: 3em;
     background-color: #e6e7e8;
