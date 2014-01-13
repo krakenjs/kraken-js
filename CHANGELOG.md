@@ -1,3 +1,16 @@
+##### v0.7.0 - 20140113
+
+**Features**
+- Lots 'o docs
+- Graceful Shutdown support
+- `engineStrict`
+- Ability to opt out of view rendering
+
+**Bugs**
+- Better config error messaging
+- Config file resolution fixed for cloud deployments, e.g. heroku
+
+
 ##### v0.6.1 - 20131014
 
 **Features**
