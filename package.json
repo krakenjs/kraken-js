@@ -1,6 +1,6 @@
 {
   "name": "kraken-js",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "An express-based Node.js web application bootstrapping module.",
   "main": "index.js",
   "scripts": {
@@ -47,7 +47,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "engineStrict":true,
+  "engineStrict": true,
   "dependencies": {
     "express-enrouten": "~0.0.3",
     "lusca": "~0.1.1",
