@@ -25,6 +25,10 @@
             "xframe": "SAMEORIGIN",
             "p3p": "NOI DSP CUR ADMa OUR IND NAV STA PUR",
             "csp": false
+        },
+        
+        "express": {
+          "compress": true
         }
 
     },

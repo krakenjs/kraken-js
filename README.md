@@ -125,6 +125,8 @@ To retrieve it in your application, you can do so during the [configuration step
       - **srcRoot** - Where the compiler should look for files. *Default: `"path:./public"`*
       - **rootPath** - Where the compiler should put compiled files. *Default: `"path:./.build"`*
 
+  - **express**
+      - **compress** - Compress response data with gzip / deflate. *Default: `false`*
 
 
 ## Customization
