@@ -15,7 +15,7 @@ KrakenJS is part of the Kraken Suite. If you'd like to find out more about the o
 To create a new project:
 
 1. Install Yeoman and the Kraken Generator:
-`npm install -g yo generator-kraken`
+`npm install -g generator-kraken`
 2. Generate a Kraken project:
 `yo kraken`
 3. Go to your project directory and start your project. By default, it will listen on port 8000:
@@ -109,9 +109,10 @@ To retrieve it in your application, you can do so during the [configuration step
       - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
       - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
 
-  - **errorPages**
-      - **404** - Template to load when a file is not found. *Default: `undefined`*
-      - **500** - Template to load when a server error occurs. *Default: `undefined`*
+  - **errorPages** - Templates to load when the server returns specific HTTP error codes
+      - **404** *Default: `undefined`*
+      - **500** *Default: `undefined`*
+      - **503** *Default: `undefined`*
 
   - **session**
       - **module** - Connect-based module name to require for sessions. *Default: `false`*
@@ -159,7 +160,7 @@ app.requestBeforeRoute = function (server) {
 };
 ```
 
-For more information about where to apply your middlewhere you may want to review http://expressjs.com/guide.html#error-handling.
+For more information about where to apply your middleware you may want to review http://expressjs.com/guide.html#error-handling.
 
 ### Routes
 
@@ -241,3 +242,13 @@ Kraken is the glue to your open source. It sits on top of grunt and express, but
 
 ### How do I run in production mode?
 Build your project first and then `export NODE_ENV=production` before running the app.
+
+### How to opt out of view rendering
+If your application does not require template rendering, you can disable it via your `./config/app.json` file by setting the following values to *null*:
+
+```javascript
+  "view engines": null,
+  "express": {
+    "view engine": null
+  }
+```
