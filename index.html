@@ -64,7 +64,9 @@
                 </div>
                 <div>
                     <a title="Build Status" href="https://travis-ci.org/paypal/kraken-js"><img
-                            src="https://travis-ci.org/paypal/kraken-js.png" alt="Build Status: Passing|Failing"></a>
+                            src="https://travis-ci.org/paypal/kraken-js.png" alt="Build Status"></a>
+                    <a title="Current Version" href="http://badge.fury.io/js/kraken-js"><img src="https://badge.fury.io/js/kraken-js.png" alt="Current Version"></a>
+
                 </div>
 
 
@@ -195,6 +197,7 @@
             <p>
                 Start by installing the generator <strong>globally</strong> using <strong>npm</strong>:
                 <br><code>sudo npm install -g generator-kraken</code>
+                <br><small>Note: You need <a href="http://nodejs.org/">NodeJS</a> version 0.10.24 or higher installed</small>
             </p>
         </li>
         <li><h4>Create a project</h4>
@@ -400,10 +403,11 @@ kraken.create(app).listen(function (err) {
     </p>
                 <pre class="prettyprint linenums">
 'use strict';
+var IndexModel = require('../models/index');
 module.exports = function (server) {
+    var model = new IndexModel();
 
     server.get('/', function (req, res) {
-        var model = { name: 'Ash Williams' };
         res.render('index', model);
     });
 };</pre>
@@ -414,6 +418,30 @@ module.exports = function (server) {
 
     <p>
         Kraken is built on top of express, so the rest of the logic should be familiar to Node developers</p>
+</section>
+<section aria-labelledby="Models">
+    <h3 id="Models">Models</h3>
+
+    <p>
+        Kraken also separates data models from the controller logic, resulting in cleaner, more organized code. Data
+        models live in the <code>./models/</code> folder.
+    </p>
+
+    <p>
+        When a new controller is created, the framework will also create a simple model for you.
+    </p>
+    <pre class="prettyprint linenums">
+'use strict';
+module.exports = function IndexModel() {
+    return {
+        name: 'myApp'
+    };
+};</pre>
+    <p>
+        While not very complex, this model serves as a base to build upon. See the  <a target="_blank" href="https://github.com/lmarkus/Kraken_Example_Shopping_Cart">Kraken Shopping Cart</a> example
+        for more complex usage of models.
+    </p>
+
 </section>
 <section aria-labelledby="Templates">
     <h3 id="Templates">Templates</h3>
@@ -492,8 +520,15 @@ res.render('index',model);</pre>
     </p>
 
     <p>
-        If you like this project, please follow it on GitHub!
-    </p>
+        The Kraken wants to be your friend. Show your love by liking us on GitHub</p>
+        <iframe src="http://ghbtns.com/github-btn.html?user=PayPal&repo=kraken-js&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+
+
+        <iframe src="http://ghbtns.com/github-btn.html?user=PayPal&repo=kraken-js&type=fork&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+
+
 </section>
 
 <section aria-labelledby="FAQ">
