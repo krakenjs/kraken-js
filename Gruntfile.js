@@ -19,6 +19,8 @@
 
 module.exports = function (grunt) {
 
+    require('load-grunt-tasks')(grunt);
+
     grunt.initConfig({
         jshint: {
             files: ['Gruntfile.js', 'index.js', 'lib/**/*.js', 'test/**/*.js'],
@@ -41,10 +43,6 @@ module.exports = function (grunt) {
             'build': 'test/fixtures/.build'
         }
     });
-
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-mocha-test');
-    grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('test', ['jshint', 'mochaTest', 'clean']);
 
