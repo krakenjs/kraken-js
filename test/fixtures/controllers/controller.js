@@ -33,6 +33,9 @@ module.exports = function (app) {
         throw new Error('uh oh');
     });
 
+    app.on('error', function (url, error) {
+        //error event handling here.
+    });
 
     app.get('/json', function (req, res) {
         res.json({ call: 'me maybe' });
