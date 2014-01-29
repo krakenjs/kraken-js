@@ -167,7 +167,7 @@ app.requestBeforeRoute = function (server) {
 
 ```javascript
 app.requestBeforeRoute = function (server) {
-    // Set locals which can be ac·cess in  dust template
+    // Set locals which can be accessed in  dust template
     server.use(function(req,res,next){
         res.locals.whatever = "whatever you need or from nconf";
         //use {whatever} in dust template
