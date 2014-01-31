@@ -1,0 +1,13 @@
+$rset("rhtml", "index", function(helpers, templateInfo) {
+  var empty = helpers.e,
+      notEmpty = helpers.ne,
+      escapeXml = helpers.x;
+
+  return function(data, context) {
+    var name = data.name;
+
+    context.w('Hello, ')
+      .w(escapeXml(name))
+      .w('!');
+  }
+});

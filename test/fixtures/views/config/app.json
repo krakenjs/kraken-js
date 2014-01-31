@@ -1,0 +1,58 @@
+{
+    "view engines": {
+
+        "ejs": {
+            "module": "consolidate"
+        },
+
+        "dust": {
+            "module": "path:./lib/renderer",
+            "name": "dust"
+        },
+
+        "dustx": {
+            "module": "path:./lib/renderer"
+        },
+
+        "html": {
+            "module": "ejs",
+            "name": "ejs",
+            "renderer": "renderFile"
+        },
+
+        "htmlx": {
+            "module": "path:./lib/renderer",
+            "name": "dust",
+            "rendererFactory": {
+                "method": "dustFactory",
+                "arguments": []
+            }
+        },
+
+        "jade": {
+            "module": "jade",
+            "renderer": "renderFile"
+        },
+
+        "custom": {
+            "module": "path:./lib/renderer",
+            "name": "dust",
+            "viewConstructor": "path:./lib/View"
+        },
+
+        "jsp": {
+            "module": "path:./templating",
+            "name": "raptor"
+        },
+
+        "class": {
+            "module": "path:./templating",
+            "name": "compiledRaptor"
+        }
+
+    },
+
+    "express": {
+        "view engine": "html"
+    }
+}

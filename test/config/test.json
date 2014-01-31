@@ -1,0 +1,8 @@
+{
+    "middleware": {
+        /* Removed for development purposes only */
+        "shutdown": null,
+        "multipart": null,
+        "router": null
+    }
+}

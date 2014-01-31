@@ -1,0 +1,16 @@
+{
+    "middleware": {
+        /* Removed for development purposes only */
+        "shutdown": {
+            "module": "path:../../../middleware/shutdown"
+        },
+
+        "multipart": {
+            "enabled": true,
+            "priority": 80,
+            "module": "path:../../../middleware/multipart"
+        },
+
+        "appsec": null
+    }
+}

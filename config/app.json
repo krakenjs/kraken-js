@@ -1,0 +1,22 @@
+{
+
+    "view engines": {
+
+    },
+
+    "express": {
+        "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
+        "x-powered-by": false,
+        "trust proxy": false,
+        "jsonp callback name": null,
+        "json replacer": null,
+        "json spaces": 0,
+        "case sensitive routing": false,
+        "strict routing": false,
+        "view cache": true,
+        "view engine": null,
+        "views": "path:./views",
+        "route": "/"
+    }
+
+}
