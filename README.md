@@ -50,7 +50,42 @@ TODO
 
 
 ##### Configuration-based `express` Settings
-TODO
+Since express instances are themselves config objects, the convention is to set values on the app instance for use by
+express internally as well as other code across the application. kraken-js allows you to configure express via JSON.
+Any properties are supported, but kraken-js defaults include:
+```json
+{
+    "express": {
+        "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
+        "x-powered-by": false,
+        "trust proxy": false,
+        "jsonp callback name": null,
+        "json replacer": null,
+        "json spaces": 0,
+        "case sensitive routing": false,
+        "strict routing": false,
+        "view cache": true,
+        "view engine": null,
+        "views": "path:./views",
+        "route": "/"
+    }
+}
+```
+Additional notes:
+- The `env` setting will be set to the environment value as derived by kraken-js, so what is put here will be overwritten
+at runtime.
+- Set the `view engine` property to the one of the `view engines` property names (see the section `View Engine Configuration`)
+to enable it for template rendering.
+- The optional `view` property is a special case in which you can set a path to a module which exports a constructor implementing
+the view API as defined by the module `express/lib/view`. If set, kraken-js will attempt to load the specified module and
+configure express to use it for resolving views. For example:
+```json
+{
+    "express": {
+        "view": "path:./lib/MyCustomViewResolver"
+    }
+}
+```
 
 
 ##### View Engine Configuration
@@ -65,7 +100,7 @@ kraken-js looks to the `view engines` config property to understand how to load 
         "html": {
             "name": "ejs",
             "module": "ejs",
-            "renderer": "renderFile" /* or `__express` */
+            "renderer": "renderFile"
         },
         "dust": {
             "module": "adaro",
