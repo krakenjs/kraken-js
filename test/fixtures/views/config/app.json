@@ -23,7 +23,7 @@
         "htmlx": {
             "module": "path:./lib/renderer",
             "name": "dust",
-            "rendererFactory": {
+            "renderer": {
                 "method": "dustFactory",
                 "arguments": []
             }
@@ -36,8 +36,7 @@
 
         "custom": {
             "module": "path:./lib/renderer",
-            "name": "dust",
-            "viewConstructor": "path:./lib/View"
+            "name": "dust"
         },
 
         "jsp": {
@@ -53,6 +52,7 @@
     },
 
     "express": {
-        "view engine": "html"
+        "view engine": "html",
+        "view": "path:./lib/View"
     }
 }

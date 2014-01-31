@@ -49,8 +49,52 @@ resolve, and register middleware with your express application.
 TODO
 
 
-##### Configuration-based `express` Settings (including view engines)
+##### Configuration-based `express` Settings
 TODO
+
+
+##### View Engine Configuration
+kraken-js looks to the `view engines` config property to understand how to load and initialize renderers. The value of the
+`view engines` property is an object mapping the desired file extension to engine config settings. For example:
+```json
+{
+    "view engines": {
+        "jade": {
+            "module": "consolidate"
+        },
+        "html": {
+            "name": "ejs",
+            "module": "ejs",
+            "renderer": "renderFile" /* or `__express` */
+        },
+        "dust": {
+            "module": "adaro",
+            "renderer": {
+                "method": "dust",
+                "arguments": [{ "cache": false }]
+            }
+        },
+        "js": {
+            "module": "adaro",
+            "renderer": {
+                "method": "js",
+                "arguments": [{ "cache": false }]
+            }
+        }
+    }
+}
+```
+
+The available engine configuration options are:
+
+- `module` (*String*) - This is the node module that provides the renderer implementation. The value can be the name of a
+module installed via npm, or it can be a module in your project referred to via file path, e.g. `"module": "path:./lib/renderer"`.
+- `name` (*String*, optional) - Set this if the name of the rendering engine is different from the desired file extension. Additionally,
+if the renderer function exported by the module is not the file extension (and a `renderer` property is not defined), this value will be used.
+- `renderer` (*String|Object*, optional) - The renderer property allows you to explicitly identify the property or the
+factory method exported by the module that should be used when settings the renderer. Set the value to a String to identify
+that the renderer is exported by that name, or an object with the properties `method` and `arguments` to identify a factory method.
+For example, using ejs you could set this property to `renderFile` or `__express` as the ejs module exports a renderer directly.
 
 
 #### Events
