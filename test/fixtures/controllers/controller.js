@@ -44,4 +44,15 @@ module.exports = function (app) {
         res.send(200, 'ok');
     });
 
+    app.get('/jekyll', function (req, res) {
+
+        res.locals({
+            'whoAmI' : req.body.whoAmI
+        });
+
+        res.render('jekyll', {
+            title: 'Kraken unleashes split personality'
+        });
+    });
+
 };
