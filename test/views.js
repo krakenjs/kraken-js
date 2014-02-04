@@ -13,6 +13,8 @@ describe('view', function () {
     var VALID_RESPONSE = '<!DOCTYPE html><html lang="en"><head><title>Hello, world</title></head><body><h1>node template test</h1></body></html>';
     var NOT_FOUND = '<h1>404 template</h1><p>/fourohfour</p>';
     var SERVER_ERROR = '<h1>500 template</h1><p>/ohnoes</p><p>uh oh</p>';
+    var JEKYLL = '<!DOCTYPE html><html lang="en"><head><title>Kraken unleashes split personality</title></head><body><h1>Jekyll here!</h1></body></html>';
+    var HYDE = '<!DOCTYPE html><html lang="en"><head><title>Kraken unleashes split personality</title></head><body><h1>Hyde here!</h1></body></html>';
 
     var cwd, src, bin, itses;
 
@@ -108,10 +110,62 @@ describe('view', function () {
             }
         },
 
-        'should support cached views': {
+        'should render specialized since context data matches the rules': {
+            delegate: {
+                configure: function (config, callback) {
+                    config.set('express:view engine', 'dust');
+                    config.set('express:views', src);
+                    callback();
+                }
+            },
+            assert:  function (app, next) {
+                request(app)
+                    .get('/jekyll')
+                    .send({'whoAmI': 'BadGuy'})
+                    .expect(200)
+                    .expect('Content-Type', /html/)
+                    .expect(HYDE, next);
+            }
+        },
+        'should render unspecialized since context data does not match the rules': {
+            delegate: {
+                configure: function (config, callback) {
+                    config.set('express:view engine', 'dust');
+                    config.set('express:views', src);
+                    callback();
+                }
+            },
+            assert:  function (app, next) {
+                request(app)
+                    .get('/jekyll')
+                    .send({'whoAmI': 'GoodGuy'})
+                    .expect(200)
+                    .expect('Content-Type', /html/)
+                    .expect(JEKYLL, next);
+            }
+        },
+        'should render specialized since context data matches the rules - with view engine js': {
             delegate: {
                 configure: function (config, callback) {
                     config.set('view engines:js:cache', true);
+                    config.set('express:view engine', 'js');
+                    config.set('express:views', bin);
+                    callback();
+                }
+            },
+            assert:  function (app, next) {
+                request(app)
+                    .get('/jekyll')
+                    .send({'whoAmI': 'BadGuy'})
+                    .expect(200)
+                    .expect('Content-Type', /html/)
+                    .expect(HYDE, next);
+            }
+        },
+        'should support cached views': {
+            delegate: {
+                configure: function (config, callback) {
+                    config.set('view engines:js:cache', false);
                     config.set('express:view engine', 'js');
                     config.set('express:views', bin);
                     callback();

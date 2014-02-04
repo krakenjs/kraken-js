@@ -11,6 +11,16 @@
         "path": "path:./config/ssl/cert.pem",
         "file": "file:./config/ssl/key.pem",
         "base64": "base64:aGVsbG8gd29ybGQ="
-    }
+    },
 
+    "specialization": {
+        "jekyll": [
+            {
+                "template": "hyde",
+                "rules" : {
+                    "whoAmI": "BadGuy"
+                }
+            }
+        ]
+    }
 }
