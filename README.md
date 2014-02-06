@@ -108,6 +108,8 @@ To retrieve it in your application, you can do so during the [configuration step
   - **compiler**
       - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
       - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
+      - **sass** - Where the dev-time compiler should look for SASS files. *Default: `"css"`*
+          - note: you need to install node-sass for this to work. grunt-contrib-sass would also be of help. 
 
   - **errorPages** - Templates to load when the server returns specific HTTP error codes
       - **404** *Default: `undefined`*
