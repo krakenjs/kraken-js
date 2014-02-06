@@ -165,6 +165,19 @@ app.requestBeforeRoute = function (server) {
 };
 ```
 
+*Example 3: Setting Locals for dustjs*
+
+```javascript
+app.requestBeforeRoute = function (server) {
+    // Set locals which can be accessed in  dust template
+    server.use(function(req,res,next){
+        res.locals.whatever = "whatever you need or from nconf";
+        //use {whatever} in dust template
+        next();
+    });
+};
+```
+
 For more information about where to apply your middleware you may want to review http://expressjs.com/guide.html#error-handling.
 
 ### Routes
