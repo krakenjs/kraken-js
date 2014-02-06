@@ -1,3 +1,10 @@
+##### v0.7.0 - 20140206
+
+**Features**
+- Doc updates
+- Official multipart support
+
+
 ##### v0.7.0 - 20140113
 
 **Features**
