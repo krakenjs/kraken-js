@@ -67,12 +67,13 @@
     "raptor": "~2.7.4"
   },
   "peerDependencies": {
-    "express": "^3.4"
+    "express": "~3.4"
   },
   "dependencies": {
     "caller": "~0.0.1",
     "meddleware": "~0.0.1",
     "shortstop": "~0.0.1",
+    "shortstop-handlers": "~0.1.0",
     "endgame": "~0.0.3",
     "q": "~1.0.0",
     "debuglog": "~0.0.2",
