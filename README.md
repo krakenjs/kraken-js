@@ -242,6 +242,8 @@ A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for
 
 Support for [multipart forms](http://en.wikipedia.org/wiki/File_select) is disabled by default. You can enable it by populating "multipart" in middleware.json and optionally pass parameters using [formidable's API](https://github.com/felixge/node-formidable).
 
+Files uploaded in a given request will populate in `req.files`.
+
 All temporary files uploaded will be automatically removed when the request is completed if you do not remove them yourself.
 
 # Contributing to the Kraken Suite
