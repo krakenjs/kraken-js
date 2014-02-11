@@ -1,6 +1,5 @@
 {
     "middleware": {
-        /* Removed for development purposes only */
         "shutdown": {
             "module": "path:../../../middleware/shutdown"
         },
