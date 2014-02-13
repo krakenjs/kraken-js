@@ -5,12 +5,16 @@
 *.out
 *.pid
 *.gz
+*.orig
 
+work
+build
 pids
 logs
 results
 coverage
 lib-cov
+html-report
 xunit.xml
 node_modules
 npm-debug.log
@@ -19,8 +23,14 @@ npm-debug.log
 .idea
 .settings
 .iml
+*.sublime-workspace
+*.sublime-project
 
 .DS_Store*
 ehthumbs.db
 Icon?
 Thumbs.db
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
