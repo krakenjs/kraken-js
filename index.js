@@ -50,6 +50,7 @@ module.exports = function (options) {
 
         // Remove sacrificial express app
         parent.stack.pop();
+        parent.route = app.route;
 
         deferred = Q.defer();
         complete = deferred.resolve.bind(deferred);

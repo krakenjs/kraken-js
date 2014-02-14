@@ -1,6 +1,7 @@
 'use strict';
 
 var test = require('tape'),
+    path = require('path'),
     kraken = require('../'),
     nconf = require('nconf'),
     express = require('express'),
@@ -75,6 +76,70 @@ test('kraken', function (t) {
         app.on('start', start);
         app.on('error', error);
         app.use(kraken({ basedir: __dirname }));
+    });
+
+
+    t.test('mount point', function (t) {
+        var options, app, server;
+
+        t.plan(2);
+        t.on('end', reset);
+
+        function start() {
+            t.pass('server started');
+            server = request(app).get('/foo/').expect(200, 'ok', function (err) {
+                t.error(err);
+                server.app.close(t.end.bind(t));
+            });
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+            t.end();
+        }
+
+        options = {
+            basedir: path.join(__dirname, 'fixtures', 'mount')
+        };
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use('/foo', kraken(options));
+    });
+
+
+    t.test('express route', function (t) {
+        var options, app, server;
+
+        t.plan(2);
+        t.on('end', reset);
+
+        function start() {
+            t.pass('server started');
+            server = request(app).get('/foo/').expect(200, 'ok', function (err) {
+                t.error(err);
+                server.app.close(t.end.bind(t));
+            });
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+            t.end();
+        }
+
+        options = {
+            basedir: path.join(__dirname, 'fixtures', 'mount'),
+            onconfig: function (settings, cb) {
+                settings.set('express:route', '/foo');
+                cb(null, settings);
+            }
+        };
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken(options));
     });
 
 
