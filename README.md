@@ -7,7 +7,7 @@ A Node.js web application framework.
 
 
 ## The Kraken Suite
-KrakenJS is part of the Kraken Suite. If you'd like to find out more about the other modules, please visit [krakenjs.com](http://krakenjs.com)
+KrakenJS is part of the Kraken Suite. If you'd like to find out more about the other modules, please visit [krakenjs.com](http://krakenjs.com). You can also find [examples and tutorials](http://krakenjs.com/#Examples) there.
 
 
 ## Getting Started
