@@ -50,7 +50,7 @@
   "engineStrict": true,
   "dependencies": {
     "express-enrouten": "~0.0.3",
-    "formidable ": "~1.0.14",
+    "formidable": "~1.0.14",
     "lusca": "~0.1.1",
     "kraken-devtools": "~0.0.3",
     "mkdirp": "~0.3.5",
