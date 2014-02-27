@@ -61,6 +61,20 @@ describe('compiler', function () {
             .expect(VALID_LOCALIZED_TEMPLATE, next);
     });
 
+    it('should compile non-specialized template - jekyll', function (next) {
+        request(app)
+            .get('/templates/US/en/jekyll.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
+    });
+
+    it('should compile a specialized template - hyde', function (next) {
+        request(app)
+            .get('/templates/US/en/hyde.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
+    });
+
 
     it('should fail on a nonexistent template', function (next) {
         request(app)
