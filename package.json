@@ -59,6 +59,8 @@
     "jsonminify": "~0.2.2",
     "shortstop": "0.0.1",
     "engine-munger": "git://github.com/pvenkatakrishnan/engine-munger.git",
+    "fileResolver": "git://github.com/pvenkatakrishnan/fileResolver.git",
+    "localizr": "git://github.com/totherik/localizr.git",
     "concat-stream": "~1.4.1"
   },
   "peerDependencies": {
@@ -80,8 +82,6 @@
     "grunt-contrib-clean": "~0.5.0",
     "nconf": "~0.6.8",
     "adaro": "~0.1.3",
-    "makara": "git://github.com/pvenkatakrishnan/makara.git",
-    "engine-munger": "git://github.com/pvenkatakrishnan/engine-munger.git",
     "karka": "git://github.com/pvenkatakrishnan/karka.git#karka-without-context",
     "supertest": "~0.8.1"
   }
