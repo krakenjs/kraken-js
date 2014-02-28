@@ -43,7 +43,7 @@ describe('view', function () {
     }
 
 
-   /* itses = {
+    itses = {
         'should use the default view engine (dust)': {
             delegate: {
                 configure: function (config, callback) {
@@ -315,6 +315,6 @@ describe('view', function () {
 
             run(test.delegate, success, next);
         });
-    });*/
+    });
 
 });
