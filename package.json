@@ -58,7 +58,8 @@
     "q": "~0.9.7",
     "jsonminify": "~0.2.2",
     "shortstop": "0.0.1",
-    "engine-munger": "git://github.com/pvenkatakrishnan/engine-munger.git"
+    "engine-munger": "git://github.com/pvenkatakrishnan/engine-munger.git",
+    "concat-stream": "~1.4.1"
   },
   "peerDependencies": {
     "express": "~3.4",
