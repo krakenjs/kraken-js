@@ -95,7 +95,7 @@
                 {
                     "csrf": true,
                     "xframe": "SAMEORIGIN",
-                    "p3p": "NOI DSP CUR ADMa OUR IND NAV STA PUR",
+                    "p3p": false,
                     "csp": false
                 }
             ]
