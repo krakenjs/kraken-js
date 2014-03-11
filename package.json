@@ -64,7 +64,7 @@
     "ejs": "~0.8.5",
     "jade": "~1.1.4",
     "dustjs-linkedin": "~2.3.0",
-    "raptor": "~2.7.4"
+    "express": "~3.4"
   },
   "peerDependencies": {
     "express": "~3.4"

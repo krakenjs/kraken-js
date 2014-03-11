@@ -37,16 +37,6 @@
         "custom": {
             "module": "path:./lib/renderer",
             "name": "dust"
-        },
-
-        "jsp": {
-            "module": "path:./templating",
-            "name": "raptor"
-        },
-
-        "class": {
-            "module": "path:./templating",
-            "name": "compiledRaptor"
         }
 
     },
