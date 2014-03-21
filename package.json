@@ -1,5 +1,5 @@
 {
-  "name": "kraken.next",
+  "name": "kraken-js",
   "version": "1.0.0",
   "description": "An express-based Node.js web application bootstrapping module.",
   "keywords": [
@@ -56,33 +56,33 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "tape": "~2.3.2",
-    "istanbul": "~0.2.3",
-    "jshint": "~2.4.1",
-    "supertest": "~0.8.3",
-    "consolidate": "~0.10.0",
-    "ejs": "~0.8.5",
-    "jade": "~1.1.4",
-    "dustjs-linkedin": "~2.3.0",
-    "express": "~3.4"
+    "tape": "^2.3.2",
+    "istanbul": "^0.2.3",
+    "jshint": "^2.4.1",
+    "supertest": "^0.8.3",
+    "consolidate": "^0.10.0",
+    "ejs": "^0.8.5",
+    "jade": "^1.1.4",
+    "dustjs-linkedin": "^2.3.0",
+    "express": "^3.4"
   },
   "peerDependencies": {
-    "express": "~3.4"
+    "express": "^3.4"
   },
   "dependencies": {
-    "caller": "~0.0.1",
-    "meddleware": "~0.1.1",
-    "shortstop": "~0.0.1",
-    "shortstop-handlers": "~0.1.0",
-    "endgame": "~0.0.3",
-    "q": "~1.0.0",
-    "debuglog": "~0.0.2",
-    "nconf": "~0.6.9",
-    "shush": "~0.0.1",
-    "lusca": "~1.0.0",
-    "express-enrouten": "~0.3.0",
-    "core-util-is": "~1.0.1",
-    "formidable": "~1.0.14",
-    "readdirp": "~0.3.3"
+    "caller": "^0.0.1",
+    "meddleware": "^0.1.2",
+    "shortstop": "^0.0.1",
+    "shortstop-handlers": "^0.1.0",
+    "endgame": "^0.0.3",
+    "q": "^1.0.0",
+    "debuglog": "^0.0.2",
+    "nconf": "^0.6.9",
+    "shush": "^0.0.1",
+    "lusca": "^1.0.0",
+    "express-enrouten": "^0.3.0",
+    "core-util-is": "^1.0.1",
+    "formidable": "^1.0.14",
+    "readdirp": "^0.3.3"
   }
 }
