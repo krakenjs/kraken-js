@@ -72,7 +72,6 @@
   "dependencies": {
     "caller": "^0.0.1",
     "meddleware": "^0.1.2",
-    "shortstop": "^0.0.1",
     "shortstop-handlers": "^0.1.0",
     "endgame": "^0.0.3",
     "q": "^1.0.0",
@@ -83,6 +82,7 @@
     "express-enrouten": "^0.3.0",
     "core-util-is": "^1.0.1",
     "formidable": "^1.0.14",
-    "readdirp": "^0.3.3"
+    "confit": "^1.0.0",
+    "shortstop": "^1.0.0"
   }
 }
