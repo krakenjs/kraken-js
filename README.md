@@ -61,12 +61,12 @@ To retrieve it in your application, you can do so during the [configuration step
   - **jsonp callback** name Changes the default callback name of ?callback=
   - **json replacer** JSON replacer callback, null by default
   - **json spaces** JSON response spaces for formatting, defaults to 2 in development, 0 in production
-  - **case sensitive** routing Enable case sensitivity, disabled by default, treating "/Foo" and "/foo" as the same
+  - **case sensitive routing** Enable case sensitivity, disabled by default, treating "/Foo" and "/foo" as the same
   - **strict routing** Enable strict routing, by default "/foo" and "/foo/" are treated the same by the router
   - **view cache** Enables view template compilation caching, enabled in production by default
   - **view engine** The default engine extension to use when omitted
   - **views** The view directory path, defaulting to "./views"
-  - **route** The root URI prepended to all the routes	
+  - **route** The root URI prepended to all the routes
 - **view engines** - A map of view engines to register for the given app.
   - **{extension}** - View engine identifier for use by express.
      - **module** - The node module used to support this view engine.
@@ -109,7 +109,7 @@ To retrieve it in your application, you can do so during the [configuration step
       - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
       - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
       - **sass** - Where the dev-time compiler should look for SASS files. *Default: `"css"`*
-          - note: you need to install node-sass for this to work. grunt-contrib-sass would also be of help. 
+          - note: you need to install node-sass for this to work. grunt-contrib-sass would also be of help.
 
   - **errorPages** - Templates to load when the server returns specific HTTP error codes
       - **404** *Default: `undefined`*
@@ -141,7 +141,7 @@ To retrieve it in your application, you can do so during the [configuration step
 You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file. This is the ideal place to apply any middleware you might want to use in your application.
 
 - **app.configure(config, next)** - Run on startup. `next` must be called to continue. *Make any changes to your config here.*
-- **app.requestStart(server)** -  Run before most middleware has been registered. *Logging and other middleware that need to see every single request should get applied here.* 
+- **app.requestStart(server)** -  Run before most middleware has been registered. *Logging and other middleware that need to see every single request should get applied here.*
 - **app.requestBeforeRoute(server)** - Run before the routes have been added. *Most of your middleware should be applied in this function.*
 - **app.requestAfterRoute(server)** - Run after the routes have been added. *Useful for adding error handling middleware.*
 
