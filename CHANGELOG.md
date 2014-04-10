@@ -1,4 +1,17 @@
-##### v0.7.0 - 20140206
+##### v0.7.3 - 20140410
+
+**Bugs**
+- Updating lusca dependency to 1.0
+
+
+
+##### v0.7.2 - 20140401
+
+**Bugs**
+- Removing space from formidable dependency
+
+
+##### v0.7.1 - 20140206
 
 **Features**
 - Doc updates
