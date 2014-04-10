@@ -51,7 +51,7 @@
   "dependencies": {
     "express-enrouten": "~0.0.3",
     "formidable ": "~1.0.14",
-    "lusca": "~0.1.1",
+    "lusca": "~1.0.0",
     "kraken-devtools": "~0.0.3",
     "mkdirp": "~0.3.5",
     "rimraf": "~2.2.2",
