@@ -21,8 +21,13 @@ test('settings', function (t) {
         t.on('end', reset);
 
         function start() {
-            var custom = app.kraken.get('custom');
+            var foo = app.kraken.get('foo'),
+                click = app.kraken.get('click'),
+                custom = app.kraken.get('custom');
+            t.equal(foo, 'baz');
+            t.equal(click, 'clack');
             t.equal(custom, 'Hello, world!');
+            t.deepEqual(app.kraken.get('nestedA:nestedB:seasonals'), [ 'spring', 'autumn', 'summer', 'winter' ]);
             t.end();
         }
 

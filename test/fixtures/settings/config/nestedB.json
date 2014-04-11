@@ -1,0 +1,6 @@
+{
+    "jekyll" : "hyde",
+    "ying" : "yang",
+    "path": "path:./config/blah.json",
+    "seasonals": "config:nestedA.seasons"
+}

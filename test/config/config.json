@@ -1,0 +1,14 @@
+{
+    "middleware": {
+        "router": {
+            "enabled": true,
+            "priority": 120,
+            "module": "express-enrouten",
+            "arguments": [
+                {
+                    "index": "path:./fixtures/middleware/routes"
+                }
+            ]
+        }
+    }
+}

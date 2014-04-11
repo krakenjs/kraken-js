@@ -82,7 +82,7 @@
     "express-enrouten": "^0.3.0",
     "core-util-is": "^1.0.1",
     "formidable": "^1.0.14",
-    "confit": "^1.0.0",
-    "shortstop": "^1.0.0"
+    "confit": "git://github.com/pvenkatakrishnan/confit.git",
+    "shortstop": "git://github.com/pvenkatakrishnan/shortstop.git"
   }
 }

@@ -1,0 +1,6 @@
+{
+    "foo": "baz",
+    "zip": "zoom",
+    "click": "clack",
+    "nestedA": "import:./nestedA.json"
+}
