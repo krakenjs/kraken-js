@@ -1,6 +1,0 @@
-{
-    "express": {
-        "view cache": false,
-        "view engine": "dust"
-    }
-}
