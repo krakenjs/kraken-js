@@ -1,6 +1,0 @@
-{
-    "path": "path:./config/settings.json",
-    "file": "file:./hello.txt",
-    "base64": "base64:SGVsbG8sIHdvcmxkIQ==",
-    "custom": "custom:world"
-}
