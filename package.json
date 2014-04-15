@@ -83,6 +83,6 @@
     "core-util-is": "^1.0.1",
     "formidable": "^1.0.14",
     "confit": "git://github.com/pvenkatakrishnan/confit.git",
-    "shortstop": "git://github.com/pvenkatakrishnan/shortstop.git"
+    "shortstop": "^1.0.0"
   }
 }
