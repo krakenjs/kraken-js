@@ -64,10 +64,10 @@
     "ejs": "^0.8.5",
     "jade": "^1.1.4",
     "dustjs-linkedin": "^2.3.0",
-    "express": "^3.4"
+    "express": "^4.0"
   },
   "peerDependencies": {
-    "express": "^3.4"
+    "express": "^4.0"
   },
   "dependencies": {
     "caller": "^0.0.1",
@@ -79,10 +79,17 @@
     "nconf": "^0.6.9",
     "shush": "^0.0.1",
     "lusca": "^1.0.0",
-    "express-enrouten": "^0.3.0",
+    "express-enrouten": "^1.0.0",
     "core-util-is": "^1.0.1",
     "formidable": "^1.0.14",
     "shortstop": "^1.0.0",
-    "confit": "^1.1.0"
+    "confit": "^1.1.0",
+    "body-parser": "^1.0.2",
+    "cookie-parser": "^1.0.1",
+    "static-favicon": "^1.0.2",
+    "serve-static": "^1.0.4",
+    "compression": "^1.0.1",
+    "morgan": "^1.0.0",
+    "express-session": "^1.0.3"
   }
 }

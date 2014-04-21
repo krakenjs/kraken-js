@@ -131,7 +131,7 @@ test('kraken', function (t) {
         options = {
             basedir: path.join(__dirname, 'fixtures', 'mount'),
             onconfig: function (settings, cb) {
-                settings.set('express:route', '/foo');
+                settings.set('express:mountpath', '/foo');
                 cb(null, settings);
             }
         };

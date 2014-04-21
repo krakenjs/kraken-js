@@ -16,7 +16,7 @@
         "view cache": true,
         "view engine": null,
         "views": "path:./views",
-        "route": "/"
+        "mountpath": "/"
     },
 
     "middleware": {
@@ -34,46 +34,41 @@
         "compress": {
             "enabled": false,
             "priority": 10,
-            "module": "express"
-        },
-
-        "basicAuth": {
-            "enabled": false,
-            "priority": 20,
-            "module": "express",
-            "arguments": ["setec", "astronomy"]
+            "module": "compression"
         },
 
         "favicon": {
             "enabled": true,
             "priority": 30,
-            "module": "express",
+            "module": "static-favicon",
             "arguments": [ "path:./public/favicon.ico" ]
         },
 
         "static": {
             "enabled": true,
             "priority": 40,
-            "module": "express",
+            "module": "serve-static",
             "arguments": [ "path:./public" ]
         },
 
         "logger": {
             "enabled": true,
             "priority": 50,
-            "module": "express"
+            "module": "morgan"
         },
 
         "json": {
             "enabled": true,
             "priority": 60,
-            "module": "express"
+            "module": "body-parser",
+            "factoryMethod": "json"
         },
 
         "urlencoded": {
             "enabled": true,
             "priority": 70,
-            "module": "express"
+            "module": "body-parser",
+            "factoryMethod": "urlencoded"
         },
 
         "multipart": {
@@ -85,14 +80,14 @@
         "cookieParser": {
             "enabled": true,
             "priority": 90,
-            "module": "express",
+            "module": "cookie-parser",
             "arguments": [ "keyboard cat" ]
         },
 
         "session": {
             "enabled": true,
             "priority": 100,
-            "module": "express",
+            "module": "express-session",
             "arguments": [
                 {
                     "key": "",
