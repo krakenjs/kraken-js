@@ -78,13 +78,13 @@ test('middleware', function (t) {
             }
         }));
 
-        app.on('middleware:before:router', function () {
+        app.on('middleware:before:router', function (eventargs) {
 
-            app.get('/', function standard(req, res) {
+            eventargs.app.get('/', function standard(req, res) {
                 res.send(200);
             });
 
-            app.post('/', function multipart(req, res) {
+            eventargs.app.post('/', function multipart(req, res) {
                 t.ok(~req.headers['content-type'].indexOf('multipart/form-data'));
                 t.equal(typeof req.body, 'object');
                 t.equal(typeof req.files, 'object');
