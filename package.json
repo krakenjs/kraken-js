@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "caller": "^0.0.1",
-    "meddleware": "^0.1.2",
+    "meddleware": "^1.0.0",
     "shortstop-handlers": "^0.1.0",
     "endgame": "^0.0.3",
     "q": "^1.0.0",

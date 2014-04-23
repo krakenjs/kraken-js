@@ -24,11 +24,13 @@
         "shutdown": {
             "enabled": true,
             "priority": 0,
-            "module": "kraken-js/middleware/shutdown",
-            "arguments": [{
-                "timeout": 30000,
-                "template": null
-            }]
+            "module": {
+                "name": "kraken-js/middleware/shutdown",
+                "arguments": [{
+                    "timeout": 30000,
+                    "template": null
+                }]
+            }
         },
 
         "compress": {
@@ -40,15 +42,19 @@
         "favicon": {
             "enabled": true,
             "priority": 30,
-            "module": "static-favicon",
-            "arguments": [ "path:./public/favicon.ico" ]
+            "module": {
+                "name": "static-favicon",
+                "arguments": [ "path:./public/favicon.ico" ]
+            }
         },
 
         "static": {
             "enabled": true,
             "priority": 40,
-            "module": "serve-static",
-            "arguments": [ "path:./public" ]
+            "module": {
+                "name": "serve-static",
+                "arguments": [ "path:./public" ]
+            }
         },
 
         "logger": {
@@ -60,15 +66,19 @@
         "json": {
             "enabled": true,
             "priority": 60,
-            "module": "body-parser",
-            "factoryMethod": "json"
+            "module": {
+                "name": "body-parser",
+                "method": "json"
+            }
         },
 
         "urlencoded": {
             "enabled": true,
             "priority": 70,
-            "module": "body-parser",
-            "factoryMethod": "urlencoded"
+            "module": {
+                "name": "body-parser",
+                "method": "urlencoded"
+            }
         },
 
         "multipart": {
@@ -80,51 +90,59 @@
         "cookieParser": {
             "enabled": true,
             "priority": 90,
-            "module": "cookie-parser",
-            "arguments": [ "keyboard cat" ]
+            "module": {
+                "name": "cookie-parser",
+                "arguments": [ "keyboard cat" ]
+            }
         },
 
         "session": {
             "enabled": true,
             "priority": 100,
-            "module": "express-session",
-            "arguments": [
-                {
-                    "key": "",
-                    "secret": "keyboard cat",
-                    "cookie": {
-                        "path": "/",
-                        "httpOnly": true,
-                        "maxAge": null
-                    },
-                    "proxy": null
-                }
-            ]
+            "module": {
+                "name": "express-session",
+                "arguments": [
+                    {
+                        "key": "",
+                        "secret": "keyboard cat",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "proxy": null
+                    }
+                ]
+            }
         },
 
         "appsec": {
             "enabled": true,
             "priority": 110,
-            "module": "lusca",
-            "arguments": [
-                {
-                    "csrf": true,
-                    "xframe": "SAMEORIGIN",
-                    "p3p": false,
-                    "csp": false
-                }
-            ]
+            "module": {
+                "name": "lusca",
+                "arguments": [
+                    {
+                        "csrf": true,
+                        "xframe": "SAMEORIGIN",
+                        "p3p": false,
+                        "csp": false
+                    }
+                ]
+            }
         },
 
         "router": {
             "enabled": true,
             "priority": 120,
-            "module": "express-enrouten",
-            "arguments": [
-                {
-                    "index": "path:./routes"
-                }
-            ]
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [
+                    {
+                        "index": "path:./routes"
+                    }
+                ]
+            }
         }
 
     }
