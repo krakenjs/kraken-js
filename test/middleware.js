@@ -3,22 +3,13 @@
 var test = require('tape'),
     path = require('path'),
     kraken = require('../'),
-    nconf = require('nconf'),
     express = require('express'),
     request = require('supertest');
 
 test('middleware', function (t) {
 
-    function reset() {
-        nconf.stores  = {};
-        nconf.sources = [];
-    }
-
     t.test('no config', function (t) {
         var options, app;
-
-        t.on('end', reset);
-
 
         options = {
             basedir: path.join(__dirname, 'fixtures', 'middleware'),
@@ -39,7 +30,6 @@ test('middleware', function (t) {
         var basedir, app, file, server;
 
         t.plan(8);
-        t.on('end', reset);
 
         function start() {
             var file;
@@ -50,13 +40,12 @@ test('middleware', function (t) {
             server = request(app).post('/').attach('file', file).expect(200, function (err) {
                 // support for multipart requests
                 t.error(err, 'server is accepting requests');
-                server.app.close();
 
                 // trololol
                 server = request(app).get('/').expect(200, function (err) {
                     // support for non-multipart requests
                     t.error(err);
-                    server.app.close(t.end.bind(t));
+                    t.end();
                 });
             });
         }

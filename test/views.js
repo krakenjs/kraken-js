@@ -3,30 +3,22 @@
 var test = require('tape'),
     path = require('path'),
     kraken = require('../'),
-    nconf = require('nconf'),
     express = require('express'),
     request = require('supertest');
 
 
 test('views', function (t) {
 
-    function reset() {
-        nconf.stores  = {};
-        nconf.sources = [];
-    }
-
 
     t.test('renderer', function (t) {
         var basedir, app;
-
-        t.on('end', reset);
 
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -45,14 +37,12 @@ test('views', function (t) {
     t.test('renderer with consolidate', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -77,14 +67,12 @@ test('views', function (t) {
     t.test('alt renderer with consolidate', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -109,14 +97,12 @@ test('views', function (t) {
     t.test('configured renderer function', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -141,14 +127,12 @@ test('views', function (t) {
     t.test('configured renderer factory function', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -173,14 +157,12 @@ test('views', function (t) {
     t.test('configured renderer exported function', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -204,14 +186,12 @@ test('views', function (t) {
     t.test('custom view implementation', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -235,14 +215,12 @@ test('views', function (t) {
     t.test('built-in shim', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
@@ -266,14 +244,12 @@ test('views', function (t) {
     t.test('built-in shim with precompiled templates', function (t) {
         var options, app;
 
-        t.on('end', reset);
-
         function start() {
             var server;
 
             function done(err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             }
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);

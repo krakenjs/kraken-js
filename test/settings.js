@@ -5,20 +5,12 @@ var fs = require('fs'),
     path = require('path'),
     util = require('util'),
     kraken = require('../'),
-    nconf = require('nconf'),
     express = require('express');
 
 test('settings', function (t) {
 
-    function reset() {
-        nconf.stores  = {};
-        nconf.sources = [];
-    }
-
     t.test('custom', function (t) {
         var options, app;
-
-        t.on('end', reset);
 
         function start() {
             var foo = app.kraken.get('foo'),
