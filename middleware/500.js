@@ -21,7 +21,7 @@
 module.exports = function (template) {
 
     return function serverError(err, req, res, next) {
-        var model = { url: req.url, err: err };
+        var model = { url: req.url, err: err, statusCode: 500 };
 
         if (req.xhr) {
             res.send(500, model);
