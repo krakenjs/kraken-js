@@ -1,11 +1,12 @@
 'use strict';
 
-var fs = require('fs'),
-    test = require('tape'),
-    path = require('path'),
-    util = require('util'),
-    kraken = require('../'),
-    express = require('express');
+var fs = require('fs');
+var test = require('tape');
+var path = require('path');
+var util = require('util');
+var express = require('express');
+var kraken = require('../');
+
 
 test('settings', function (t) {
 

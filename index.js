@@ -17,12 +17,12 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var Q = require('q'),
-    path = require('path'),
-    caller = require('caller'),
-    express = require('express'),
-    bootstrap = require('./lib/bootstrap'),
-    debug = require('debuglog')('kraken');
+var Q = require('q');
+var path = require('path');
+var caller = require('caller');
+var express = require('express');
+var bootstrap = require('./lib/bootstrap');
+var debug = require('debuglog')('kraken');
 
 
 function noop(obj, cb) {

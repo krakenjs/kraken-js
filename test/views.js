@@ -1,10 +1,10 @@
 'use strict';
 
-var test = require('tape'),
-    path = require('path'),
-    kraken = require('../'),
-    express = require('express'),
-    request = require('supertest');
+var test = require('tape');
+var path = require('path');
+var express = require('express');
+var request = require('supertest');
+var kraken = require('../');
 
 
 test('views', function (t) {
