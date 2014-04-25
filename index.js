@@ -49,7 +49,7 @@ module.exports = function (options) {
     app.once('mount', function onmount(parent) {
         var deferred, complete, start, error;
 
-        // Remove sacrificial express app. Also, set mountpath
+        // Remove sacrificial express app
         parent._router.stack.pop();
 
         // Since this particular `app` instance is
