@@ -17,7 +17,7 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var Q = require('q');
+var q = require('q');
 var path = require('path');
 var caller = require('caller');
 var express = require('express');
@@ -52,7 +52,7 @@ module.exports = function (options) {
         parent._router.stack.pop();
         parent.mountpath = app.path();
 
-        deferred = Q.defer();
+        deferred = q.defer();
         complete = deferred.resolve.bind(deferred);
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');
