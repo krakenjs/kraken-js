@@ -41,6 +41,7 @@ module.exports = function (options) {
     options.protocols = options.protocols || {};
     options.onconfig  = options.onconfig || noop;
     options.basedir   = options.basedir || path.dirname(caller());
+    options.mountpath = null;
 
     debug('kraken options\n', options);
 
@@ -48,9 +49,13 @@ module.exports = function (options) {
     app.once('mount', function onmount(parent) {
         var deferred, complete, start, error;
 
-        // Remove sacrificial express app
+        // Remove sacrificial express app. Also, set mountpath
         parent._router.stack.pop();
-        parent.mountpath = app.path();
+
+        // Since this particular `app` instance is
+        // subsequently deleted, the `mountpath` is
+        // moved to `options` for use later.
+        options.mountpath = app.mountpath;
 
         deferred = q.defer();
         complete = deferred.resolve.bind(deferred);
