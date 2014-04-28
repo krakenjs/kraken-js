@@ -17,12 +17,12 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var Q = require('q'),
-    path = require('path'),
-    caller = require('caller'),
-    express = require('express'),
-    bootstrap = require('./lib/bootstrap'),
-    debug = require('debuglog')('kraken');
+var q = require('q');
+var path = require('path');
+var caller = require('caller');
+var express = require('express');
+var bootstrap = require('./lib/bootstrap');
+var debug = require('debuglog')('kraken');
 
 
 function noop(obj, cb) {
@@ -41,6 +41,7 @@ module.exports = function (options) {
     options.protocols = options.protocols || {};
     options.onconfig  = options.onconfig || noop;
     options.basedir   = options.basedir || path.dirname(caller());
+    options.mountpath = null;
 
     debug('kraken options\n', options);
 
@@ -49,10 +50,14 @@ module.exports = function (options) {
         var deferred, complete, start, error;
 
         // Remove sacrificial express app
-        parent.stack.pop();
-        parent.route = app.route;
+        parent._router.stack.pop();
 
-        deferred = Q.defer();
+        // Since this particular `app` instance is
+        // subsequently deleted, the `mountpath` is
+        // moved to `options` for use later.
+        options.mountpath = app.mountpath;
+
+        deferred = q.defer();
         complete = deferred.resolve.bind(deferred);
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');

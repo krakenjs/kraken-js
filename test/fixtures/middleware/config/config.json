@@ -1,6 +1,8 @@
 {
     "middleware": {
         "shutdown": {
+            "enabled": true,
+            "priority": 0,
             "module": "path:../../../middleware/shutdown"
         },
 

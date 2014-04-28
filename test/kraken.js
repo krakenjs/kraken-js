@@ -1,26 +1,18 @@
 'use strict';
 
-var test = require('tape'),
-    path = require('path'),
-    kraken = require('../'),
-    nconf = require('nconf'),
-    express = require('express'),
-    request = require('supertest');
-
+var test = require('tape');
+var path = require('path');
+var express = require('express');
+var request = require('supertest');
+var kraken = require('../');
 
 
 test('kraken', function (t) {
-
-    function reset() {
-        nconf.stores  = {};
-        nconf.sources = [];
-    }
 
     t.test('startup without options', function (t) {
         var app;
 
         t.plan(1);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
@@ -41,7 +33,6 @@ test('kraken', function (t) {
         var app;
 
         t.plan(1);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
@@ -62,7 +53,6 @@ test('kraken', function (t) {
         var app;
 
         t.plan(1);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
@@ -83,13 +73,12 @@ test('kraken', function (t) {
         var options, app, server;
 
         t.plan(2);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
             server = request(app).get('/foo/').expect(200, 'ok', function (err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             });
         }
 
@@ -113,13 +102,12 @@ test('kraken', function (t) {
         var options, app, server;
 
         t.plan(2);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
             server = request(app).get('/foo/').expect(200, 'ok', function (err) {
                 t.error(err);
-                server.app.close(t.end.bind(t));
+                t.end();
             });
         }
 
@@ -131,7 +119,7 @@ test('kraken', function (t) {
         options = {
             basedir: path.join(__dirname, 'fixtures', 'mount'),
             onconfig: function (settings, cb) {
-                settings.set('express:route', '/foo');
+                settings.set('express:mountpath', '/foo');
                 cb(null, settings);
             }
         };
@@ -147,7 +135,6 @@ test('kraken', function (t) {
         var options, app;
 
         t.plan(1);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
@@ -176,13 +163,12 @@ test('kraken', function (t) {
         var options, app, server;
 
         t.plan(3);
-        t.on('end', reset);
 
         function start() {
             t.pass('server started');
             server = request(app).get('/').expect(404, function (err) {
                 t.error(err, 'server is accepting requests');
-                server.app.close(t.end.bind(t));
+                t.end();
             });
         }
 
@@ -204,7 +190,6 @@ test('kraken', function (t) {
 
         server = request(app).get('/').expect(503, function (err) {
             t.error(err, 'server starting');
-            server.app.close();
         });
     });
 
@@ -213,7 +198,6 @@ test('kraken', function (t) {
         var options, app;
 
         t.plan(1);
-        t.on('end', reset);
 
         function start() {
             t.fail('server started');
@@ -243,7 +227,6 @@ test('kraken', function (t) {
         var exit, expected, app, server;
 
         t.plan(4);
-        t.on('end', reset);
 
         exit = process.exit;
         expected = 0;

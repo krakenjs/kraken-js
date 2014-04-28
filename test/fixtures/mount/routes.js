@@ -1,9 +1,9 @@
 'use strict';
 
 
-module.exports = function (app) {
+module.exports = function (router) {
 
-    app.get('/', function (req, res) {
+    router.get('/', function (req, res) {
         res.send('ok');
     });
 

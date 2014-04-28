@@ -28,7 +28,7 @@ var fs = require('fs'),
  * @returns {Function}
  */
 function filter(fn) {
-    return function (req, res, next) {
+    return function multipart(req, res, next) {
         var contentType = req.headers['content-type'];
         if (typeof contentType === 'string' && ~contentType.indexOf('multipart/form-data')) {
             debug('received multipart request');

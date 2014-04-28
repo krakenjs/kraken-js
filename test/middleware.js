@@ -1,24 +1,16 @@
 'use strict';
 
-var test = require('tape'),
-    path = require('path'),
-    kraken = require('../'),
-    nconf = require('nconf'),
-    express = require('express'),
-    request = require('supertest');
+var test = require('tape');
+var path = require('path');
+var express = require('express');
+var request = require('supertest');
+var kraken = require('../');
+
 
 test('middleware', function (t) {
 
-    function reset() {
-        nconf.stores  = {};
-        nconf.sources = [];
-    }
-
     t.test('no config', function (t) {
         var options, app;
-
-        t.on('end', reset);
-
 
         options = {
             basedir: path.join(__dirname, 'fixtures', 'middleware'),
@@ -39,7 +31,6 @@ test('middleware', function (t) {
         var basedir, app, file, server;
 
         t.plan(8);
-        t.on('end', reset);
 
         function start() {
             var file;
@@ -50,13 +41,12 @@ test('middleware', function (t) {
             server = request(app).post('/').attach('file', file).expect(200, function (err) {
                 // support for multipart requests
                 t.error(err, 'server is accepting requests');
-                server.app.close();
 
                 // trololol
                 server = request(app).get('/').expect(200, function (err) {
                     // support for non-multipart requests
                     t.error(err);
-                    server.app.close(t.end.bind(t));
+                    t.end();
                 });
             });
         }
@@ -71,20 +61,31 @@ test('middleware', function (t) {
         app = express();
         app.on('start', start);
         app.on('error', error);
-        app.use(kraken(basedir));
+        app.use(kraken({
+            basedir: basedir,
+            onconfig: function (config, done) {
+                done(null, config);
+            }
+        }));
 
-        app.get('/', function standard(req, res) {
-            res.send(200);
+        app.on('middleware:before:router', function (eventargs) {
+
+            eventargs.app.get('/', function standard(req, res) {
+                res.send(200);
+            });
+
+            eventargs.app.post('/', function multipart(req, res) {
+                t.ok(~req.headers['content-type'].indexOf('multipart/form-data'));
+                t.equal(typeof req.body, 'object');
+                t.equal(typeof req.files, 'object');
+                t.equal(typeof req.files.file, 'object');
+                t.equal(req.files.file.name, 'lazerz.jpg');
+                res.send(200);
+            });
+
         });
 
-        app.post('/', function multipart(req, res) {
-            t.ok(~req.headers['content-type'].indexOf('multipart/form-data'));
-            t.equal(typeof req.body, 'object');
-            t.equal(typeof req.files, 'object');
-            t.equal(typeof req.files.file, 'object');
-            t.equal(req.files.file.name, 'lazerz.jpg');
-            res.send(200);
-        });
+
     });
 
 });
