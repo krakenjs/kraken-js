@@ -51,7 +51,7 @@ Default shortstop protocol handlers include:
 - `file:{path}` - loads the contents of the specified file.
 - `base64:{data}` - converts the base64-encoded value to a buffer.
 - `import:{path}` - imports a config file with the name eg. `import:./specialization.json`
-- `config:{replace.with.key.value}` - substitutes the config value from the root of the config residing in replace.with.key.value
+- `config:{replace.with.key}` - substitutes the config value from the root of the config residing in replace.with.key
 
 ### Middleware
 
