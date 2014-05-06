@@ -17,7 +17,7 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var q = require('q');
+var Promise = require('bluebird');
 var path = require('path');
 var caller = require('caller');
 var express = require('express');
@@ -57,7 +57,7 @@ module.exports = function (options) {
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
 
-        deferred = q.defer();
+        deferred = Promise.pending();
         complete = deferred.resolve.bind(deferred);
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');

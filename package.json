@@ -74,7 +74,6 @@
     "meddleware": "^1.0.0",
     "shortstop-handlers": "^0.1.0",
     "endgame": "^0.0.3",
-    "q": "^1.0.1",
     "debuglog": "~0.0.2",
     "shush": "~0.0.1",
     "lusca": "^1.0.0",
@@ -89,6 +88,7 @@
     "serve-static": "^1.0.4",
     "compression": "^1.0.1",
     "morgan": "^1.0.0",
-    "express-session": "^1.0.3"
+    "express-session": "^1.0.3",
+    "bluebird": "^1.2.3"
   }
 }
