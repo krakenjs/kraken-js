@@ -1,14 +1,15 @@
 {
-
     "express": {
-        "view cache": false,
-        "view engine": "dust"
+        "view cache": false
     },
 
     "middleware": {
-        /* Removed for testing purposes only*/
-        "shutdown": null,
-        "multipart": null
+
+        "shutdown": {
+            // Clean shutdowns aren't necessary in `dev` mode
+            "enabled": false
+        }
+
     }
-    
+
 }

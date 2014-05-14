@@ -1,0 +1,13 @@
+{
+
+    "express": {
+        "view cache": false
+    },
+
+    "middleware": {
+        /* Removed for internal development and testing purposes */
+        "shutdown": null,
+        "multipart": null
+    }
+    
+}
