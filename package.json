@@ -72,7 +72,7 @@
   "dependencies": {
     "caller": "~0.0.1",
     "meddleware": "^1.0.0",
-    "shortstop-handlers": "^0.1.0",
+    "shortstop-handlers": "^1.0.0",
     "endgame": "^0.0.3",
     "debuglog": "~0.0.2",
     "shush": "~0.0.1",
