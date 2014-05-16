@@ -1,6 +1,6 @@
 {
   "name": "kraken-js",
-  "version": "0.7.3",
+  "version": "1.0.0",
   "description": "An express-based Node.js web application bootstrapping module.",
   "keywords": [
     "node.js",
