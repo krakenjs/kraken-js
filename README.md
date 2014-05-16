@@ -214,7 +214,8 @@ kraken-js looks to the `view engines` config property to understand how to load 
 {
     "view engines": {
         "jade": {
-            "module": "consolidate"
+            "module": "consolidate",
+            "renderer": "jade"
         },
         "html": {
             "name": "ejs",
