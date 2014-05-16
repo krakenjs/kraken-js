@@ -1,6 +1,6 @@
 # Kraken.js
 
-Kraken builds upon [express](http://expressjs.com/) and enables environment-aware and dynamic configuration, advanced middleware capabilities, application security, and lifecycle events.
+Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
 
 
 ## Basic Usage
@@ -21,12 +21,111 @@ app.listen(8000);
 
 `kraken([options])`
 
-All kraken-js configuration settings are optional.
+kraken-js is used just like any normal middleware, however it does more than just return a function; it configures a
+complete express 4 application. See below for a list of features, but to get started just use it like middleware.
 
-- `basedir` (*String*, optional) - specify the working directory for kraken-js to use.
-- `onconfig` (*Function*, optional) - provides an asynchronous hook for loading additional configuration. Signature: `function (config, cb) { /* ... */ }`
-- `protocols` (*Object*, optional) - protocol implementations for use when processing configuration. For more information on protocols see [shortstop](https://github.com/paypal/shortstop).
-- `uncaughtException` (*Function*, optional) - Handler for `uncaughtException` errors. See the [endgame](https://github.com/totherik/endgame) module for defaults.
+```javascript
+app.use(kraken());
+// or to specify a mountpath for your application:
+// app.use('/mypath', kraken());
+
+// Note: mountpaths can also be configured using the
+// `express:mountpath` config setting, but that setting
+// will be overridden if specified in code.
+```
+
+### Options
+Pass the following options to kraken via a config object such as this:
+
+```javascript
+var options = {
+    onconfig: function (config, callback) {
+        // do stuff
+        callback(null, config);
+    }
+};
+
+// ...
+
+app.use(kraken(options));
+```
+Note: All kraken-js configuration settings are optional.
+
+#### `basedir` (*String*, optional)
+The working directory for kraken to use. kraken loads configuration files,
+routes, and registers middleware so this directory is the path against all relative paths are resolved. The default value
+is the directory of the file that uses kraken, which is generally `index.js` (or `server.js`).
+
+#### `onconfig` (*Function*, optional)
+Provides an asynchronous hook for loading additional configuration. When invoked, a
+[confit](https://github.com/krakenjs/confit) configuration object containing all loaded configuration value passed
+as the first argument, and a callback as the second. The signature of this handler is `function (config, callback)`
+and the callback is a standard error-back which accepts an error as the first argument and the config object as the
+second, e.g. `callback(null, config)`.
+
+#### `protocols` (*Object*, optional)
+Protocol handler implementations for use when processing configuration. For more information on protocols
+see [shortstop](https://github.com/krakenjs/shortstop) and [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers).
+By default, kraken comes with a set of shortstop protocols which are described in the "Config Protocols" section below,
+but you can add your own by providing an object with the protocol names as the keys and their implementations as
+properties, for example:
+```javascript
+var options = {
+    protocols: {
+        file: function file(value, callback) {
+            fs.readFile(value 'utf8', callback)
+        }
+    }
+};
+```
+
+#### `uncaughtException` (*Function*, optional)
+Handler for `uncaughtException` errors. See the [endgame](https://github.com/totherik/endgame) module for defaults.
+
+
+## Config Protocols
+kraken comes with the following shortstop protocol handlers by default:
+#### `import:`
+Merge the contents of the specified file into configuration under a given key.
+```json
+{
+    "foo": "import:./myjsonfile"
+}
+```
+
+#### `config:`
+Replace with the value at a given key. Note that the keys in this case are dot (.) delimited.
+```json
+{
+    "foo": {
+        "bar": true
+    },
+    "foobar": "config:foo.bar"
+}
+```
+
+#### `path:`
+The path handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlerspathbasedir) repo.
+
+#### `file:`
+The file handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersfilebasedir-options) repo.
+
+#### `base64:`
+The base64 handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersbase64) repo.
+
+#### `env:`
+The env handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersenv) repo.
+
+#### `require:`
+The require handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersrequirebasedir) repo.
+
+#### `exec:`
+The exec handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersexecbasedir) repo.
+
+#### `glob:`
+The glob handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersglobbasediroptions) repo.
+
+
 
 
 ## Features
@@ -43,15 +142,6 @@ by `NODE_ENV`. The application looks for a `./config` directory relative to the 
 Valid `NODE_ENV` values are `undefined` or `dev[elopment]`, `test[ing]`, `stag[e|ing]`, `prod[uction]`. Simply
 add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
 
-
-#### Dynamic Values
-Powered by [shortstop](https://github.com/paypal/shortstop), configuration files can contain values that are resolved at runtime.
-Default shortstop protocol handlers include:
-- `path:{path}` - resolves the provided value against the application `basedir`.
-- `file:{path}` - loads the contents of the specified file.
-- `base64:{data}` - converts the base64-encoded value to a buffer.
-- `import:{path}` - imports a config file with the name eg. `import:./specialization.json`
-- `config:{replace.with.key}` - substitutes the config value from the root of the config residing in replace.with.key
 
 ### Middleware
 
@@ -104,7 +194,7 @@ at runtime.
 to enable it for template rendering.
 - The optional `view` property is a special case in which you can set a path to a module which exports a constructor implementing
 the view API as defined by the module `express/lib/view`. If set, kraken-js will attempt to load the specified module and
-configure express to use it for resolving views. 
+configure express to use it for resolving views.
 
 For example:
 
