@@ -20,6 +20,9 @@ $ git remote add upstream git://github.com/paypal/kraken-js.git
 # Get the latest upstream changes
 $ git pull upstream
 
+# Set the NODE_ENV environment variable
+$ export NODE_ENV=_krakendev
+
 # Install dependencies
 $ npm install
 
