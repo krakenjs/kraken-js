@@ -72,6 +72,9 @@ function funlink(file) {
     if (typeof path === 'string') {
         fs.unlink(path, function (err) {
             if (err) {
+                if (err.errno === 34 && err.code === 'ENOENT') {
+                    return; // already removed by other means; not an error
+                }
                 debug('Failed to remove ' + path);
                 debug(err);
             }
