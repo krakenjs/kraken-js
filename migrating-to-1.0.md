@@ -1,10 +1,7 @@
 ## Kraken 1.0
 
 * **Express 4.0 upgrade** Kraken 1.0 works alongside express 4.0, so please read express 4.0 migration docs to understand [express specific changes](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x)
-* **Latest kraken generator** To inspect a generated scaffolded kraken 1.0 app using generator-kraken, get the latest
-```
-$ npm install -g generator-kraken@latest
-```
+* **Latest kraken generator** To inspect a generated scaffolded kraken 1.0 app using generator-kraken, get the latest `$ npm install -g generator-kraken@latest`
 * **Supporting modules** All modules that are being used alongside kraken 1.0 can be found [here](http://github.com/krakenjs)
 * **kraken website** This is the same as before. You can read all about kraken [here](http://krakenjs.com)
 
@@ -232,3 +229,57 @@ It has support for a couple of new shortstop protocols namely `import` and `conf
 
 Read more about [shortstop](https://github.com/krakenjs/shortstop).
 Read more about available [shortstop protocols](https://github.com/krakenjs/shortstop-handlers).
+
+#### Template Specialization
+
+This is a new feature added to kraken-js suite and can be optionally added into your kraken app. Currently it is supported only when you use dustjs as the templating engine.
+Template specialization is a way to dynamically switch partials in your views based on json based rules in your app config.
+You can enable specialization by using [engine-munger] for your express app's view engine function.
+
+
+Specify rules in your `config/config.json` as:
+
+```
+{
+    "specialization" : {
+        "foo" : [
+            {
+                "is": "bar",
+                "when": {
+                    "hakunamatata": "It-Means-No-Worries"
+                }
+            }
+        ]
+    }
+}
+
+```
+
+Include that as an argument to the view engine setup in your config:
+
+```
+"view engines": {
+    "js": {
+        "module": "engine-munger",
+        "renderer": {
+            "method": "js",
+            "arguments": [
+                { "cache": true },
+                {
+                    "views": "config:express.views",
+                    "view engine": "config:express.view engine",
+                    "specialization": "config:specialization"
+                }
+            ]
+        }
+    }
+}
+
+```
+
+Add the corresponding templates as in the rules config above, to your views. In case of kraken apps, the default the view path is `public/templates`.
+
+
+You can see an example app [here.](https://github.com/krakenjs/kraken-examples/tree/master/with.specialization)
+You can read more about the [rule-parser module, karka here.](https://github.com/krakenjs/karka)
+You can read more about how to enable specialization using [engine-munger here.](https://github.com/krakenjs/engine-munger)
