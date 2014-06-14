@@ -23,7 +23,6 @@ If you are using dust as your templating engine, and you would like to add the i
 ```
 "engine-munger": "^0.2.0",
 "localizr": "^0.1.0"
-
 ```
 
 [Makara](https://github.com/krakenjs/makara) (for kraken 0.7 and lesser) has now been split into multiple smaller modules doing their own unique smaller tasks.
@@ -85,7 +84,6 @@ kraken.create(app).listen(function (err) {
 		console.error(err);
 	}
 });
-
 ```
 
 Now:
@@ -106,7 +104,6 @@ app.use(kraken(options));
 app.listen(port, function (err) {
     console.log('[%s] Listening on http://localhost:%d', app.settings.env, port);
 });
-
 ```
 
 The `onconfig` options gives you an opportunity to add/override any configs before app setup begins.
@@ -169,7 +166,6 @@ You can specify the path to your routes in the middleware config as follows:
         "arguments": [{ "directory": "path:./routes" }]
     }
 }
-
 ```
 
 To learn more about routing options, checkout [express-enrouten](https://github.com/krakenjs/express-enrouten)
@@ -187,7 +183,6 @@ With express 4.0, it changed to `mountpath`.
     "views": "path:./.build/templates",
     "mountpath": "foo"
 }
-
 ```
 
 #### View engines
@@ -203,14 +198,12 @@ You can specify the view engines in kraken1.0 app config as follows:
         }
     }
 }
-
 ```
 
 The above config will translate to follows while kraken sets up your app's view engine internally:
 
 ```
 app.engine('html', consolidate.swig);
-
 ```
 
 #### New shortstop handlers
