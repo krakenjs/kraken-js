@@ -1,18 +1,24 @@
 ## Kraken 1.0
 
-* **Express 4.0 upgrade** Kraken 1.0 works alongside express 4.0, so please read express 4.0 migration docs to understand [express app specific changes](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x)
-* **Latest kraken generator** To inspect a generated scaffolded kraken 1.0 app using generator-kraken, get the latest from npm `$ npm install -g generator-kraken@latest`
+* **Express 4.0 upgrade** Kraken 1.0 works alongside express 4.0, so please read express 4.0 migration docs to understand [express specific changes](https://github.com/visionmedia/express/wiki/Migrating-from-3.x-to-4.x)
+* **Latest kraken generator** To inspect a generated scaffolded kraken 1.0 app using generator-kraken, get the latest
+```
+$ npm install -g generator-kraken@latest
+```
 * **Supporting modules** All modules that are being used alongside kraken 1.0 can be found [here](http://github.com/krakenjs)
 * **kraken website** This is the same as before. You can read all about kraken [here](http://krakenjs.com)
 
 ## Migration from <1.0 versions to 1.0
-#### ** Package.json dependency ** Update your dependencies for kraken1.0
+
+#### Package.json dependency
+
+Update your dependencies for kraken1.0
 ```
 "kraken-js": "^1.0.1",
 "kraken-devtools": "^1.0.0",
 "express": "^4.3.0"
 ```
-#### If you are using dust as your templating engine, and you would like to add the i18n and specialization support in your express app, you want to add the following dependencies as well.
+If you are using dust as your templating engine, and you would like to add the i18n and specialization support in your express app, you want to add the following dependencies as well.
 
 ```
 "engine-munger": "^0.2.0",
@@ -31,7 +37,7 @@ Checkout readme.md of following modules for more information:
 * [engine-munger](https://github.com/krakenjs/engine-munger)
 
 
-#### ** App Configs**
+#### App Configs
 App configs have been cleaned up to be more straightforward now.
 
 Before:
@@ -102,6 +108,8 @@ app.listen(port, function (err) {
 });
 
 ```
+
+The `onconfig` options gives you an opportunity to add/override any configs before app setup begins.
 
 The equivalent of `requestBeforeRoute` and `requestAfterRoute` options can be achieved in a more deterministic way now by adding a middleware with a specific priority in your middleware chain. We will discuss this in the next section.
 Or you could also listen to specific middleware setup events to do your setup afterward. For example:
