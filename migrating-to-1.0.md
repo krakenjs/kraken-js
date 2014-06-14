@@ -197,7 +197,7 @@ You can specify the view engines in kraken1.0 app config as follows:
 }
 ```
 
-The above config will translate to follows while kraken sets up your app's view engine internally:
+The above config will translate to the following, when kraken sets up your app's view engine internally:
 
 ```
 app.engine('html', consolidate.swig);
