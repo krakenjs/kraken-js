@@ -281,5 +281,5 @@ Add the corresponding templates as in the rules config above, to your views. In 
 
 
 * You can see an example app [here.](https://github.com/krakenjs/kraken-examples/tree/master/with.specialization)
-*You can read more about the [rule-parser module, karka here.](https://github.com/krakenjs/karka)
+* You can read more about the [rule-parser module, karka here.](https://github.com/krakenjs/karka)
 * You can read more about how to enable specialization using [engine-munger here.](https://github.com/krakenjs/engine-munger)
