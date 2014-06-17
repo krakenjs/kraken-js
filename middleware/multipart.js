@@ -77,6 +77,8 @@ function funlink(file) {
                 }
                 debug('Failed to remove ' + path);
                 debug(err);
+            } else {
+                debug('Successfully removed ', file.name);
             }
         });
     }
