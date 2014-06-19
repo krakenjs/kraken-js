@@ -77,7 +77,8 @@
             "priority": 70,
             "module": {
                 "name": "body-parser",
-                "method": "urlencoded"
+                "method": "urlencoded",
+                "arguments": [{ "extended": true }]
             }
         },
 
