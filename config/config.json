@@ -111,6 +111,8 @@
                             "httpOnly": true,
                             "maxAge": null
                         },
+                        "resave": true,
+                        "saveUninitialized": true,
                         "proxy": null
                     }
                 ]
