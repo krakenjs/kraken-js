@@ -60,7 +60,10 @@
         "logger": {
             "enabled": true,
             "priority": 50,
-            "module": "morgan"
+            "module": {
+              "name": "morgan",
+              "arguments": [ "combined" ]
+            }
         },
 
         "json": {
