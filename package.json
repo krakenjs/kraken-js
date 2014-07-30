@@ -18,8 +18,8 @@
     "test": "./test"
   },
   "scripts": {
-    "test": "NODE_ENV=_krakendev tape test/*.js",
-    "cover": "NODE_ENV=_krakendev istanbul cover tape -- test/*.js",
+    "test": "SET NODE_ENV=_krakendev && tape test/*.js",
+    "cover": "SET NODE_ENV=_krakendev && istanbul cover tape -- test/*.js",
     "lint": "jshint -c .jshintrc index.js lib/ middleware/"
   },
   "repository": {
