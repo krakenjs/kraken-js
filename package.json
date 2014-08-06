@@ -58,7 +58,7 @@
     "shortstop": "0.0.1"
   },
   "peerDependencies": {
-    "express": "~3.4",
+    "express": "^3.16.1",
     "nconf": "~0.6"
   },
   "devDependencies": {
