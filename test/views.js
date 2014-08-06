@@ -244,8 +244,8 @@ describe('view', function () {
                 request(app)
                     .get('/')
                     .expect(500)
-                    .expect('Content-Type', /plain/)
-                    .expect(/^Error: No default engine was specified and no extension was provided/, next);
+                    .expect('Content-Type', /^text\/html/)
+                    .expect(/Error: No default engine was specified and no extension was provided/, next);
             }
         }
     };
