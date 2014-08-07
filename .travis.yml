@@ -5,5 +5,4 @@ node_js:
   - "0.10"
 
 script:
-  - "npm run-script cover"
-  - "npm run-script lint"
+  - "npm test"
