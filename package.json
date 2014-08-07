@@ -62,6 +62,7 @@
     "nconf": "~0.6"
   },
   "devDependencies": {
+    "express": "^3.16.1",
     "mocha": "~1.13.0",
     "chai": "~1.8.1",
     "jshint": "~2.3.0",
