@@ -149,7 +149,7 @@ Much like configuration, you shouldn't need to write a lot of code to determine 
 resolve, and register middleware with your express application. You can either specify the middleware in your config.json or {environment}.json, (or) import it from a separate json file using the import protocol mentioned above.
 
 #### Included Middleware
-Kraken comes with common middleware already included in its `config.json` file. The following is a list of the included middleware and their default configurations which can be overriden in your app's configuration:
+Kraken comes with common middleware already included in its `config.json` file. The following is a list of the included middleware and their default configurations which can be overridden in your app's configuration:
 * `"shutdown"` - internal middleware which handles graceful shutdowns in production environments
   - Priority - 0
   - Enabled - `true` if *not* in a development environment
@@ -230,57 +230,62 @@ Additional notes:
 - The session middleware defaults to using the in-memory store. This is not recommended for production applications, and the configuration should be updated to use a shared resource (such as REDIS or Memcached) for session storage.
 - You can change the routes which are affected by the middleware by providing a top-level option `"route"`. In express deployments it is common to re-route where static files are served, which can be accomplished like so:
 
-    ```
-    // include this in your own config.json and this will merge with the Kraken defaults
-    // NB: if you use kraken-devtools you must re-route that as well in development.json!
+```json
+// include this in your own config.json and this will merge with the Kraken defaults
+// NB: if you use kraken-devtools you must re-route that as well in development.json!
+{
     "static": {
-       "route": "/static"
+        "route": "/static"
     }
-    ```
+}
+```
 
 #### Extending Default Middleware
 In any non-trivial Kraken deployment you will likely need to extend the included middleware. Common middleware which need extension includes cookie parsing and session handling. In the case of cookie parsing and session handling, the secret used to sign the cookies should be updated:
 
-```
+```json
+{
     // include this in your own config.json and this will merge with the Kraken defaults
     "middleware": {
-    
+
         "cookieParser": {
             "module": {
                 "arguments": [ "your better secret value" ]
             }
         },
-        
+
         "session": {
             "module": {
                 // NB: arrays like 'arguments' are not merged but rather replaced, so you must
                 //     include all required configuration options here.
                 "arguments": [
                     {
-                       "secret": "a much better secret",
-                       "cookie": {
-                         "path": "/",
-                         "httpOnly": true,
-                         "maxAge": null
-                       },
-                       "resave": true,
-                       "saveUninitialized": true,
-                       "proxy": null
+                        "secret": "a much better secret",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "resave": true,
+                        "saveUninitialized": true,
+                        "proxy": null
                     }
                 ]
             }
         }
         
     }
+}
 ```
 
 Another common update would be to pass options to middleware which is configured only with the defaults, such as the compression middleware:
 
-```
+```json
+{
     "middleware": {
         "compress": {
             "enabled": true,    // response compression is disabled by default
-            "module: {
+            "module": {
                 "arguments": [
                     {
                         // 512 byte minimum before compressing output
@@ -290,13 +295,15 @@ Another common update would be to pass options to middleware which is configured
             }
         }
     }
+}
 ```
 
 More complicated examples include configuring the session middleware to use a shared resource, such as [connect-redis](https://www.npmjs.org/package/connect-redis). This requires a few extra steps, most notably creating your own middleware to handle the registration:
 
 1. Overlay the existing session middleware in your configuration:
 
-    ```
+```json
+{
     // in your config.json
     "middleware": {
         "session": {
@@ -306,60 +313,62 @@ More complicated examples include configuring the session middleware to use a sh
                 "arguments": [
                     // express-session configuration
                     {
-                       "secret": "a much better secret",
-                       "cookie": {
-                         "path": "/",
-                         "httpOnly": true,
-                         "maxAge": null
-                       },
-                       "resave": true,
-                       "saveUninitialized": true,
-                       "store": null    // NB: this will be overlaid in our module
+                        "secret": "a much better secret",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "resave": true,
+                        "saveUninitialized": true,
+                        "store": null    // NB: this will be overlaid in our module
                     },
                     // connect-redis configuration
                     {
-                       "host": "localhost",
-                       "port": 6379,
-                       "prefix": "session:"
+                        "host": "localhost",
+                        "port": 6379,
+                        "prefix": "session:"
                     }
                 ]
             }
         }
     }
-    ```
+}
+```
+
 2. Add your custom middleware for Kraken to configure:
 
-    ```javascript
-    // ./lib/middleware/redis-session.js
-    'use strict';
-    
-    var session = require('express-session'),
-        RedisStore = require('connect-redis')(session);
-    
-    /** Creates a REDIS-backed session store.
-     *
-     * @param {Object} [sessionConfig] Configuration options for express-session
-     * @param {Object} [redisConfig] Configuration options for connect-redis
-     * @returns {Object} Returns a session middleware which is backed by REDIS
-     */
-    module.exports = function (sessionConfig, redisConfig) {
-    
-        // add the 'store' property to our session configuration
-        sessionConfig.store = new RedisStore(redisConfig);
-        
-        // create the actual middleware
-        return session(sessionConfig);
-    };
-    ```
+```javascript
+// ./lib/middleware/redis-session.js
+'use strict';
+
+var session = require('express-session'),
+    RedisStore = require('connect-redis')(session);
+
+/** Creates a REDIS-backed session store.
+ *
+ * @param {Object} [sessionConfig] Configuration options for express-session
+ * @param {Object} [redisConfig] Configuration options for connect-redis
+ * @returns {Object} Returns a session middleware which is backed by REDIS
+ */
+module.exports = function (sessionConfig, redisConfig) {
+
+    // add the 'store' property to our session configuration
+    sessionConfig.store = new RedisStore(redisConfig);
+
+    // create the actual middleware
+    return session(sessionConfig);
+};
+```
 
 ### Application Security
 
-Kraken uses [lusca](https://github.com/paypal/lusca) to secure your applications, so that you don't need to think about it. Techniques like CSRF, XFRAMES, and CSP are enabled automatically while others can be opted into. All are customizeable through configuration.
+Kraken uses [lusca](https://github.com/paypal/lusca) to secure your applications, so that you don't need to think about it. Techniques like CSRF, XFRAMES, and CSP are enabled automatically while others can be opted into. All are customizable through configuration.
 
 
 ### Lifecycle Events
 
-Kraken adds support for additional events to your express app instance:  
+Kraken adds support for additional events to your express app instance:
 
 * `start` - the application has safely started and is ready to accept requests
 * `shutdown` - the application is shutting down, no longer accepting requests
