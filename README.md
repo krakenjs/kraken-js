@@ -148,6 +148,209 @@ add a config file with the name, to have it read only in that environment, e.g. 
 Much like configuration, you shouldn't need to write a lot of code to determine what's in your middleware chain. [meddleware](https://github.com/paypal/meddleware) is used internally to read,
 resolve, and register middleware with your express application. You can either specify the middleware in your config.json or {environment}.json, (or) import it from a separate json file using the import protocol mentioned above.
 
+#### Included Middleware
+Kraken comes with common middleware already included in its `config.json` file. The following is a list of the included middleware and their default configurations which can be overriden in your app's configuration:
+* `"shutdown"` - internal middleware which handles graceful shutdowns in production environments
+  - Priority - 0
+  - Enabled - `true` if *not* in a development environment
+  - Module - `"kraken-js/middleware/shutdown"`
+    - Arguments (*Array*)
+      - *Object*
+        - `"timeout"` - milliseconds (default: `30000`)
+        - `"template"` - template to render (default: `null`)
+* `"compress"` - adds compression to server responses
+  - Priority - 10
+  - Enabled - `false` (disabled in all environments by default)
+  - Module - `"compression"` ([npm](https://www.npmjs.org/package/compression))
+* `"favicon"` - serves the site's favicon
+  - Priority - 30
+  - Module - `"static-favicon"` ([npm](https://www.npmjs.org/package/static-favicon))
+    - Arguments (*Array*)
+      - *String* - local path to the favicon file (default: `"path:./public/favicon.ico"`)
+* `"static"` - serves static files from a specific folder
+  - Priority - 40
+  - Module - `"serve-static"` ([npm](https://www.npmjs.org/package/static-static))
+    - Arguments (*Array*)
+      - *String* - local path to serve static files from (default: `"path:./public"`)
+* `"logger"` - logs requests and responses
+  - Priority - 50
+  - Module - `"morgan"` ([npm](https://www.npmjs.org/package/morgan))
+    - Arguments (*Array*)
+      - *String* - log format type (default: `"combined"`)
+* `"json"` - parses JSON request bodies
+  - Priority - 60
+  - Module - `"body-parser"` ([npm](https://www.npmjs.org/package/body-parser))
+    - Method - `"json"`
+* `"urlencoded"` - parses URL Encoded request bodies
+  - Priority - 70
+  - Module - `"body-parser"` ([npm](https://www.npmjs.org/package/body-parser))
+    - Method - `"urlencoded"`
+    - Arguments (*Array*)
+      - *Object*
+        - `"extended"` (*Boolean*) - parse extended syntax with the [qs](https://www.npmjs.org/package/qs) module (default: `true`)
+* `"multipart"` - parses multipart FORM bodies
+  - Priority - 80
+  - Module - `"kraken-js/middleware/multipart"` (delegates to [formidable](https://www.npmjs.org/package/formidable))
+* `"cookieParser"` - parses cookies in request headers
+  - Priority - 90
+  - Module - `"cookie-parser"` ([npm](https://www.npmjs.org/package/cookie-parser))
+    - Arguments (*Array*)
+      - *String* - secret used to sign cookies (default: `"keyboard cat"`)
+* `"session"` - maintains session state
+  - Priority - 100
+  - Module - `"express-session"` ([npm](https://www.npmjs.org/package/express-session))
+    - Arguments (*Array*)
+      - *Object*
+        - `"key"` (*String*) - cookie name (default: `"connect.sid"`)
+        - `"secret"` (*String*) - secret used to sign session cookie (default: `"keyboard cat"`)
+        - `"cookie"` (*Object*) - describing options for the session cookie
+          - `"path"` (*String*) - base path to verify cookie (default: `"/"`)
+          - `"httpOnly"` (*Boolean*) - value indicating inaccessibility of cookie in the browser (default: `true`)
+          - `"maxAge"` (*Number*) - expiration of the session cookie (default: `null`)
+        - `"resave"` (*Boolean*) - value indicating whether sessions should be saved even if unmodified (default: `true`)
+        - `"saveUninitialized"` (*Boolean*) - value indicating whether to save uninitialized sessions (default: `true`)
+        - `"proxy"` (*Boolean*) - value indicating whether to trust the reverse proxy (default: `null`, inherit from `express`)
+* `"appsec"` - secures the application against common vulnerabilities (see Application Security below)
+  - Priority - 110
+  - Module - `"lusca"` ([github](https://github.com/paypal/lusca))
+    - Arguments (*Array*)
+      - *Object*
+        - `"csrf"` (*Boolean*|*Object*) - value indicating whether to require CSRF tokens for non GET, HEAD, or OPTIONS requests, or an options object to configure CSRF protection (default: `true`)
+        - `"xframe"` (*String*) - value for the `X-Frame-Options` header (default: `"SAMEORIGIN"`)
+        - `"p3p"` (*String*|*Boolean*) - the Compact Privacy Policy value or `false` if not used (default: `false`)
+        - `"csp"` (*Object*|*Boolean*) - options configuring Content Security Policy headers or `false` if not used (default: `false`)
+* `"router"` - routes traffic to the applicable controller
+  - Priority - 120
+  - Module - `"express-enrouten"` ([npm](https://www.npmjs.org/package/express-enrouten))
+    - Arguments (*Array*)
+      - *Object*
+        - `"index"` (*String*) - path to the single file to load (default: `"path:./routes"`)
+
+Additional notes:
+- The session middleware defaults to using the in-memory store. This is not recommended for production applications, and the configuration should be updated to use a shared resource (such as REDIS or Memcached) for session storage.
+- You can change the routes which are affected by the middleware by providing a top-level option `"route"`. In express deployments it is common to re-route where static files are served, which can be accomplished like so:
+
+    ```
+    // include this in your own config.json and this will merge with the Kraken defaults
+    // NB: if you use kraken-devtools you must re-route that as well in development.json!
+    "static": {
+       "route": "/static"
+    }
+    ```
+
+#### Extending Default Middleware
+In any non-trivial Kraken deployment you will likely need to extend the included middleware. Common middleware which need extension includes cookie parsing and session handling. In the case of cookie parsing and session handling, the secret used to sign the cookies should be updated:
+
+```
+    // include this in your own config.json and this will merge with the Kraken defaults
+    "middleware": {
+    
+        "cookieParser": {
+            "module": {
+                "arguments": [ "your better secret value" ]
+            }
+        },
+        
+        "session": {
+            "module": {
+                // NB: arrays like 'arguments' are not merged but rather replaced, so you must
+                //     include all required configuration options here.
+                "arguments": [
+                    {
+                       "secret": "a much better secret",
+                       "cookie": {
+                         "path": "/",
+                         "httpOnly": true,
+                         "maxAge": null
+                       },
+                       "resave": true,
+                       "saveUninitialized": true,
+                       "proxy": null
+                    }
+                ]
+            }
+        }
+        
+    }
+```
+
+Another common update would be to pass options to middleware which is configured only with the defaults, such as the compression middleware:
+
+```
+    "middleware": {
+        "compress": {
+            "enabled": true,    // response compression is disabled by default
+            "module: {
+                "arguments": [
+                    {
+                        // 512 byte minimum before compressing output
+                        "threshold": 512
+                    }
+                ]
+            }
+        }
+    }
+```
+
+More complicated examples include configuring the session middleware to use a shared resource, such as [connect-redis](https://www.npmjs.org/package/connect-redis). This requires a few extra steps, most notably creating your own middleware to handle the registration:
+
+1. Overlay the existing session middleware in your configuration:
+
+    ```
+    // in your config.json
+    "middleware": {
+        "session": {
+            "module": {
+                // use our own module instead
+                "name": "path:./lib/middleware/session-redis",
+                "arguments": [
+                    // express-session configuration
+                    {
+                       "secret": "a much better secret",
+                       "cookie": {
+                         "path": "/",
+                         "httpOnly": true,
+                         "maxAge": null
+                       },
+                       "resave": true,
+                       "saveUninitialized": true,
+                       "store": null    // NB: this will be overlaid in our module
+                    },
+                    // connect-redis configuration
+                    {
+                       "host": "localhost",
+                       "port": 6379,
+                       "prefix": "session:"
+                    }
+                ]
+            }
+        }
+    }
+    ```
+2. Add your custom middleware for Kraken to configure:
+
+    ```javascript
+    // ./lib/middleware/redis-session.js
+    'use strict';
+    
+    var session = require('express-session'),
+        RedisStore = require('connect-redis')(session);
+    
+    /** Creates a REDIS-backed session store.
+     *
+     * @param {Object} [sessionConfig] Configuration options for express-session
+     * @param {Object} [redisConfig] Configuration options for connect-redis
+     * @returns {Object} Returns a session middleware which is backed by REDIS
+     */
+    module.exports = function (sessionConfig, redisConfig) {
+    
+        // add the 'store' property to our session configuration
+        sessionConfig.store = new RedisStore(redisConfig);
+        
+        // create the actual middleware
+        return session(sessionConfig);
+    };
+    ```
 
 ### Application Security
 
