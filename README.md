@@ -146,7 +146,7 @@ add a config file with the name, to have it read only in that environment, e.g. 
 ### Middleware
 
 Much like configuration, you shouldn't need to write a lot of code to determine what's in your middleware chain. [meddleware](https://github.com/paypal/meddleware) is used internally to read,
-resolve, and register middleware with your express application. You can either specify the middleware in your `config.json` or ``{environment}.json`, (or) import it from a separate json file using the import protocol mentioned above.
+resolve, and register middleware with your express application. You can either specify the middleware in your `config.json` or `{environment}.json`, (or) import it from a separate json file using the import protocol mentioned above.
 
 #### Included Middleware
 Kraken comes with common middleware already included in its `config.json` file. The following is a list of the included middleware and their default configurations which can be overridden in your app's configuration:
@@ -273,7 +273,7 @@ In any non-trivial Kraken deployment you will likely need to extend the included
                 ]
             }
         }
-        
+
     }
 }
 ```
