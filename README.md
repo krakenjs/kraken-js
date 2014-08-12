@@ -160,6 +160,7 @@ Kraken comes with common middleware already included in its `config.json` file. 
         - `"template"` - template to render (default: `null`)
 * `"compress"` - adds compression to server responses
   - Priority - 10
+  - Enabled - `false` (disabled in all environments by default)
   - Module - `"compression"` ([npm](https://www.npmjs.org/package/compression))
 * `"favicon"` - serves the site's favicon
   - Priority - 30
@@ -278,6 +279,7 @@ Another common update would be to pass options to middleware which is configured
 ```
     "middleware": {
         "compress": {
+            "enabled": true,    // response compression is disabled by default
             "module: {
                 "arguments": [
                     {
