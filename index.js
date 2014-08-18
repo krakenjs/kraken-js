@@ -76,7 +76,7 @@ module.exports = function (options) {
                 next();
                 return;
             }
-            res.send(503, 'Server is starting.');
+            res.status(503).send('Server is starting.');
         });
     });
 
