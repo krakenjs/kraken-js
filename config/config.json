@@ -40,11 +40,11 @@
         },
 
         "favicon": {
-            "enabled": true,
+            "enabled": false,
             "priority": 30,
             "module": {
-                "name": "static-favicon",
-                "arguments": [ "path:./public/favicon.ico" ]
+                "name": "serve-favicon",
+                "arguments": [ "path:./node_modules/kraken-js/public/favicon.ico" ]
             }
         },
 
