@@ -10,6 +10,6 @@ module.exports = function (router) {
         ip = req.ip;
       } catch (e) {}
 
-      res.send( ip ? 201 : 500);
+      res.status( ip ? 201 : 500).end();
     });
 };
