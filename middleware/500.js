@@ -24,7 +24,7 @@ module.exports = function (template) {
         var model = { url: req.url, err: err, statusCode: 500 };
 
         if (req.xhr) {
-            res.send(500, model);
+            res.status(500).send(model);
         } else {
             res.status(500);
             res.render(template, model);

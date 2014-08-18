@@ -24,7 +24,7 @@ module.exports = function (template) {
         var model = { url: req.url, statusCode: 404 };
         
         if (req.xhr) {
-            res.send(404, model);
+            res.status(404).send(model);
         } else {
             res.status(404);
             res.render(template, model);
