@@ -17,7 +17,7 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var Promise = require('bluebird');
+var Bluebird = require('bluebird');
 var path = require('path');
 var caller = require('caller');
 var express = require('express');
@@ -57,7 +57,7 @@ module.exports = function (options) {
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
 
-        deferred = Promise.pending();
+        deferred = Bluebird.pending();
         complete = deferred.resolve.bind(deferred);
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');
@@ -76,7 +76,7 @@ module.exports = function (options) {
                 next();
                 return;
             }
-            res.send(503, 'Server is starting.');
+            res.status(503).send('Server is starting.');
         });
     });
 
