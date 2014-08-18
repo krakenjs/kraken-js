@@ -12,6 +12,12 @@
             "module": "path:../../../middleware/multipart"
         },
 
-        "appsec": null
+        "appsec": null,
+
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
+        }
     }
 }

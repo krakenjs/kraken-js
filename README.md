@@ -164,7 +164,7 @@ Kraken comes with common middleware already included in its `config.json` file. 
   - Module - `"compression"` ([npm](https://www.npmjs.org/package/compression))
 * `"favicon"` - serves the site's favicon
   - Priority - 30
-  - Module - `"static-favicon"` ([npm](https://www.npmjs.org/package/static-favicon))
+  - Module - `"serve-favicon"` ([npm](https://www.npmjs.org/package/serve-favicon))
     - Arguments (*Array*)
       - *String* - local path to the favicon file (default: `"path:./public/favicon.ico"`)
 * `"static"` - serves static files from a specific folder
