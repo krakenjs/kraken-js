@@ -89,6 +89,7 @@
     "serve-static": "^1.0.4",
     "shortstop": "^1.0.0",
     "shortstop-handlers": "^1.0.0",
+    "shortstop-resolve": "^1.0.1",
     "shush": "~0.0.1"
   }
 }
