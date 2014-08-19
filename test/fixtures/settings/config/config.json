@@ -5,5 +5,12 @@
     "zip": "zap",
     "path": "path:./config/settings.json",
     "custom": "custom:world",
-    "midware": "foo"
+    "midware": "foo",
+    "middleware": {
+        "favicon": {
+            "module": {
+                "arguments": [ "resolve:favicon/icon.ico" ]
+            }
+        }
+    }
 }

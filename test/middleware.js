@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.NODE_ENV='_krakendev';
+
 var test = require('tape');
 var path = require('path');
 var express = require('express');
@@ -71,7 +73,7 @@ test('middleware', function (t) {
         app.on('middleware:before:router', function (eventargs) {
 
             eventargs.app.get('/', function standard(req, res) {
-                res.send(200);
+                res.status(200).end();
             });
 
             eventargs.app.post('/', function multipart(req, res) {
@@ -80,7 +82,7 @@ test('middleware', function (t) {
                 t.equal(typeof req.files, 'object');
                 t.equal(typeof req.files.file, 'object');
                 t.equal(req.files.file.name, 'lazerz.jpg');
-                res.send(200);
+                res.status(200).end();
             });
 
         });

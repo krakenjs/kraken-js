@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.NODE_ENV='_krakendev';
+
 var fs = require('fs');
 var test = require('tape');
 var path = require('path');
@@ -40,6 +42,24 @@ test('settings', function (t) {
         app.use(kraken(options));
     });
 
+
+    t.test('should resolve from config (shortstop-resolve)', function (t) {
+      var options, app, basedir;
+
+      basedir = path.join(__dirname, 'fixtures', 'settings');
+
+      function onconfig(config, cb) {
+        var faviconPath = config.get('middleware:favicon:module:arguments')[0];
+        t.equal(faviconPath, path.join(basedir, 'node_modules', 'favicon', 'icon.ico'));
+        t.end();
+      }
+
+      app = express();
+      app.use(kraken({
+        basedir: basedir,
+        onconfig: onconfig
+      }));
+    });
 
 
     t.test('should not clobber `trust proxy fn`', function (t) {
