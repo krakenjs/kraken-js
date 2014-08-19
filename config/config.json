@@ -44,7 +44,7 @@
             "priority": 30,
             "module": {
                 "name": "serve-favicon",
-                "arguments": [ "path:./node_modules/kraken-js/public/favicon.ico" ]
+                "arguments": [ "resolve:kraken-js/public/favicon.ico" ]
             }
         },
 
