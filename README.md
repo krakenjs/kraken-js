@@ -125,6 +125,9 @@ The exec handler is documented in the [shortstop-handlers](https://github.com/kr
 #### `glob:`
 The glob handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersglobbasediroptions) repo.
 
+#### `resolve:`
+The resolve handler is documented in the [shortstop-resolve](https://github.com/jasisk/shortstop-resolve) repo.
+
 
 
 
