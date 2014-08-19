@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.NODE_ENV='_krakendev';
+
 var test = require('tape');
 var path = require('path');
 var express = require('express');
