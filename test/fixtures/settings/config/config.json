@@ -9,7 +9,7 @@
     "middleware": {
         "favicon": {
             "module": {
-                "arguments": [ "path:../public/favicon.ico" ]
+                "arguments": [ "resolve:favicon/icon.ico" ]
             }
         }
     }
