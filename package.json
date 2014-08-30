@@ -84,7 +84,7 @@
     "confit": "^1.1.0",
     "body-parser": "^1.0.2",
     "cookie-parser": "^1.0.1",
-    "static-favicon": "^1.0.2",
+    "serve-favicon": "^2.1.1",
     "serve-static": "^1.0.4",
     "compression": "^1.0.1",
     "morgan": "^1.0.0",
