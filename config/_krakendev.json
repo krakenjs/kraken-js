@@ -7,7 +7,12 @@
     "middleware": {
         /* Removed for internal development and testing purposes */
         "shutdown": null,
-        "multipart": null
+        "multipart": null,
+        "favicon": {
+            "module": {
+                "arguments": [ "path:./public/favicon.ico" ]
+            }
+        }
     }
     
 }
