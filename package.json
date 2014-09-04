@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paypal/kraken-js.git"
+    "url": "https://github.com/krakenjs/kraken-js.git"
   },
   "author": "Erik Toth <ertoth@paypal.com>",
   "contributors": [
