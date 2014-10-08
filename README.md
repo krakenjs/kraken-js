@@ -481,7 +481,7 @@ There are two different ways. You can
 * Read it in your `onconfig` handler as mentioned above.
 ```
 function (config, callback) {
-    var config-value = config.get('<config-key>');
+    var value = config.get('<key>');
     ...
     ...
     callback(null, config);
@@ -490,7 +490,7 @@ function (config, callback) {
 * Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
 ```
 router.get('/', function (req, res) {
-    var config-value = req.app.kraken.get('config-key');
+    var value = req.app.kraken.get('key');
     ...
     ...
 });
