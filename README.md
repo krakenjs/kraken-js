@@ -487,7 +487,7 @@ function (config, callback) {
     callback(null, config);
 }
 ```
-* Read it off the `req` object within the request by doing `req.app.kraken.get('<config-key>')`. So it would look like:
+* Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
 ```
 router.get('/', function (req, res) {
     var config-value = req.app.kraken.get('config-key');
