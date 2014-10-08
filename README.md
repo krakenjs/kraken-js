@@ -476,7 +476,7 @@ $ npm run-script cover && open coverage/lcov-report/index.html
 
 ## Reading your app configs from within the kraken app
 
-There are two different ways to read your app configs from within the kraken app.
+There are two different ways. You can
 
 * Read it in your `onconfig` handler as mentioned above.
 ```
