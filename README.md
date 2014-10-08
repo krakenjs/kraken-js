@@ -464,8 +464,6 @@ factory method exported by the module that should be used when settings the rend
 that the renderer is exported by that name, or an object with the properties "method" and "arguments" to identify a factory method.
 For example, using ejs you could set this property to "renderFile" or "__express" as the ejs module exports a renderer directly.
 
-
-
 ## Tests
 ```bash
 $ npm test
@@ -474,4 +472,27 @@ $ npm test
 ## Coverage
 ````bash
 $ npm run-script cover && open coverage/lcov-report/index.html
+```
+
+## Reading your app configs from within the kraken app
+
+There are two different ways to read your app configs from within the kraken app.
+
+* Read it in your `onconfig` handler as mentioned above.
+```
+function (config, callback) {
+    var config-value = config.get('<config-key>');
+    ...
+    ...
+    callback(null, config);
+}
+```
+* Read it off the `req` object within the request by doing `req.app.kraken.get('<config-key>')`. So it would look like:
+```
+router.get('/', function (req, res) {
+    var config-value = req.app.kraken.get('config-key');
+    ...
+    ...
+});
+
 ```
