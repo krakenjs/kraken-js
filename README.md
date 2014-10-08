@@ -490,7 +490,7 @@ function (config, callback) {
 * Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
 ```
 router.get('/', function (req, res) {
-    var value = req.app.kraken.get('key');
+    var value = req.app.kraken.get('<key>');
     ...
     ...
 });
