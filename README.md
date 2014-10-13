@@ -73,7 +73,7 @@ properties, for example:
 var options = {
     protocols: {
         file: function file(value, callback) {
-            fs.readFile(value 'utf8', callback)
+            fs.readFile(value, 'utf8', callback);
         }
     }
 };
