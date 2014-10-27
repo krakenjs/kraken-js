@@ -139,8 +139,7 @@ The glob handler is documented in the [shortstop-handlers](https://github.com/kr
 Using environment suffixes, configuration files are applied and overridden according to the current environment as set
 by `NODE_ENV`. The application looks for a `./config` directory relative to the basedir and looks for `config.json` as the baseline config specification. JSON files matching the current env are processed and loaded. Additionally, JSON configuration files may contain comments.
 
-Valid `NODE_ENV` values are `undefined` or `dev[elopment]`, `test[ing]`, `stag[e|ing]`, `prod[uction]`. Simply
-add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
+Valid `NODE_ENV` values are `undefined` or `dev[elopment]` (uses `development.json`), `test[ing]` (uses `test.json`), `stag[e|ing]` (uses `staging.json`), `prod[uction]` (uses `config.json`). Simply add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
 
 
 ### Middleware
