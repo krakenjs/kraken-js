@@ -437,7 +437,10 @@ kraken-js looks to the `view engines` config property to understand how to load 
             "module": "adaro",
             "renderer": {
                 "method": "dust",
-                "arguments": [{ "cache": false }]
+                "arguments": [{
+                    "cache": false,
+                    "helpers": ["dust-helpers-whatevermodule"]
+                }]
             }
         },
         "js": {
