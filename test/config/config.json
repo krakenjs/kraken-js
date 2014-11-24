@@ -9,6 +9,11 @@
                     "index": "path:./fixtures/middleware/routes"
                 }
             ]
+        },
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
         }
     }
 }
