@@ -108,4 +108,11 @@ describe('compiler', function () {
             .expect('foo', next);
     });
 
+    it('should compile a localized template where country has a digit (e.g. "C2")', function (next) {
+        request(app)
+            .get('/templates/C2/en/localized.js')
+            .expect('Content-Type', /javascript/)
+            .expect(200, next);
+    });
+
 });
