@@ -44,5 +44,13 @@
     "express": {
         "view engine": "html",
         "view": "path:./lib/View"
+    },
+
+    "middleware": {
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
+        }
     }
 }
