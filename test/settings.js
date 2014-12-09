@@ -2,7 +2,6 @@
 
 process.env.NODE_ENV='_krakendev';
 
-var fs = require('fs');
 var test = require('tape');
 var path = require('path');
 var util = require('util');
@@ -69,14 +68,12 @@ test('settings', function (t) {
         var options, app;
 
         function start() {
-            var server;
-
-            function done(err) {
-                t.error(err);
-                t.end();
-            }
-
-            server = request(app).get('/ip').expect(201, done);
+            request(app)
+                .get('/ip')
+                .expect(201, function done(err) {
+                    t.error(err);
+                    t.end();
+                });
         }
 
         options = {
