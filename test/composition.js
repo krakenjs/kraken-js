@@ -25,6 +25,7 @@ test('composition', function (t) {
 
                 // Compare settings to ensure they are inherited correctly.
                 t.notEqual(child.get('views'), parent.get('views'));
+                t.notEqual(child.kraken.get('express:views'), parent.kraken.get('express:views'));
                 SETTINGS.forEach(function (name) {
                     t.equal(child.get(name), parent.get(name), 'Expected \'' + name + '\' to be equal.');
                 });
@@ -72,6 +73,7 @@ test('composition', function (t) {
 
                 // Compare settings to ensure they are inherited correctly.
                 t.notEqual(child.get('views'), parent.get('views'));
+                t.notEqual(child.kraken.get('express:views'), parent.kraken.get('express:views'));
                 SETTINGS.forEach(function (name) {
                     t.equal(child.get(name), parent.get(name), 'Expected \'' + name + '\' to be equal.');
                 });
@@ -120,6 +122,7 @@ test('composition', function (t) {
 
                 // Compare settings to ensure they are inherited correctly.
                 t.equal(child.get('views'), parent.get('views'));
+                t.equal(child.kraken.get('express:views'), parent.kraken.get('express:views'));
                 SETTINGS.forEach(function (name) {
                     t.equal(child.get(name), parent.get(name), 'Expected \'' + name + '\' to be equal.');
                 });
@@ -181,6 +184,7 @@ test('composition', function (t) {
                 // Not checking all settings because child kraken app intentionally
                 // overrides some settings by default.
                 t.notEqual(this.get('views'), parent.get('views'));
+                t.notEqual(this.kraken.get('express:views'), parent.get('views'));
             }
         };
 
