@@ -48,7 +48,7 @@ module.exports = function (options) {
 
     app = express();
     app.once('mount', function onmount(parent) {
-        var deferred, complete, start, error;
+        var start, error, promise;
 
         // Remove sacrificial express app
         parent._router.stack.pop();
@@ -58,26 +58,30 @@ module.exports = function (options) {
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
 
-        deferred = Bluebird.pending();
-        complete = deferred.resolve.bind(deferred);
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');
 
         // Kick off server and add middleware which will block until
         // server is ready. This way we don't have to block standard
         // `listen` behavior, but failures will occur immediately.
-        bootstrap(parent, options)
-            .then(complete)
-            .then(start)
-            .catch(error)
-            .done();
+        promise = bootstrap(parent, options);
+        promise.then(start, error);
+
 
         parent.use(function startup(req, res, next) {
-            if (deferred.promise.isFulfilled()) {
-                next();
+            if (promise.isPending()) {
+                res.status(503);
+                res.send('Server is starting.');
                 return;
             }
-            res.status(503).send('Server is starting.');
+
+            if (promise.isRejected()) {
+                res.status(503);
+                res.send('The application failed to start.');
+                return;
+            }
+
+            next();
         });
     });
 
