@@ -78,7 +78,7 @@ properties, for example:
 var options = {
     protocols: {
         file: function file(value, callback) {
-            fs.readFile(value 'utf8', callback)
+            fs.readFile(value, 'utf8', callback);
         }
     }
 };
@@ -147,8 +147,7 @@ The resolve handler is documented in the [shortstop-resolve](https://github.com/
 Using environment suffixes, configuration files are applied and overridden according to the current environment as set
 by `NODE_ENV`. The application looks for a `./config` directory relative to the basedir and looks for `config.json` as the baseline config specification. JSON files matching the current env are processed and loaded. Additionally, JSON configuration files may contain comments.
 
-Valid `NODE_ENV` values are `undefined` or `dev[elopment]`, `test[ing]`, `stag[e|ing]`, `prod[uction]`. Simply
-add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
+Valid `NODE_ENV` values are `undefined` or `dev[elopment]` (uses `development.json`), `test[ing]` (uses `test.json`), `stag[e|ing]` (uses `staging.json`), `prod[uction]` (uses `config.json`). Simply add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
 
 
 ### Middleware
@@ -446,7 +445,10 @@ kraken-js looks to the `view engines` config property to understand how to load 
             "module": "adaro",
             "renderer": {
                 "method": "dust",
-                "arguments": [{ "cache": false }]
+                "arguments": [{
+                    "cache": false,
+                    "helpers": ["dust-helpers-whatevermodule"]
+                }]
             }
         },
         "js": {
@@ -472,8 +474,6 @@ factory method exported by the module that should be used when settings the rend
 that the renderer is exported by that name, or an object with the properties "method" and "arguments" to identify a factory method.
 For example, using ejs you could set this property to "renderFile" or "__express" as the ejs module exports a renderer directly.
 
-
-
 ## Tests
 ```bash
 $ npm test
@@ -482,4 +482,27 @@ $ npm test
 ## Coverage
 ````bash
 $ npm run-script cover && open coverage/lcov-report/index.html
+```
+
+## Reading app configs from within the kraken app
+
+There are two different ways. You can
+
+* Read it in your `onconfig` handler as mentioned above.
+```
+function (config, callback) {
+    var value = config.get('<key>');
+    ...
+    ...
+    callback(null, config);
+}
+```
+* Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
+```
+router.get('/', function (req, res) {
+    var value = req.app.kraken.get('<key>');
+    ...
+    ...
+});
+
 ```
