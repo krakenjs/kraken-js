@@ -199,7 +199,7 @@ test('kraken', function (t) {
     t.test('startup error', function (t) {
         var options, app;
 
-        t.plan(1);
+        t.plan(3);
 
         function start() {
             t.fail('server started');
@@ -208,13 +208,15 @@ test('kraken', function (t) {
 
         function error(err) {
             t.ok(err, 'server startup failed');
-            t.end();
+            request(app).get('/').expect(503, 'The application failed to start.', function (err) {
+                t.error(err, 'server is accepting requests');
+                t.end();
+            });
         }
 
         options = {
             onconfig: function (settings, cb) {
-                var error = new Error('fail');
-                setImmediate(cb.bind(null, error));
+                setTimeout(cb.bind(null, new Error('fail')), 1000);
             }
         };
 
@@ -222,6 +224,10 @@ test('kraken', function (t) {
         app.on('start', start);
         app.on('error', error);
         app.use(kraken(options));
+
+        request(app).get('/').expect(503, 'Server is starting.', function (err) {
+            t.error(err, 'server starting');
+        });
     });
 
 
