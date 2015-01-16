@@ -3,7 +3,7 @@ kraken.js
 
 Lead Maintainer: [Jean-Charles Sisk](https://github.com/jasisk)
 
-[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=master)](https://travis-ci.org/krakenjs/kraken-js)  
+[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js)  
 
 Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
 
