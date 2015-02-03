@@ -474,23 +474,23 @@ $ npm test
 $ npm run-script cover && open coverage/lcov-report/index.html
 ```
 
-## Reading your app configs from within the kraken app
+## Reading app configs from within the kraken app
 
-There are two different ways to read your app configs from within the kraken app.
+There are two different ways. You can
 
 * Read it in your `onconfig` handler as mentioned above.
 ```
 function (config, callback) {
-    var config-value = config.get('<config-key>');
+    var value = config.get('<key>');
     ...
     ...
     callback(null, config);
 }
 ```
-* Read it off the `req` object within the request by doing `req.app.kraken.get('<config-key>')`. So it would look like:
+* Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
 ```
 router.get('/', function (req, res) {
-    var config-value = req.app.kraken.get('config-key');
+    var value = req.app.kraken.get('<key>');
     ...
     ...
 });
