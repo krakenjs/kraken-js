@@ -16,11 +16,12 @@
  │   limitations under the License.                                            │
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
-
+var debug = require('debuglog')('kraken/middleware/500');
 
 module.exports = function (template) {
 
     return function serverError(err, req, res, next) {
+        debug('Server Error:', err.stack);
         var model = { url: req.url, err: err, statusCode: 500 };
 
         if (req.xhr) {
