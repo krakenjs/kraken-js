@@ -1,8 +1,10 @@
 language: node_js
 
 node_js:
-  - "0.11"
+  - "0.12"
   - "0.10"
+  - "iojs"
+  - "iojs-v1.1.0"
 
 script:
   - "npm run-script cover"
