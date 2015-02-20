@@ -316,7 +316,7 @@ More complicated examples include configuring the session middleware to use a sh
           "session": {
               "module": {
                   // use our own module instead
-                  "name": "path:./lib/middleware/session-redis",
+                  "name": "path:./lib/middleware/redis-session",
                   "arguments": [
                       // express-session configuration
                       {
