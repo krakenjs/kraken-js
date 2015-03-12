@@ -54,7 +54,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "engineStrict": true,
   "devDependencies": {
     "tape": "^2.12.3",
     "istanbul": "^0.2.7",
