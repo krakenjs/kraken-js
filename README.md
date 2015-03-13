@@ -176,7 +176,7 @@ Kraken comes with common middleware already included in its `config.json` file. 
       - *String* - local path to the favicon file (default: `"path:./public/favicon.ico"`)
 * `"static"` - serves static files from a specific folder
   - Priority - 40
-  - Module - `"serve-static"` ([npm](https://www.npmjs.org/package/static-static))
+  - Module - `"serve-static"` ([npm](https://www.npmjs.org/package/serve-static))
     - Arguments (*Array*)
       - *String* - local path to serve static files from (default: `"path:./public"`)
 * `"logger"` - logs requests and responses
