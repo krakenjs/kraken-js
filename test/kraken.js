@@ -195,6 +195,49 @@ test('kraken', function (t) {
         });
     });
 
+    t.test('server 503 until started with custom headers', function (t) {
+        var options, app, server;
+
+        t.plan(3);
+
+        function start() {
+            t.pass('server started');
+            server = request(app).get('/').expect(404, function (err) {
+                t.error(err, 'server is accepting requests');
+                t.end();
+            });
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+            t.end();
+        }
+
+        options = {
+            onconfig: function (settings, cb) {
+                setTimeout(cb.bind(null, null, settings), 1000);
+            },
+            startup: {
+                headers: {
+                    "Custom-Header1": "Header1",
+                    "Custom-Header2": "Header2"
+                }
+            }
+        };
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken(options));
+
+        server = request(app).get('/')
+            .expect('Custom-Header1', "Header1")
+            .expect('Custom-Header2', "Header2")
+            .expect(503, function (err) {
+                t.error(err, 'server starting');
+            });
+    });
+
 
     t.test('startup error', function (t) {
         var options, app;
