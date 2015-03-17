@@ -73,9 +73,7 @@ module.exports = function (options) {
                 res.status(503);
                 var headers = options.startupHeaders;
                 if(headers){
-                    Object.keys(headers).forEach(function(key){
-                        res.header(key, headers[key]);
-                    });
+                    res.header(headers);
                 }
                 res.send('Server is starting.');
                 return;
