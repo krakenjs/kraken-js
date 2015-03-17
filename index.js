@@ -71,7 +71,7 @@ module.exports = function (options) {
         parent.use(function startup(req, res, next) {
             if (promise.isPending()) {
                 res.status(503);
-                var headers = options.startup && options.startup.headers;
+                var headers = options.startupHeaders;
                 if(headers){
                     Object.keys(headers).forEach(function(key){
                         res.header(key, headers[key]);

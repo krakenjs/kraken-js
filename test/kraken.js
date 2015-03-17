@@ -217,11 +217,9 @@ test('kraken', function (t) {
             onconfig: function (settings, cb) {
                 setTimeout(cb.bind(null, null, settings), 1000);
             },
-            startup: {
-                headers: {
-                    "Custom-Header1": "Header1",
-                    "Custom-Header2": "Header2"
-                }
+            startupHeaders: {
+                "Custom-Header1": "Header1",
+                "Custom-Header2": "Header2"
             }
         };
 
