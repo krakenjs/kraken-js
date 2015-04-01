@@ -17,7 +17,6 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
-var Bluebird = require('bluebird');
 var path = require('path');
 var caller = require('caller');
 var express = require('express');
@@ -72,7 +71,7 @@ module.exports = function (options) {
             if (promise.isPending()) {
                 res.status(503);
                 var headers = options.startupHeaders;
-                if(headers){
+                if (headers) {
                     res.header(headers);
                 }
                 res.send('Server is starting.');
