@@ -77,6 +77,7 @@
     "cookie-parser": "^1.0.1",
     "core-util-is": "^1.0.1",
     "debuglog": "~0.0.2",
+    "depd": "^1.0.1",
     "endgame": "^0.0.3",
     "express-enrouten": "^1.0.0",
     "express-session": "^1.0.3",
