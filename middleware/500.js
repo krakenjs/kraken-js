@@ -16,9 +16,12 @@
  │   limitations under the License.                                            │
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
-var debug = require('debuglog')('kraken/middleware/500');
 
-module.exports = function (template) {
+var deprecate = require('depd')('kraken-js/middleware/500');
+var debug = require('debuglog')('kraken-js/middleware/500');
+
+
+module.exports = deprecate.function(function serverError(template) {
 
     return function serverError(err, req, res, next) {
         debug('Server Error:', err.stack);
@@ -32,4 +35,4 @@ module.exports = function (template) {
         }
     };
     
-};
+}, 'see github.com/krakenjs/kraken-js/issues/359');
