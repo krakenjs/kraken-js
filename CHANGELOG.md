@@ -1,13 +1,16 @@
 # Release Notes
-kraken-js v2.0.0-rc.1
+kraken-js v2.0.0-rc.1  
 Released: unreleased
-## Breaking Changes
+
+## Fixes
 
   * **Core:**
 
     1. Print deprecation warnings for the included 404 and 500 handlers.
 
       [Implementation](https://github.com/krakenjs/kraken-js/commit/a6b3fae2ba25703573c317143ad4d2a1a9c3a937), [Issue](https://github.com/krakenjs/kraken-js/issues/359), [Pull Request](https://github.com/krakenjs/kraken-js/pull/361)
+
+## Breaking Changes
 
   * **Dependency:** meddleware (v1 -> v3)
 
