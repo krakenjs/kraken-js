@@ -78,7 +78,7 @@
     "core-util-is": "^1.0.1",
     "debuglog": "^1.0.1",
     "depd": "^1.0.1",
-    "endgame": "0.0.3",
+    "endgame": "^1.0.0",
     "express-enrouten": "^1.2.0",
     "express-session": "^1.10.4",
     "formidable": "^1.0.17",
@@ -90,6 +90,6 @@
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
-    "shush": "0.0.1"
+    "shush": "^1.0.0"
   }
 }
