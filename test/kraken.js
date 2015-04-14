@@ -302,7 +302,7 @@ test('kraken', function (t) {
             t.ok(1, 'server stopped');
         });
 
-        server = app.listen(8000);
+        server = app.listen(0);
         server.timeout = 0;
     });
 
