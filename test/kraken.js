@@ -302,6 +302,8 @@ test('kraken', function (t) {
             t.ok(1, 'server stopped');
         });
 
+        // This listens on any random port the OS assigns.
+        // since we don't actually connect to it for this test, we don't care which.
         server = app.listen(0);
         server.timeout = 0;
     });
