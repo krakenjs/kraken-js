@@ -1,6 +1,6 @@
 # Release Notes
 kraken-js v2.0.0-rc.1  
-Released: unreleased
+Released: 2015-04-15
 
 ## Fixes
 
