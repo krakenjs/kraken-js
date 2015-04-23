@@ -68,9 +68,10 @@ module.exports = function (options) {
 
 
         parent.use(function startup(req, res, next) {
+            var headers = options.startupHeaders;
+            
             if (promise.isPending()) {
                 res.status(503);
-                var headers = options.startupHeaders;
                 if (headers) {
                     res.header(headers);
                 }
