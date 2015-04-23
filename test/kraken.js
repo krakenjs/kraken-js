@@ -302,7 +302,12 @@ test('kraken', function (t) {
             t.ok(1, 'server stopped');
         });
 
-        server = app.listen(8000);
+        // This listens on any random port the OS assigns.
+        // since we don't actually connect to it for this test, we don't care which.
+        // 
+        // See https://nodejs.org/api/net.html#net_server_listen_port_host_backlog_callback
+        // for more information
+        server = app.listen(0);
         server.timeout = 0;
     });
 
