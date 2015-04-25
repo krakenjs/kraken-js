@@ -39,7 +39,7 @@ module.exports = function (config) {
     return function shutdown(req, res, next) {
 
         function json() {
-            res.send('Server is shutting down.');
+            res.send({ message: 'Server is shutting down.' });
         }
 
         function html() {
