@@ -323,7 +323,7 @@ test('kraken', function (t) {
 
             app.once('shutdown', function () {
                 request(app).get('/').end(function (error, response) {
-                    t.ok(!error, 'no error.');
+                    t.error(error);
                     t.equals(response.statusCode, 503, 'correct status code.');
                     t.ok(response.header['custom-header1'], 'has custom header 1.');
                     t.ok(response.headers['custom-header2'], 'has custom header 1.');
@@ -333,7 +333,7 @@ test('kraken', function (t) {
 
             //need one request
             request(app).get('/').end(function (error, response) {
-                t.ok(!error, 'no error.');
+                t.error(error);
                 t.equals(response.statusCode, 404, 'correct status code.');
 
                 process.emit('SIGTERM');

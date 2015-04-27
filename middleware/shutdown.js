@@ -40,7 +40,7 @@ module.exports = function (config) {
         var headers = config.shutdownHeaders || {};
 
         function json() {
-            res.send('Server is shutting down.');
+            res.send({message: 'Server is shutting down.'});
         }
 
         function html() {
