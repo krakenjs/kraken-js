@@ -275,8 +275,6 @@ test('kraken', function (t) {
     t.test('shutdown', function (t) {
         var exit, expected, app, server;
 
-        t.plan(4);
-
         exit = process.exit;
         expected = 0;
 
@@ -291,7 +289,7 @@ test('kraken', function (t) {
         };
 
         app = express();
-        app.use(kraken());
+        app.use(kraken({ basedir: __dirname }));
         app.on('start', function () {
             app.emit('shutdown', server, 1000);
         });
@@ -302,8 +300,45 @@ test('kraken', function (t) {
             t.ok(1, 'server stopped');
         });
 
+        // This listens on any random port the OS assigns.
+        // since we don't actually connect to it for this test, we don't care which.
+        //
+        // See https://nodejs.org/api/net.html#net_server_listen_port_host_backlog_callback
+        // for more information
         server = app.listen(0);
         server.timeout = 0;
+    });
+
+    t.test('shutdown headers', function (t) {
+        var app, server;
+
+        process.removeAllListeners('SIGTERM');
+
+        app = express();
+        app.use(kraken({ basedir: __dirname }));
+
+        app.on('start', function () {
+
+            app.removeAllListeners('shutdown');
+
+            app.once('shutdown', function () {
+                request(app).get('/').end(function (error, response) {
+                    t.error(error);
+                    t.equals(response.statusCode, 503, 'correct status code.');
+                    t.ok(response.header['custom-header1'], 'has custom header 1.');
+                    t.ok(response.headers['custom-header2'], 'has custom header 1.');
+                    t.end();
+                });
+            });
+
+            //need one request
+            request(app).get('/').end(function (error, response) {
+                t.error(error);
+                t.equals(response.statusCode, 404, 'correct status code.');
+
+                process.emit('SIGTERM');
+            });
+        });
     });
 
 });

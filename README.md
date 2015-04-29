@@ -166,6 +166,7 @@ Kraken comes with common middleware already included in its `config.json` file. 
       - *Object*
         - `"timeout"` - milliseconds (default: `30000`)
         - `"template"` - template to render (default: `null`)
+        - `"shutdownHeaders"` - custom headers to write while still disconnecting.
 * `"compress"` - adds compression to server responses
   - Priority - 10
   - Enabled - `false` (disabled in all environments by default)

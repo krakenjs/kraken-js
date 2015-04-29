@@ -37,9 +37,10 @@ module.exports = function (config) {
     state = States.CONNECTED;
 
     return function shutdown(req, res, next) {
+        var headers = config.shutdownHeaders || {};
 
         function json() {
-            res.send('Server is shutting down.');
+            res.send({message: 'Server is shutting down.'});
         }
 
         function html() {
@@ -47,8 +48,9 @@ module.exports = function (config) {
         }
 
         if (state === States.DISCONNECTING) {
+            headers.Connection = headers.Connection || 'close';
+            res.header(headers);
             res.status(503);
-            res.setHeader('Connection', 'close');
             res.format({
                 json: json,
                 html: html
