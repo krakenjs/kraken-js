@@ -83,7 +83,7 @@
     "express-session": "^1.10.4",
     "formidable": "^1.0.17",
     "lusca": "^1.0.3",
-    "meddleware": "^3.0.1",
+    "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
     "serve-favicon": "^2.2.0",
     "serve-static": "^1.9.2",
