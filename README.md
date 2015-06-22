@@ -200,6 +200,15 @@ Kraken comes with common middleware already included in its `config.json` file. 
 * `"multipart"` - parses multipart FORM bodies
   - Priority - 80
   - Module - `"kraken-js/middleware/multipart"` (delegates to [formidable](https://www.npmjs.org/package/formidable))
+  - Arguments (*Array*)
+      - *Object*
+        - `"encoding"` (*String*) - sets encoding for incoming forms
+        - `"uploadDir"` (*String*) - sets the directory for placing file uploads in
+        - `"keepExtensions"` (*Boolean*) - if you want the files written to the `uploadDir` to include extensions of the original file, set this property to `true`
+        - `"maxFieldsSize"` (*Number*) - limits the amount of memory all fields together (except files) can allocate in bytes
+        - `"maxFields"` (*Number*) - limits the number of fields that the querystring parser will decode
+        - `"hash"` (*String*) - if you want checksums calculated for incoming files, set this to either `"sha1"` or `"md5"`
+        - `"multiples"` (*Boolean*) - if this option is enabled, `req.files` will contain arrays of files for inputs which submit multiple files using the HTML5 `multiple` attribute
 * `"cookieParser"` - parses cookies in request headers
   - Priority - 90
   - Module - `"cookie-parser"` ([npm](https://www.npmjs.org/package/cookie-parser))
