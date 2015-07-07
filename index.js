@@ -50,7 +50,7 @@ module.exports = function (options) {
         var start, error, promise;
 
         // Remove sacrificial express app
-        parent._router.stack.pop();
+        (parent._router || parent.router).stack.pop();
 
         // Since this particular `app` instance is
         // subsequently deleted, the `mountpath` is
