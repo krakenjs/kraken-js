@@ -23,8 +23,23 @@ var States = {
 };
 
 
+function onceThunk() {
+  var called = false;
+  return function once(emitter, events, callback) {
+    function call() {
+      if (!called) {
+        called = true;
+        return callback.apply(this, arguments);
+      }
+    }
+    events.forEach(function (event) {
+      emitter.on(event, call);
+    });
+  };
+}
+
 module.exports = function (config) {
-    var template, timeout, state, app, server;
+    var template, timeout, state, app, server, once;
 
     function close() {
         state = States.DISCONNECTING;
@@ -35,6 +50,8 @@ module.exports = function (config) {
     template = config.template;
     timeout = config.timeout || 10 * 1000;
     state = States.CONNECTED;
+
+    once = onceThunk();
 
     return function shutdown(req, res, next) {
         var headers = config.shutdownHeaders || {};
@@ -63,8 +80,8 @@ module.exports = function (config) {
             // if we've taken at least one request.
             app = req.app;
             server = req.socket.server;
-            process.once('SIGTERM', close);
-            process.once('SIGINT', close);
+            
+            once(process, ['SIGTERM', 'SIGINT'], close);
         }
 
         next();
