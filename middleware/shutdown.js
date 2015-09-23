@@ -33,7 +33,7 @@ function onceThunk() {
       }
     }
     events.forEach(function (event) {
-      emitter.on(event, call);
+      emitter.once(event, call);
     });
   };
 }
