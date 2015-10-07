@@ -341,4 +341,34 @@ test('kraken', function (t) {
         });
     });
 
+    t.test('shutdown should only emit once, ever', function (t) {
+        var app;
+
+        process.removeAllListeners('SIGINT');
+
+        app = express();
+        app.use(kraken({ basedir: __dirname }));
+
+
+        app.on('start', function () {
+            app.removeAllListeners('shutdown');
+
+            request(app).get('/').end(function (error, response) {
+                t.ok(!error, 'no error.');
+                t.equals(response.statusCode, 404, 'correct status code.');
+                app.once('shutdown', function () {
+                    t.pass('shutdown emitted once.');
+                    process.nextTick(function () {
+                      app.once('shutdown', function () {
+                        t.fail('shutdown emitted multiple times.');
+                      });
+                      process.emit('SIGINT');
+                      process.nextTick(t.end.bind(t));
+                    });
+                });
+                process.emit('SIGINT');
+            });
+        });
+    });
+
 });
