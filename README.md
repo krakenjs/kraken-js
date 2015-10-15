@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="http://krakenjs.com/img/krakenLogo.png">
+</p>
+
 kraken.js
 =========
 
