@@ -1,7 +1,4 @@
-<p align="left">
-  <img src="./public/krakenLogo.png">
-</p>
-
+![](./public/krakenLogo.png)
 
 
 kraken.js
