@@ -1,4 +1,4 @@
-![](./public/krakenLogo.png)
+![kraken-js](public/krakenLogo.png)
 
 
 kraken.js
