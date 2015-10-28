@@ -1,3 +1,6 @@
+![](./public/krakenLogo.png)
+
+
 kraken.js
 =========
 
