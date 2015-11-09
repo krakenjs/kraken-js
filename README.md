@@ -255,7 +255,7 @@ Additional notes:
 #### Extending Default Middleware
 In any non-trivial Kraken deployment you will likely need to extend the included middleware. Common middleware which need extension include cookie parsing and session handling. In those particular cases, the secrets used should be updated:
 
-```json
+```js
 {
     // include this in your own config.json and this will merge with the Kraken defaults
     "middleware": {
@@ -292,7 +292,7 @@ In any non-trivial Kraken deployment you will likely need to extend the included
 
 Another common update is to pass options to middleware which is configured only with the defaults, such as the compression middleware:
 
-```json
+```js
 {
     "middleware": {
         "compress": {
@@ -314,7 +314,7 @@ More complicated examples include configuring the session middleware to use a sh
 
   1. Overlay the existing session middleware in your configuration:
 
-  ```json
+  ```js
   {
       // in your config.json
       "middleware": {
@@ -393,7 +393,7 @@ Kraken adds support for additional events to your express app instance:
 Since express instances are themselves config objects, the convention is to set values on the app instance for use by
 express internally as well as other code across the application. kraken-js allows you to configure express via JSON.
 Any properties are supported, but kraken-js defaults include:
-```json
+```js
 {
     "express": {
         "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
@@ -423,7 +423,7 @@ configure express to use it for resolving views.
 
 For example:
 
-```json
+```js
 {
     "express": {
         "view": "path:./lib/MyCustomViewResolver"
@@ -435,7 +435,7 @@ For example:
 ### View Engine Configuration
 kraken-js looks to the `view engines` config property to understand how to load and initialize renderers. The value of the
 `view engines` property is an object mapping the desired file extension to engine config settings. For example:
-```json
+```js
 {
     "view engines": {
         "jade": {
