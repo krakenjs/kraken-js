@@ -91,7 +91,7 @@ var options = {
 #### `uncaughtException` (*Function*, optional) **DEPRECATED**
 Handler for `uncaughtException` errors. See the [endgame](https://github.com/totherik/endgame) module for defaults.
 
-**Deprecated**: See [#included-middleware](shutdown) middleware instead.
+**Deprecated**: See `shutdown` middleware instead.
 
 ## Config Protocols
 kraken comes with the following shortstop protocol handlers by default:
