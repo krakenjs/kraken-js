@@ -2,5 +2,11 @@
 
 
 module.exports = function (router) {
-    // noop
+
+    router.get('/uncaught', function (req, res) {
+        setImmediate(function () {
+            throw new Error('uncaught!');
+        });
+    });
+    
 };

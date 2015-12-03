@@ -3,7 +3,9 @@
         "shutdown": {
             "enabled": true,
             "priority": 0,
-            "module": "path:../../../middleware/shutdown"
+            "module": {
+                "name": "path:../../../middleware/shutdown"
+            }
         },
 
         "multipart": {

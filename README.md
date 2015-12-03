@@ -88,9 +88,10 @@ var options = {
 };
 ```
 
-#### `uncaughtException` (*Function*, optional)
+#### `uncaughtException` (*Function*, optional) **DEPRECATED**
 Handler for `uncaughtException` errors. See the [endgame](https://github.com/totherik/endgame) module for defaults.
 
+**Deprecated**: See [#included-middleware](shutdown) middleware instead.
 
 ## Config Protocols
 kraken comes with the following shortstop protocol handlers by default:
@@ -170,6 +171,7 @@ Kraken comes with common middleware already included in its `config.json` file. 
         - `"timeout"` - milliseconds (default: `30000`)
         - `"template"` - template to render (default: `null`)
         - `"shutdownHeaders"` - custom headers to write while still disconnecting.
+        - `"uncaughtException"` - custom handler - `function (error, req, res, next)` - for uncaught errors. Default behavior is to log the error and then trigger shutdown.
 * `"compress"` - adds compression to server responses
   - Priority - 10
   - Enabled - `false` (disabled in all environments by default)
