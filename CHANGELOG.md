@@ -1,12 +1,39 @@
 # Release Notes
-kraken-js v2.0.0-rc.1  
-Released: 2015-04-15
+---
 
-## Fixes
+kraken-js v2.0.1
+Released: 2015-12-04
+
+## Changes
 
   * **Core:**
 
-    1. Print deprecation warnings for the included 404 and 500 handlers.
+    1. Set morgan option to log request even if server crashes
+
+      [Implementation](https://github.com/krakenjs/kraken-js/commit/8febdea2423ce76608cc5167575f69a68eb97787), [Pull Request](https://github.com/krakenjs/kraken-js/pull/430)
+
+---
+
+kraken-js v2.0.0
+Released: 2015-10-07
+
+## Bug Fixes
+
+  * **Core:**
+
+    1. Fix occasional double close error on shutdown
+
+      [Issue](https://github.com/krakenjs/kraken-js/issues/402), [Pull Request](https://github.com/krakenjs/kraken-js/pull/419)
+
+## Changes
+
+  * **Core:**
+
+    1. Add `shutdownHeaders` option to shutdown middleware
+
+      [Pull Request](https://github.com/krakenjs/kraken-js/pull/373)
+
+    2. Print deprecation warnings for the included 404 and 500 handlers.
 
       [Implementation](https://github.com/krakenjs/kraken-js/commit/a6b3fae2ba25703573c317143ad4d2a1a9c3a937), [Issue](https://github.com/krakenjs/kraken-js/issues/359), [Pull Request](https://github.com/krakenjs/kraken-js/pull/361)
 
@@ -65,3 +92,4 @@ Released: 2015-04-15
       >// result
       >{ "KEY": "fromConfig", "OTHER_KEY": "fromEnv", "THIRD_KEY": "fromArgv" }
       >```
+
