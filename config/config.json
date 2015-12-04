@@ -53,8 +53,13 @@
             "enabled": true,
             "priority": 50,
             "module": {
-              "name": "morgan",
-              "arguments": [ "combined" ]
+                "name": "morgan",
+                "arguments": [
+                    "combined",
+                    {
+                        "immediate": true
+                    }
+                ]
             }
         },
 
