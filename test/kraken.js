@@ -341,6 +341,71 @@ test('kraken', function (t) {
         });
     });
 
+    t.test('shutdown on uncaught', function (t) {
+        var app, server;
+
+        process.removeAllListeners('SIGTERM');
+
+        app = express();
+        app.use(kraken({ basedir: path.join(__dirname, 'fixtures', 'middleware') }));
+
+        app.on('start', function () {
+
+            app.removeAllListeners('shutdown');
+
+            app.once('shutdown', function () {
+                request(app).get('/').end(function (error, response) {
+                    t.error(error);
+                    t.equals(response.statusCode, 503, 'correct status code.');
+                    t.end();
+                });
+            });
+
+            //need one request
+            request(app).get('/uncaught').end(function (error, response) {
+                t.error(error);
+                t.equals(response.statusCode, 500, 'correct status code.');
+            });
+        });
+    });
+
+    t.test('override shutdown on uncaught', function (t) {
+        var app, server;
+
+        process.removeAllListeners('SIGTERM');
+
+        app = express();
+        app.use(kraken({
+            basedir: path.join(__dirname, 'fixtures', 'middleware'),
+            onconfig: function (config, next) {
+                config.set('middleware:shutdown:module:arguments', [
+                    {
+                        "uncaughtException": function (error, req, res, next) {
+                            next(error);
+
+                            setImmediate(function () {
+                                request(app).get('/').end(function (error, response) {
+                                    t.error(error);
+                                    t.equals(response.statusCode, 404, 'correct status code.');
+                                    t.end();
+                                });
+                            });
+                        }
+                    }
+                ]);
+                next(null, config);
+            }
+        }));
+
+        app.on('start', function () {
+            //need one request
+            request(app).get('/uncaught').end(function (error, response) {
+                t.error(error);
+                t.equals(response.statusCode, 500, 'correct status code.');
+            });
+        });
+    });
+
     t.test('shutdown should only emit once, ever', function (t) {
         var app;
 

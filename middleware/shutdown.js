@@ -17,6 +17,9 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
+var domain = require('domain');
+var thing = require('core-util-is');
+
 var States = {
     CONNECTED: 0,
     DISCONNECTING: 2
@@ -39,7 +42,7 @@ function onceThunk() {
 }
 
 module.exports = function (config) {
-    var template, timeout, state, app, server, once;
+    var template, timeout, state, app, server, once, uncaughtException;
 
     function close() {
         state = States.DISCONNECTING;
@@ -50,11 +53,14 @@ module.exports = function (config) {
     template = config.template;
     timeout = config.timeout || 10 * 1000;
     state = States.CONNECTED;
+    uncaughtException = thing.isFunction(config.uncaughtException) && config.uncaughtException;
 
     once = onceThunk();
 
     return function shutdown(req, res, next) {
-        var headers = config.shutdownHeaders || {};
+        var headers, d;
+
+        headers = config.shutdownHeaders || {};
 
         function json() {
             res.send({message: 'Server is shutting down.'});
@@ -80,12 +86,32 @@ module.exports = function (config) {
             // if we've taken at least one request.
             app = req.app;
             server = req.socket.server;
-            
+
             once(process, ['SIGTERM', 'SIGINT'], close);
         }
 
-        next();
+        d = domain.create();
 
+        d.add(req);
+        d.add(res);
+
+        d.run(function () {
+            next();
+        });
+
+        d.once('error', function (error) {
+            if (uncaughtException) {
+                uncaughtException(error, req, res, next);
+                return;
+            }
+
+            console.error(new Date().toUTCString(), 'UNCAUGHT', error.message);
+            console.error(error.stack);
+
+            next(error);
+
+            close();
+        });
     };
 
 };
