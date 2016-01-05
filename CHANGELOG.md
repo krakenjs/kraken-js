@@ -1,4 +1,16 @@
 # Release Notes
+
+kraken-js v2.1.0
+Released: 2016-01-04
+
+## Changes
+
+  * **Core:**
+
+    1. Add more robust error handler for both inside and outside of the middleware continuation
+
+      [Implementation](https://github.com/krakenjs/kraken-js/compare/v2.0.1...v2.1.0), [Pull Request](https://github.com/krakenjs/kraken-js/pull/435)
+
 ---
 
 kraken-js v2.0.1
