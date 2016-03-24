@@ -32,7 +32,7 @@ function onceThunk() {
     function call() {
       if (!called) {
         called = true;
-        return callback.apply(this, arguments);
+        return callback.apply(null, arguments);
       }
     }
     events.forEach(function (event) {
