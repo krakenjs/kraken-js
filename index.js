@@ -28,22 +28,26 @@ function noop(obj, cb) {
     cb(null, obj);
 }
 
+function createKrakenOptions(options){
+    var krakenOptions = (typeof options === 'string')
+                        ? createKrakenOptions({ basedir: options })
+                        : options || {};
+
+    krakenOptions.protocols    = krakenOptions.protocols || {};
+    krakenOptions.onconfig     = krakenOptions.onconfig || noop;
+    krakenOptions.mountpath    = null;
+    krakenOptions.inheritViews = !!krakenOptions.inheritViews;
+
+    return krakenOptions;
+}
 
 module.exports = function (options) {
     var app;
+    var krakenOptions = createKrakenOptions(options);
 
-    if (typeof options === 'string') {
-        options = { basedir: options };
-    }
+    krakenOptions.basedir = krakenOptions.basedir || path.dirname(caller());
 
-    options = options || {};
-    options.protocols    = options.protocols || {};
-    options.onconfig     = options.onconfig || noop;
-    options.basedir      = options.basedir || path.dirname(caller());
-    options.mountpath    = null;
-    options.inheritViews = !!options.inheritViews;
-
-    debug('kraken options\n', options);
+    debug('kraken options\n', krakenOptions);
 
     app = express();
     app.once('mount', function onmount(parent) {
@@ -54,8 +58,8 @@ module.exports = function (options) {
 
         // Since this particular `app` instance is
         // subsequently deleted, the `mountpath` is
-        // moved to `options` for use later.
-        options.mountpath = app.mountpath;
+        // moved to `kraken options` for use later.
+        krakenOptions.mountpath = app.mountpath;
 
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');
@@ -63,12 +67,12 @@ module.exports = function (options) {
         // Kick off server and add middleware which will block until
         // server is ready. This way we don't have to block standard
         // `listen` behavior, but failures will occur immediately.
-        promise = bootstrap(parent, options);
+        promise = bootstrap(parent, krakenOptions);
         promise.then(start, error);
 
 
         parent.use(function startup(req, res, next) {
-            var headers = options.startupHeaders;
+            var headers = krakenOptions.startupHeaders;
             
             if (promise.isPending()) {
                 res.status(503);
