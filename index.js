@@ -29,9 +29,9 @@ function noop(obj, cb) {
 }
 
 function createKrakenOptions(options){
-    var krakenOptions = (typeof options === 'string')
-                        ? createKrakenOptions({ basedir: options })
-                        : options || {};
+    var krakenOptions = (typeof options === 'string') ?
+                            createKrakenOptions({ basedir: options }) :
+                            options || {};
 
     krakenOptions.protocols    = krakenOptions.protocols || {};
     krakenOptions.onconfig     = krakenOptions.onconfig || noop;
