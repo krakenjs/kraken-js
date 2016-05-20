@@ -4,7 +4,7 @@ We take security very seriously and ask that you follow the following process.
 
 
 ## Contact us
-If you think you may have found a security bug we ask that you privately send the details to DL-PP-Kraken-Js@ebay.com. Please make sure to use a descriptive title in the email.
+If you think you may have found a security bug we ask that you privately send the details to DL-PP-Kraken-Js@paypal.com. Please make sure to use a descriptive title in the email.
 
 
 ## Expectations
