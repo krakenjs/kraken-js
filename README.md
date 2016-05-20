@@ -148,6 +148,7 @@ The resolve handler is documented in the [shortstop-resolve](https://github.com/
 
 
 #### Environment-aware
+Defaults to `config.json` and overrides come from environment specific `.json` files based on `NODE_ENV`.
 
 Using environment suffixes, configuration files are applied and overridden according to the current environment as set
 by `NODE_ENV`. The application looks for a `./config` directory relative to the basedir and looks for `config.json` as the baseline config specification. JSON files matching the current env are processed and loaded. Additionally, JSON configuration files may contain comments.
