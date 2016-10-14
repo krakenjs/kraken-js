@@ -70,6 +70,24 @@ test('kraken', function (t) {
         app.use(kraken({ basedir: __dirname }));
     });
 
+	t.test('startup with custom config directory', function (t) {
+		var app;
+
+        t.plan(1);
+
+        function start() {
+            t.pass('server started');
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+        }
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken({ configdir: 'config' }));
+	});
 
     t.test('mount point', function (t) {
         var options, app, server;
