@@ -55,21 +55,21 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "consolidate": "^0.12.1",
+    "consolidate": "^0.14.5",
     "dustjs-linkedin": "^2.6.2",
     "ejs": "^2.3.1",
     "express": "^4.8.4",
-    "istanbul": "^0.3.13",
+    "istanbul": "^0.4.5",
     "jade": "^1.9.2",
     "jshint": "^2.6.3",
-    "supertest": "^0.15.0",
+    "supertest": "^3.0.0",
     "tape": "^4.0.0"
   },
   "peerDependencies": {
     "express": "^4.8.4"
   },
   "dependencies": {
-    "bluebird": "^2.9.24",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.12.2",
     "caller": "^1.0.0",
     "compression": "^1.4.3",
