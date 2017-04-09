@@ -11,6 +11,26 @@ Lead Maintainer: [Jean-Charles Sisk](https://github.com/jasisk)
 Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
 For more information and examples check out [krakenjs.com](http://krakenjs.com)
 
+Table of Contents
+=================
+
+* [Basic Usage](#basic-usage)
+* [API](#api)
+  * [Options](#options)
+* [Config Protocols](#config-protocols)
+* [Features](#features)
+  * [Configuration](#configuration)
+    * [Environment-aware](#environment-aware)
+  * [Middleware](#middleware)
+    * [Included Middleware](#included-middleware)
+    * [Extending Default Middleware](#extending-default-middleware)
+  * [Application Security](#application-security)
+  * [Lifecycle Events](#lifecycle-events)
+  * [Configuration-based express Settings](#configuration-based-express-settings)
+  * [View Engine Configuration](#view-engine-configuration)
+* [Tests](#tests)
+* [Coverage](#coverage)
+* [Reading app configs from within the kraken app](#reading-app-configs-from-within-the-kraken-app)
 
 ## Basic Usage
 
