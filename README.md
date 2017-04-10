@@ -507,7 +507,7 @@ $ npm test
 ```
 
 ## Coverage
-````bash
+```bash
 $ npm run-script cover && open coverage/lcov-report/index.html
 ```
 
