@@ -127,6 +127,7 @@
                 "arguments": [
                     {
                         "csrf": true,
+                        "xssProtection": true,
                         "xframe": "SAMEORIGIN",
                         "p3p": false,
                         "csp": false
