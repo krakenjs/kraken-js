@@ -32,7 +32,10 @@ function onceThunk() {
     function call() {
       if (!called) {
         called = true;
+        // for ignore directive below, refer to https://github.com/krakenjs/kraken-js/issues/450
+        /* jshint ignore:start */
         return callback.apply(this, arguments);
+        /* jshint ignore:end */
       }
     }
     events.forEach(function (event) {
