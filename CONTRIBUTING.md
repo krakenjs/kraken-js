@@ -32,7 +32,7 @@ $ npm run-script cover
 ## Making Changes
 1. Make sure that your changes adhere to the current coding conventions used throughout the project, indentation, accurate comments, etc.
 2. Lint your code regularly and ensure it passes prior to submitting a PR:
-`$ npm run-script lint`.
+`$ npm run lint`.
 3. Ensure existing tests pass (`$ npm test`) and include test cases which fail without your change and succeed with it.
 
 ## Submitting Changes
