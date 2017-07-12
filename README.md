@@ -1,10 +1,6 @@
 ![kraken-js](public/krakenLogo.png)
 
-
-kraken.js
-=========
-
-Lead Maintainer: [Jean-Charles Sisk](https://github.com/jasisk)
+# kraken.js
 
 [![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js)  
 
