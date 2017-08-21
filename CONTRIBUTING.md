@@ -44,4 +44,4 @@ $ npm run-script cover
 
 If you have any questions about contributing, please feel free to contact us by posting your questions on GitHub.
 
-Copyright 2016 PayPal under [the Apache 2.0 license](LICENSE.txt).
+Copyright 2017 PayPal under [the Apache 2.0 license](LICENSE.txt).

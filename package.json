@@ -82,7 +82,7 @@
     "express-enrouten": "^1.2.0",
     "express-session": "^1.10.4",
     "formidable": "^1.0.17",
-    "lusca": "^1.0.3",
+    "lusca": "^1.5.1",
     "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
     "serve-favicon": "^2.2.0",
