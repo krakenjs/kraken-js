@@ -1,5 +1,30 @@
 # Release Notes
 
+kraken-js v2.2.0
+Released: 2017-23-10
+
+## Changes
+
+  * **Core:**
+
+    1. Allow config path to be configurable
+
+      [Implementation](https://github.com/krakenjs/kraken-js/commit/6a643e5c740a21740a2adfd81a12ea0518755db7), [Pull Request](https://github.com/krakenjs/kraken-js/pull/473)
+
+    2. Updates dependencies
+
+      [Pull Request](https://github.com/krakenjs/kraken-js/pull/481)
+
+    3. Updates `lusca` dependency to 1.5.1
+
+      [Pull Request](https://github.com/krakenjs/kraken-js/pull/493)
+
+    4. Enables Lusca XSS protection by default
+
+      [Pull Request](https://github.com/krakenjs/kraken-js/pull/477)
+
+---
+
 kraken-js v2.1.0
 Released: 2016-01-04
 
@@ -104,4 +129,3 @@ Released: 2015-10-07
       >// result
       >{ "KEY": "fromConfig", "OTHER_KEY": "fromEnv", "THIRD_KEY": "fromArgv" }
       >```
-
