@@ -105,7 +105,7 @@ var options = {
 ```
 
 #### `uncaughtException` (*Function*, optional)
-Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/totherik/endgame) module for defaults.
+Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/krakenjs/endgame) module for defaults.
 
 For uncaught errors in the middleware chain, see `shutdown` middleware instead.
 
