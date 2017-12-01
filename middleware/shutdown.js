@@ -19,6 +19,7 @@
 
 var domain = require('domain');
 var thing = require('core-util-is');
+var onFinish = require('on-finished');
 
 var States = {
     CONNECTED: 0,
@@ -57,10 +58,40 @@ module.exports = function (config) {
 
     once = onceThunk();
 
-    return function shutdown(req, res, next) {
-        var headers, d;
+    function useDomain(req, res, next) {
+        var d = domain.create();
 
-        headers = config.shutdownHeaders || {};
+        d.add(req);
+        d.add(res);
+
+        var krakenDomainErrorHandler = function (error) {
+            if (uncaughtException) {
+                uncaughtException(error, req, res, next);
+                return;
+            }
+
+            console.error(new Date().toUTCString(), 'UNCAUGHT', error.message);
+            console.error(error.stack);
+
+            next(error);
+            close();
+        };
+
+        d.once('error', krakenDomainErrorHandler);
+
+        var cleanup = function () {
+            d.remove(req);
+            d.remove(res);
+            d.removeListener('error', krakenDomainErrorHandler);
+        };
+
+        onFinish(res, cleanup);
+
+        d.run(next);
+    }
+
+    return function shutdown(req, res, next) {
+        var headers = config.shutdownHeaders || {};
 
         function json() {
             res.send({message: 'Server is shutting down.'});
@@ -90,28 +121,7 @@ module.exports = function (config) {
             once(process, ['SIGTERM', 'SIGINT'], close);
         }
 
-        d = domain.create();
-
-        d.add(req);
-        d.add(res);
-
-        d.run(function () {
-            next();
-        });
-
-        d.once('error', function (error) {
-            if (uncaughtException) {
-                uncaughtException(error, req, res, next);
-                return;
-            }
-
-            console.error(new Date().toUTCString(), 'UNCAUGHT', error.message);
-            console.error(error.stack);
-
-            next(error);
-
-            close();
-        });
+        useDomain(req, res, next);
     };
 
 };

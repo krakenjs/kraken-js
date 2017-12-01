@@ -89,6 +89,7 @@
     "lusca": "^1.5.1",
     "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
+    "on-finished": "^2.3.0",
     "serve-favicon": "^2.2.0",
     "serve-static": "^1.9.2",
     "shortstop": "^1.0.1",
