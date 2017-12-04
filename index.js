@@ -47,7 +47,18 @@ module.exports = function (options) {
 
     app = express();
     app.once('mount', function onmount(parent) {
-        var start, error, promise;
+        var start, error, promise, isPending = true, isRejected = false;
+
+
+        function fulfilled() {
+            isPending = false;
+        }
+
+        function rejected(err) {
+            isPending = false;
+            isRejected = true;
+            throw err;
+        }
 
         // Remove sacrificial express app
         parent._router.stack.pop();
@@ -64,13 +75,14 @@ module.exports = function (options) {
         // server is ready. This way we don't have to block standard
         // `listen` behavior, but failures will occur immediately.
         promise = bootstrap(parent, options);
-        promise.then(start, error);
+        promise.then(fulfilled, rejected)
+            .then(start, error);
 
 
         parent.use(function startup(req, res, next) {
             var headers = options.startupHeaders;
             
-            if (promise.isPending()) {
+            if (isPending) {
                 res.status(503);
                 if (headers) {
                     res.header(headers);
@@ -79,7 +91,7 @@ module.exports = function (options) {
                 return;
             }
 
-            if (promise.isRejected()) {
+            if (isRejected) {
                 res.status(503);
                 res.send('The application failed to start.');
                 return;

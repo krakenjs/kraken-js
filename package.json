@@ -73,7 +73,6 @@
     "express": "^4.8.4"
   },
   "dependencies": {
-    "bluebird": "^3.4.7",
     "body-parser": "^1.12.2",
     "caller": "^1.0.0",
     "compression": "^1.4.3",
@@ -94,6 +93,7 @@
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
-    "shush": "^1.0.0"
+    "shush": "^1.0.0",
+    "util.promisify": "^1.0.0"
   }
 }
