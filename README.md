@@ -338,7 +338,7 @@ More complicated examples include configuring the session middleware to use a sh
       "middleware": {
           "session": {
               "module": {
-                  // use our own module instead
+                  // use your own module instead
                   "name": "path:./lib/middleware/redis-session",
                   "arguments": [
                       // express-session configuration
