@@ -25,6 +25,19 @@ var States = {
     DISCONNECTING: 2
 };
 
+function printDeprecation() {
+    if (/krakendev/i.test(process.env.NODE_ENV)) {
+        return;
+    }
+
+    console.warn(
+`DEPRECATION WARNING: Due to deprecation of the domain module
+in node.js, all features in kraken that depend on it have
+been deprecated as well. This includes kraken's shutdown
+middleware. This feature will continue to work in kraken 2.x
+but consider it unsupported and likely to be removed/replaced
+in future versions of kraken.`);
+}
 
 function onceThunk() {
   var called = false;
@@ -56,6 +69,8 @@ module.exports = function (config) {
     uncaughtException = thing.isFunction(config.uncaughtException) && config.uncaughtException;
 
     once = onceThunk();
+
+    printDeprecation();
 
     return function shutdown(req, res, next) {
         var headers, d;

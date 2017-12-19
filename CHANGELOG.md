@@ -1,3 +1,7 @@
+# unreleased
+
+- deprecate domains
+
 # Release Notes
 
 kraken-js v2.2.0
