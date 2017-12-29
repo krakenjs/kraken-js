@@ -8,6 +8,8 @@
     "couch": false,
     "wsh": false,
 
+    "esversion": 6,
+
     "jquery": false,
     "prototypejs": false,
     "mootools": false,
