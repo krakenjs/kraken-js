@@ -66,6 +66,18 @@ module.exports = function (options) {
         promise = bootstrap(parent, options);
         promise.then(start, error);
 
+        if (options.listenAfterBootstrap) {
+            const serverListen = parent.listen;
+            parent.listen = function listenOverride() {
+                parent.on('start', () => {
+                    return serverListen.apply(parent, arguments)
+                })
+             
+                parent.on('error', () => {
+                    return serverListen.apply(parent, arguments)
+                })
+            };  
+        }
 
         parent.use(function startup(req, res, next) {
             var headers = options.startupHeaders;
