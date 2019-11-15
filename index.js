@@ -70,12 +70,12 @@ module.exports = function (options) {
             const serverListen = parent.listen;
             parent.listen = function listenOverride() {
                 parent.on('start', () => {
-                    return serverListen.apply(parent, arguments)
-                })
+                    return serverListen.apply(parent, arguments);
+                });
              
                 parent.on('error', () => {
-                    return serverListen.apply(parent, arguments)
-                })
+                    return serverListen.apply(parent, arguments);
+                });
             };  
         }
 
