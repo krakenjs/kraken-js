@@ -181,7 +181,7 @@ test('kraken', function (t) {
     t.test('on bootstrapinit > start listening post bootstrap', function (t) {
         var options, app;
 
-        t.plan(3);
+        t.plan(4);
 
         function start() {
             t.pass('server started');
@@ -213,16 +213,22 @@ test('kraken', function (t) {
         app.on('error', error);
         app.use(kraken(options));
 
-        const server = app.listen(8000);
+        const server = app.listen();
 
-        request('http://localhost:8000').get('/').end((err, res) => {
-            t.equal(err.message.includes('ECONNREFUSED'), true, 'ECONNREFUSED - server is not listening');
-        });
+        t.equal(server && server.listening, undefined, 'server hasn\'t started and isn\'t listening');
 
         server.then(server => {
             t.equal(server.listening, true, 'Server is listening');
-            server.close();
-            t.end();
+
+            request(`http://127.0.0.1:${server.address().port}`)
+            .get('/')
+            .expect(404)
+            .end(function(err, res) {
+                server.close();
+                t.ok(!err, `server returns without error`);
+                t.end();
+            });
+
         });
     });
 
