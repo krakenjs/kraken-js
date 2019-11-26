@@ -178,7 +178,7 @@ test('kraken', function (t) {
         app.use(kraken(options));
     });
 
-    t.test('on bootstrapinit > start listening post bootstrap', function (t) {
+    t.test('onkrakenmount > start listening post bootstrap', function (t) {
         var options, app;
 
         t.plan(4);
@@ -192,7 +192,7 @@ test('kraken', function (t) {
         }
 
         options = {
-            onbootstrapinit: function (app) {
+            onkrakenmount: function (app) {
                 const serverListen = app.listen;
                 app.listen =  () => {
                     return new Promise((resolve , reject) => {

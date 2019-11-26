@@ -57,6 +57,10 @@ module.exports = function (options) {
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
 
+        // on krakenmount
+        const onkrakenmount = options.onkrakenmount;
+        onkrakenmount && onkrakenmount(parent, options);
+
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');
 
