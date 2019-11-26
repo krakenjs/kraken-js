@@ -178,6 +178,53 @@ test('kraken', function (t) {
         app.use(kraken(options));
     });
 
+    t.test('on bootstrapinit > start listening post bootstrap', function (t) {
+        var options, app;
+
+        t.plan(3);
+
+        function start() {
+            t.pass('server started');
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+        }
+
+        options = {
+            onbootstrapinit: function (app) {
+                const serverListen = app.listen;
+                app.listen =  () => {
+                    return new Promise((resolve , reject) => {
+                        app.on('start', () => {
+                            return resolve(serverListen.apply(app, arguments));
+                        });
+
+                        app.on('error', () => {
+                            return reject(serverListen.apply(app, arguments));
+                        });
+                    });
+                }
+            }
+        };
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken(options));
+
+        const server = app.listen(8000);
+
+        request('http://localhost:8000').get('/').end((err, res) => {
+            t.equal(err.message.includes('ECONNREFUSED'), true, 'ECONNREFUSED - server is not listening');
+        });
+
+        server.then(server => {
+            t.equal(server.listening, true, 'Server is listening');
+            server.close();
+            t.end();
+        });
+    });
 
     t.test('server 503 until started', function (t) {
         var options, app, server;

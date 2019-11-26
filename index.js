@@ -37,10 +37,10 @@ module.exports = function (options) {
     }
 
     options = options || {};
-    options.protocols    = options.protocols || {};
-    options.onconfig     = options.onconfig || noop;
-    options.basedir      = options.basedir || path.dirname(caller());
-    options.mountpath    = null;
+    options.protocols = options.protocols || {};
+    options.onconfig = options.onconfig || noop;
+    options.basedir = options.basedir || path.dirname(caller());
+    options.mountpath = null;
     options.inheritViews = !!options.inheritViews;
 
     debug('kraken options\n', options);
@@ -69,7 +69,7 @@ module.exports = function (options) {
 
         parent.use(function startup(req, res, next) {
             var headers = options.startupHeaders;
-            
+
             if (promise.isPending()) {
                 res.status(503);
                 if (headers) {
