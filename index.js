@@ -36,8 +36,8 @@ module.exports = function (options) {
         options = { basedir: options };
     }
 
-    options = options || {};
-    options.protocols    = options.protocols || {};
+    options = options;
+    options.protocols    = options.protocols;
     options.onconfig     = options.onconfig || noop;
     options.basedir      = options.basedir || path.dirname(caller());
     options.mountpath    = null;
