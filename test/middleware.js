@@ -1,38 +1,93 @@
-/*global describe:false, it:false, before:false, after:false*/
 'use strict';
 
-var path = require('path'),
-    kraken = require('../index'),
-    assert = require('chai').assert;
+process.env.NODE_ENV='_krakendev';
 
-describe.skip('middleware', function () {
+var test = require('tape');
+var path = require('path');
+var express = require('express');
+var request = require('supertest');
+var kraken = require('../');
 
-    var cwd, server;
 
-    before(function () {
-        // Ensure the test case assumes it's being run from application root.
-        // Depending on the test harness this may not be the case, so shim.
-        cwd = process.cwd();
-        process.chdir(path.join(__dirname, 'fixtures'));
+test('middleware', function (t) {
+
+    t.test('no config', function (t) {
+        var options, app;
+
+        options = {
+            basedir: path.join(__dirname, 'fixtures', 'middleware'),
+            onconfig: function (settings, cb) {
+                settings.set('middleware', null);
+                cb(null, settings);
+            }
+        };
+
+        app = express();
+        app.on('start', t.end.bind(t));
+        app.on('error', t.error.bind(t));
+        app.use(kraken(options));
     });
 
 
-    after(function (next) {
-        server.close(function () {
-            process.chdir(cwd);
-            next();
+    t.test('multipart', function (t) {
+        var basedir, app, file, server;
+
+        t.plan(8);
+
+        function start() {
+            var file;
+
+            t.pass('server started');
+
+            file = path.join(__dirname, 'fixtures', 'middleware', 'public', 'img', 'lazerz.jpg');
+            server = request(app).post('/').attach('file', file).expect(200, function (err) {
+                // support for multipart requests
+                t.error(err, 'server is accepting requests');
+
+                // trololol
+                server = request(app).get('/').expect(200, function (err) {
+                    // support for non-multipart requests
+                    t.error(err);
+                    t.end();
+                });
+            });
+        }
+
+        function error(err) {
+            t.error(err, 'server startup failed');
+            t.end();
+        }
+
+        basedir = path.join(__dirname, 'fixtures', 'middleware');
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken({
+            basedir: basedir,
+            onconfig: function (config, done) {
+                done(null, config);
+            }
+        }));
+
+        app.on('middleware:before:router', function (eventargs) {
+
+            eventargs.app.get('/', function standard(req, res) {
+                res.status(200).end();
+            });
+
+            eventargs.app.post('/', function multipart(req, res) {
+                t.ok(~req.headers['content-type'].indexOf('multipart/form-data'));
+                t.equal(typeof req.body, 'object');
+                t.equal(typeof req.files, 'object');
+                t.equal(typeof req.files.file, 'object');
+                t.equal(req.files.file.name, 'lazerz.jpg');
+                res.status(200).end();
+            });
+
         });
-    });
 
 
-    it('should allow custom middleware', function (next) {
-        var application = {};
-
-        kraken.create(application).listen(8000, function (err, srvr) {
-            assert.isNull(err);
-            server = srvr;
-            next();
-        });
     });
 
 });

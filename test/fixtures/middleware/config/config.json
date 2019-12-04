@@ -1,0 +1,25 @@
+{
+    "middleware": {
+        "shutdown": {
+            "enabled": true,
+            "priority": 0,
+            "module": {
+                "name": "path:../../../middleware/shutdown"
+            }
+        },
+
+        "multipart": {
+            "enabled": true,
+            "priority": 80,
+            "module": "path:../../../middleware/multipart"
+        },
+
+        "appsec": null,
+
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
+        }
+    }
+}

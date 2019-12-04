@@ -1,0 +1,153 @@
+{
+
+    "view engines": {
+
+    },
+
+    "express": {
+        "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
+        "x-powered-by": false,
+        "views": "path:./views",
+        "mountpath": "/"
+    },
+
+    "middleware": {
+
+        "shutdown": {
+            "enabled": true,
+            "priority": 0,
+            "module": {
+                "name": "kraken-js/middleware/shutdown",
+                "arguments": [{
+                    "timeout": 30000,
+                    "template": null
+                }]
+            }
+        },
+
+        "compress": {
+            "enabled": false,
+            "priority": 10,
+            "module": "compression"
+        },
+
+        "favicon": {
+            "enabled": false,
+            "priority": 30,
+            "module": {
+                "name": "serve-favicon",
+                "arguments": [ "resolve:kraken-js/public/favicon.ico" ]
+            }
+        },
+
+        "static": {
+            "enabled": true,
+            "priority": 40,
+            "module": {
+                "name": "serve-static",
+                "arguments": [ "path:./public" ]
+            }
+        },
+
+        "logger": {
+            "enabled": true,
+            "priority": 50,
+            "module": {
+                "name": "morgan",
+                "arguments": [
+                    "combined",
+                    {
+                        "immediate": true
+                    }
+                ]
+            }
+        },
+
+        "json": {
+            "enabled": true,
+            "priority": 60,
+            "module": {
+                "name": "body-parser",
+                "method": "json"
+            }
+        },
+
+        "urlencoded": {
+            "enabled": true,
+            "priority": 70,
+            "module": {
+                "name": "body-parser",
+                "method": "urlencoded",
+                "arguments": [{ "extended": true }]
+            }
+        },
+
+        "multipart": {
+            "enabled": true,
+            "priority": 80,
+            "module": "kraken-js/middleware/multipart"
+        },
+
+        "cookieParser": {
+            "enabled": true,
+            "priority": 90,
+            "module": {
+                "name": "cookie-parser",
+                "arguments": [ "keyboard cat" ]
+            }
+        },
+
+        "session": {
+            "enabled": true,
+            "priority": 100,
+            "module": {
+                "name": "express-session",
+                "arguments": [
+                    {
+                        "key": "",
+                        "secret": "keyboard cat",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "resave": true,
+                        "saveUninitialized": true,
+                        "proxy": null
+                    }
+                ]
+            }
+        },
+
+        "appsec": {
+            "enabled": true,
+            "priority": 110,
+            "module": {
+                "name": "lusca",
+                "arguments": [
+                    {
+                        "csrf": true,
+                        "xssProtection": true,
+                        "xframe": "SAMEORIGIN",
+                        "p3p": false,
+                        "csp": false
+                    }
+                ]
+            }
+        },
+
+        "router": {
+            "enabled": true,
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [
+                    {
+                        "index": "path:./routes"
+                    }
+                ]
+            }
+        }
+
+    }
+}

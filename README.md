@@ -1,227 +1,531 @@
-# Kraken
+![kraken-js](public/krakenLogo.png)
 
-A Node.js web application framework.
+# kraken.js
 
-[![Build Status](https://travis-ci.org/paypal/kraken-js.png)](https://travis-ci.org/paypal/kraken-js)
-[![NPM version](https://badge.fury.io/js/kraken-js.png)](http://badge.fury.io/js/kraken-js)
+[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js)  
 
+Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
+For more information and examples check out [krakenjs.com](http://krakenjs.com)
 
-## The Kraken Suite
-KrakenJS is part of the Kraken Suite. If you'd like to find out more about the other modules, please visit [krakenjs.com](http://krakenjs.com)
+Table of Contents
+=================
 
+* [Basic Usage](#basic-usage)
+* [API](#api)
+  * [Options](#options)
+* [Config Protocols](#config-protocols)
+* [Features](#features)
+  * [Configuration](#configuration)
+    * [Environment-aware](#environment-aware)
+  * [Middleware](#middleware)
+    * [Included Middleware](#included-middleware)
+    * [Extending Default Middleware](#extending-default-middleware)
+  * [Application Security](#application-security)
+  * [Lifecycle Events](#lifecycle-events)
+  * [Configuration-based express Settings](#configuration-based-express-settings)
+  * [View Engine Configuration](#view-engine-configuration)
+* [Tests](#tests)
+* [Coverage](#coverage)
+* [Reading app configs from within the kraken app](#reading-app-configs-from-within-the-kraken-app)
 
-## Getting Started
-
-To create a new project:
-
-1. Install Yeoman and the Kraken Generator:
-`npm install -g yo generator-kraken`
-2. Generate a Kraken project:
-`yo kraken`
-3. Go to your project directory and start your project. By default, it will listen on port 8000:
-`npm start`
-
-
-## Directory structure
-
-- **/config** - Application and middleware configuration
-- **/controllers** - Controllers
-- **/lib** - Custom developer libraries and other code
-- **/locales** - Local-based content
-- **/models** - Models
-- **/public** - Web resources that are publicly available
-- **/public/templates** - Server and browser-side templates
-- **/tests** - Unit and functional test cases
-
-
-
-## Configuration
-
-Configuration is stored in JSON format. Each settings file can be overridden in development mode by creating a `-development` version, e.g. app-development.json.
-
-- **/config/app.json** - Application specific settings
-- **/config/middleware.json** - Custom middleware specfic settings
-
-
-*app.json values:*
-
-- **host** - The application host. *Default: localhost*
-- **port** - The application port to bind to. *Default: `8000`*
-- **i18n**
-  - **fallback** - Locale fallback to use if content files aren't found. *Default: `"en-US"`*
-  - **contentPath** - Root path to content files. *Default: `"path:./locales"`*
-- **routes**
-  - **routePath** - The directory to scan for routes: *Default: `"path:./controllers"`*
-- **express**
-  - **trust proxy** Enables reverse proxy support, disabled by default
-  - **jsonp callback** name Changes the default callback name of ?callback=
-  - **json replacer** JSON replacer callback, null by default
-  - **json spaces** JSON response spaces for formatting, defaults to 2 in development, 0 in production
-  - **case sensitive** routing Enable case sensitivity, disabled by default, treating "/Foo" and "/foo" as the same
-  - **strict routing** Enable strict routing, by default "/foo" and "/foo/" are treated the same by the router
-  - **view cache** Enables view template compilation caching, enabled in production by default
-  - **view engine** The default engine extension to use when omitted
-  - **views** The view directory path, defaulting to "./views"
-- **view engines** - A map of view engines to register for the given app.
-  - **{extension}** - View engine identifier for use by express.
-     - **module** - The node module used to support this view engine.
-     - **settings** - Any configuration settings needed by the identified module.
-- **ssl** Also see tls.createServer http://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener
-  - **pfx** - A string or Buffer containing the private key, certificate and CA certs of the server in PFX or PKCS12 format.
-  - **key** - A string or Buffer containing the private key of the server in PEM format. (Required)
-  - **passphrase** - A string of passphrase for the private key or pfx.
-  - **cert** - A string or Buffer containing the certificate key of the server in PEM format. (Required)
-  - **ca** - An array of strings or Buffers of trusted certificates in PEM format.
-  - **crl** - Either a string or list of strings of PEM encoded CRLs (Certificate Revocation List)
-  - **ciphers** - A string describing the ciphers to use or exclude. Default: ```AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH```.
-  - **handshakeTimeout** - Abort the connection if the SSL/TLS handshake does not finish in this many milliseconds. The default is 120 seconds.
-  - **honorCipherOrder** - When choosing a cipher, use the server's preferences instead of the client preferences.
-  - **requestCert** - If true the server will request a certificate from clients that connect and attempt to verify that certificate. Default: ```false```.
-  - **rejectUnauthorized** - If true the server will reject any connection which is not authorized with the list of supplied CAs. This option only has an effect if requestCert is true. Default: ```false```.
-  - **NPNProtocols** - An array or Buffer of possible NPN protocols. (Protocols should be ordered by their priority).
-  - **SNICallback** - A function that will be called if client supports SNI TLS extension. Only one argument will be passed to it: servername. Should return SecureContext instance.
-  - **sessionIdContext** - A string containing a opaque identifier for session resumption.
-  - **secureProtocol** - The SSL method to use.
-  - **slabBufferSize** - Size of slab buffer used by all tls servers and clients. Default: ```10 * 1024 * 1024```. *Note: only change this if you know what you are doing.*
-  - **clientRenegotiationLimit** - Renegotiation limit, default is 3. *Note: only change this if you know what you are doing.*
-  - **clientRenegotiationWindow** - Renegotiation window in seconds, default is 10 minutes. *Note: only change this if you know what you are doing.*
-
-
-
-*middleware.json values:*
-
-- **middleware**
-  - **appsec**
-      - **csrf** - Should CSRF tokens be required. *Default: `true`*
-      - **csp** - Should CSP headers be sent. *Default: `false`*
-          - **reportOnly** - Report only enabled.
-          - **report-uri** - URI the browser should send the report to.
-          - **policy** - Key value object of the CSP policy.
-      - **p3p** - Setting for P3P header. *Default: `false`*
-      - **xframe** - Setting for XFRAME headers. *Default: `"SAMEORIGIN"`*
-
-  - **compiler**
-      - **dust** - Where the dev-time compiler should look for dust files. *Default: `"templates"`*
-      - **less** - Where the dev-time compiler should look for LESS files. *Default: `"css"`*
-
-  - **errorPages**
-      - **404** - Template to load when a file is not found. *Default: `undefined`*
-      - **500** - Template to load when a server error occurs. *Default: `undefined`*
-
-  - **session**
-      - **module** - Connect-based module name to require for sessions. *Default: `false`*
-      - **secret** - Secret used to hash your cookie. *Default: `"keyboard cat"`*
-      - **cookie**
-          - **path** - Path to set on the cookie. *Default: `"/"`*
-          - **httpOnly** - HTTP only setting for the cookie. *Default: `true`*
-          - **maxAge** - Maximum age the cookie should exist. *Default: `null`*
-
-  - **static**
-      - **srcRoot** - Where the compiler should look for files. *Default: `"path:./public"`*
-      - **rootPath** - Where the compiler should put compiled files. *Default: `"path:./.build"`*
-
-
-
-## Customization
-
-
-### Application Life-cycle
-
-You can customize your application's life-cycle by adding methods to the app delegate in the `index.js` file.
-
-- **app.configure(config, next)** - Async method run on startup. `next` must be called to continue.
-- **app.requestStart(server)** -  Run before most express middleware has been registered.
-- **app.requestBeforeRoute(server)** - Run before any routes have been added.
-- **app.requestAfterRoute(server)** - Run after all routes have been added.
-
-*Example:*
+## Basic Usage
 
 ```javascript
-app.requestBeforeRoute = function (server) {
-    // Register passport-js middleware
-    server.use(passport.initialize());
-    server.use(passport.session());
+'use strict';
+
+var express = require('express'),
+    kraken = require('kraken-js');
+
+var app = express();
+app.use(kraken());
+app.listen(8000);
+```
+
+
+## API
+
+`kraken([options])`
+
+kraken-js is used just like any normal middleware, however it does more than just return a function; it configures a
+complete express 4 application. See below for a list of features, but to get started just use it like middleware.
+
+```javascript
+app.use(kraken());
+// or to specify a mountpath for your application:
+// app.use('/mypath', kraken());
+
+// Note: mountpaths can also be configured using the
+// `express:mountpath` config setting, but that setting
+// will be overridden if specified in code.
+```
+
+### Options
+Pass the following options to kraken via a config object such as this:
+
+```javascript
+var options = {
+    onconfig: function (config, callback) {
+        // do stuff
+        callback(null, config);
+    }
+};
+
+// ...
+
+app.use(kraken(options));
+```
+Note: All kraken-js configuration settings are optional.
+
+#### `basedir` (*String*, optional)
+The working directory for kraken to use. kraken loads configuration files,
+routes, and registers middleware so this directory is the path against all relative paths are resolved. The default value
+is the directory of the file that uses kraken, which is generally `index.js` (or `server.js`).
+
+#### `onconfig` (*Function*, optional)
+Provides an asynchronous hook for loading additional configuration. When invoked, a
+[confit](https://github.com/krakenjs/confit) configuration object containing all loaded configuration value passed
+as the first argument, and a callback as the second. The signature of this handler is `function (config, callback)`
+and the callback is a standard error-back which accepts an error as the first argument and the config object as the
+second, e.g. `callback(null, config)`.
+
+#### `protocols` (*Object*, optional)
+Protocol handler implementations for use when processing configuration. For more information on protocols
+see [shortstop](https://github.com/krakenjs/shortstop) and [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers).
+By default, kraken comes with a set of shortstop protocols which are described in the "Config Protocols" section below,
+but you can add your own by providing an object with the protocol names as the keys and their implementations as
+properties, for example:
+```javascript
+var options = {
+    protocols: {
+        file: function file(value, callback) {
+            fs.readFile(value, 'utf8', callback);
+        }
+    }
 };
 ```
 
+#### `uncaughtException` (*Function*, optional)
+Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/krakenjs/endgame) module for defaults.
 
-### Routes
+For uncaught errors in the middleware chain, see `shutdown` middleware instead.
 
-To add a route you need to create a new file in `/controllers` that exports a function which accepts an express server. From there it's all [express](http://expressjs.com/)!
-
-*Example:*
-
-```
-module.exports = function (server) {
-    server.get('/path', function (req, res) {
-    	// Awesome code!
-    });
-};
-```
-
-
-
-## Content
-
-
-### Format
-
-Content is in key value format. Named variables may be inserted into content strings with `{bracket}` syntax using the name of the value in your data model.
-
-*Example:*
-
-```
-myPage.title=Welcome to my site!
-myPage.greeting=Hello, {user}. How are you?
+## Config Protocols
+kraken comes with the following shortstop protocol handlers by default:
+#### `import:`
+Merge the contents of the specified file into configuration under a given key.
+```json
+{
+    "foo": "import:./myjsonfile"
+}
 ```
 
-
-### File Structure
-
-Content is loaded from country and language subdirectories inside `/locales` based on the user locale. Convention is used to automatically determine which content file to load: the base template file name and path are looked for in the locales folder.
-
-*Example:*
-
-```
-content/
-  US/
-    en/
-      index.properties
-      myDir/
-         page.properties
-
-public/
-  templates/
-    index.dust
-    myDir/
-      page.dust
+#### `config:`
+Replace with the value at a given key. Note that the keys in this case are dot (.) delimited.
+```json
+{
+    "foo": {
+        "bar": true
+    },
+    "foobar": "config:foo.bar"
+}
 ```
 
+#### `path:`
+The path handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlerspathbasedir) repo.
+
+#### `file:`
+The file handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersfilebasedir-options) repo.
+
+#### `base64:`
+The base64 handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersbase64) repo.
+
+#### `env:`
+The env handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersenv) repo.
+
+#### `require:`
+The require handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersrequirebasedir) repo.
+
+#### `exec:`
+The exec handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersexecbasedir) repo.
+
+#### `glob:`
+The glob handler is documented in the [shortstop-handlers](https://github.com/krakenjs/shortstop-handlers#handlersglobbasediroptions) repo.
+
+#### `resolve:`
+The resolve handler is documented in the [shortstop-resolve](https://github.com/jasisk/shortstop-resolve) repo.
 
 
-## Builds
-
-A [Grunt](http://gruntjs.com/) task is used for builds. To prepare your code for production run `grunt build` which will create new files in the `.build` directory. This task must be done before running your app in production mode.
 
 
-# Contributing to the Kraken Suite
-
-Bugs and new features should be submitted using [Github issues](https://github.com/PayPal/kraken-js/issues/new). Please include with a detailed description and the expected behaviour. If you would like to submit a change yourself do the following steps.
-
-1. Fork it.
-2. Create a branch (`git checkout -b fix-for-that-thing`)
-3. Commit a failing test (`git commit -am "adds a failing test to demonstrate that thing"`)
-3. Commit a fix that makes the test pass (`git commit -am "fixes that thing"`)
-4. Push to the branch (`git push origin fix-for-that-thing`)
-5. Open a [Pull Request](https://github.com/PayPal/kraken-js/pulls)
-
-Please keep your branch up to date by rebasing upstream changes from master.
+## Features
 
 
-## FAQ
+### Configuration
 
-### Why use Kraken?
-Kraken is the glue to your open source. It sits on top of grunt and express, but offers you a more robust feature set in a web application framework. The benefits include support for externalized content, localization, compile-on-the-fly editing, environment-based configuration, baked-in application security and more.
 
-### How do I run in production mode?
-Build your project first and then `export NODE_ENV=production` before running the app.
+#### Environment-aware
+
+Using environment suffixes, configuration files are applied and overridden according to the current environment as set
+by `NODE_ENV`. The application looks for a `./config` directory relative to the basedir and looks for `config.json` as the baseline config specification. JSON files matching the current env are processed and loaded. Additionally, JSON configuration files may contain comments.
+
+Valid `NODE_ENV` values are `undefined` or `dev[elopment]` (uses `development.json`), `test[ing]` (uses `test.json`), `stag[e|ing]` (uses `staging.json`), `prod[uction]` (uses `config.json`). Simply add a config file with the name, to have it read only in that environment, e.g. `config/development.json`.
+
+
+### Middleware
+
+Much like configuration, you shouldn't need to write a lot of code to determine what's in your middleware chain. [meddleware](https://github.com/paypal/meddleware) is used internally to read,
+resolve, and register middleware with your express application. You can either specify the middleware in your `config.json` or `{environment}.json`, (or) import it from a separate json file using the import protocol mentioned above.
+
+#### Included Middleware
+Kraken comes with common middleware already included in its `config.json` file. The following is a list of the included middleware and their default configurations which can be overridden in your app's configuration:
+* `"shutdown"` - internal middleware which handles graceful shutdowns in production environments
+  - Priority - 0
+  - Enabled - `true` if *not* in a development environment
+  - Module - `"kraken-js/middleware/shutdown"`
+    - Arguments (*Array*)
+      - *Object*
+        - `"timeout"` - milliseconds (default: `30000`)
+        - `"template"` - template to render (default: `null`)
+        - `"shutdownHeaders"` - custom headers to write while still disconnecting.
+        - `"uncaughtException"` - custom handler - `function (error, req, res, next)` - for uncaught errors. Default behavior is to log the error and then trigger shutdown.
+* `"compress"` - adds compression to server responses
+  - Priority - 10
+  - Enabled - `false` (disabled in all environments by default)
+  - Module - `"compression"` ([npm](https://www.npmjs.org/package/compression))
+* `"favicon"` - serves the site's favicon
+  - Priority - 30
+  - Module - `"serve-favicon"` ([npm](https://www.npmjs.org/package/serve-favicon))
+    - Arguments (*Array*)
+      - *String* - local path to the favicon file (default: `"path:./public/favicon.ico"`)
+* `"static"` - serves static files from a specific folder
+  - Priority - 40
+  - Module - `"serve-static"` ([npm](https://www.npmjs.org/package/serve-static))
+    - Arguments (*Array*)
+      - *String* - local path to serve static files from (default: `"path:./public"`)
+* `"logger"` - logs requests and responses
+  - Priority - 50
+  - Module - `"morgan"` ([npm](https://www.npmjs.org/package/morgan))
+    - Arguments (*Array*)
+      - *String* - log format type (default: `"combined"`)
+* `"json"` - parses JSON request bodies
+  - Priority - 60
+  - Module - `"body-parser"` ([npm](https://www.npmjs.org/package/body-parser))
+    - Method - `"json"`
+* `"urlencoded"` - parses URL Encoded request bodies
+  - Priority - 70
+  - Module - `"body-parser"` ([npm](https://www.npmjs.org/package/body-parser))
+    - Method - `"urlencoded"`
+    - Arguments (*Array*)
+      - *Object*
+        - `"extended"` (*Boolean*) - parse extended syntax with the [qs](https://www.npmjs.org/package/qs) module (default: `true`)
+* `"multipart"` - parses multipart FORM bodies
+  - Priority - 80
+  - Module - `"kraken-js/middleware/multipart"` (delegates to [formidable](https://www.npmjs.org/package/formidable))
+* `"cookieParser"` - parses cookies in request headers
+  - Priority - 90
+  - Module - `"cookie-parser"` ([npm](https://www.npmjs.org/package/cookie-parser))
+    - Arguments (*Array*)
+      - *String* - secret used to sign cookies (default: `"keyboard cat"`)
+* `"session"` - maintains session state
+  - Priority - 100
+  - Module - `"express-session"` ([npm](https://www.npmjs.org/package/express-session))
+    - Arguments (*Array*)
+      - *Object*
+        - `"key"` (*String*) - cookie name (default: `"connect.sid"`)
+        - `"secret"` (*String*) - secret used to sign session cookie (default: `"keyboard cat"`)
+        - `"cookie"` (*Object*) - describing options for the session cookie
+          - `"path"` (*String*) - base path to verify cookie (default: `"/"`)
+          - `"httpOnly"` (*Boolean*) - value indicating inaccessibility of cookie in the browser (default: `true`)
+          - `"maxAge"` (*Number*) - expiration of the session cookie (default: `null`)
+        - `"resave"` (*Boolean*) - value indicating whether sessions should be saved even if unmodified (default: `true`)
+        - `"saveUninitialized"` (*Boolean*) - value indicating whether to save uninitialized sessions (default: `true`)
+        - `"proxy"` (*Boolean*) - value indicating whether to trust the reverse proxy (default: `null`, inherit from `express`)
+* `"appsec"` - secures the application against common vulnerabilities (see Application Security below)
+  - Priority - 110
+  - Module - `"lusca"` ([github](https://github.com/paypal/lusca))
+    - Arguments (*Array*)
+      - *Object*
+        - `"csrf"` (*Boolean*|*Object*) - value indicating whether to require CSRF tokens for non GET, HEAD, or OPTIONS requests, or an options object to configure CSRF protection (default: `true`)
+        - `"xframe"` (*String*) - value for the `X-Frame-Options` header (default: `"SAMEORIGIN"`)
+        - `"p3p"` (*String*|*Boolean*) - the Compact Privacy Policy value or `false` if not used (default: `false`)
+        - `"csp"` (*Object*|*Boolean*) - options configuring Content Security Policy headers or `false` if not used (default: `false`)
+* `"router"` - routes traffic to the applicable controller
+  - Priority - 120
+  - Module - `"express-enrouten"` ([npm](https://www.npmjs.org/package/express-enrouten))
+    - Arguments (*Array*)
+      - *Object*
+        - `"index"` (*String*) - path to the single file to load (default: `"path:./routes"`)
+
+Additional notes:
+- The session middleware defaults to using the in-memory store. This is **not** recommended for production applications and the configuration should be updated to use a shared resource (such as Redis or Memcached) for session storage.
+- You can change the routes which are affected by the middleware by providing a top-level option of `route`. In express deployments, it is common to re-route where static files are served which can be accomplished like so:
+
+```json
+// include this in your own config.json and this will merge with the Kraken defaults
+// NB: if you use kraken-devtools you must re-route that as well in development.json!
+{
+    "static": {
+        "route": "/static"
+    }
+}
+```
+
+#### Extending Default Middleware
+In any non-trivial Kraken deployment you will likely need to extend the included middleware. Common middleware which need extension include cookie parsing and session handling. In those particular cases, the secrets used should be updated:
+
+```js
+{
+    // include this in your own config.json and this will merge with the Kraken defaults
+    "middleware": {
+
+        "cookieParser": {
+            "module": {
+                "arguments": [ "your better secret value" ]
+            }
+        },
+
+        "session": {
+            "module": {
+                // NB: arrays like 'arguments' are not merged but rather replaced, so you must
+                //     include all required configuration options here.
+                "arguments": [
+                    {
+                        "secret": "a much better secret",
+                        "cookie": {
+                            "path": "/",
+                            "httpOnly": true,
+                            "maxAge": null
+                        },
+                        "resave": true,
+                        "saveUninitialized": true,
+                        "proxy": null
+                    }
+                ]
+            }
+        }
+
+    }
+}
+```
+
+Another common update is to pass options to middleware which is configured only with the defaults, such as the compression middleware:
+
+```js
+{
+    "middleware": {
+        "compress": {
+            "enabled": true,    // response compression is disabled by default
+            "module": {
+                "arguments": [
+                    {
+                        // 512 byte minimum before compressing output
+                        "threshold": 512
+                    }
+                ]
+            }
+        }
+    }
+}
+```
+
+More complicated examples include configuring the session middleware to use a shared resource, such as [connect-redis](https://www.npmjs.org/package/connect-redis). This requires a few extra steps, most notably creating your own middleware to handle the registration (see [totherik/redis-example](https://github.com/totherik/redis-example) for a complete example):
+
+  1. Overlay the existing session middleware in your configuration:
+
+  ```js
+  {
+      // in your config.json
+      "middleware": {
+          "session": {
+              "module": {
+                  // use your own module instead
+                  "name": "path:./lib/middleware/redis-session",
+                  "arguments": [
+                      // express-session configuration
+                      {
+                          "secret": "a much better secret",
+                          "cookie": {
+                              "path": "/",
+                              "httpOnly": true,
+                              "maxAge": null
+                          },
+                          "resave": true,
+                          "saveUninitialized": true,
+                          "store": null    // NB: this will be overlaid in our module
+                      },
+                      // connect-redis configuration
+                      {
+                          "host": "localhost",
+                          "port": 6379,
+                          "prefix": "session:"
+                      }
+                  ]
+              }
+          }
+      }
+  }
+  ```
+
+  2. Add your custom middleware for Kraken to configure:
+
+  ```javascript
+  // ./lib/middleware/redis-session.js
+  'use strict';
+
+  var session = require('express-session'),
+      RedisStore = require('connect-redis')(session);
+
+  /** Creates a REDIS-backed session store.
+   *
+   * @param {Object} [sessionConfig] Configuration options for express-session
+   * @param {Object} [redisConfig] Configuration options for connect-redis
+   * @returns {Object} Returns a session middleware which is backed by REDIS
+   */
+  module.exports = function (sessionConfig, redisConfig) {
+
+      // add the 'store' property to our session configuration
+      sessionConfig.store = new RedisStore(redisConfig);
+
+      // create the actual middleware
+      return session(sessionConfig);
+  };
+  ```
+
+
+### Application Security
+
+Kraken uses [lusca](https://github.com/paypal/lusca) to secure your applications, so that you don't need to think about it. Techniques like CSRF, XFRAMES, and CSP are enabled automatically while others can be opted into. All are customizable through configuration.
+
+
+### Lifecycle Events
+
+Kraken adds support for additional events to your express app instance:
+
+* `start` - the application has safely started and is ready to accept requests
+* `shutdown` - the application is shutting down, no longer accepting requests
+* `stop` - the http server is no longer connected or the shutdown timeout has expired
+
+
+
+### Configuration-based `express` Settings
+Since express instances are themselves config objects, the convention is to set values on the app instance for use by
+express internally as well as other code across the application. kraken-js allows you to configure express via JSON.
+Any properties are supported, but kraken-js defaults include:
+```js
+{
+    "express": {
+        "env": "", // NOTE: `env` is managed by the framework. This value will be overwritten.
+        "x-powered-by": false,
+        "trust proxy": false,
+        "jsonp callback name": null,
+        "json replacer": null,
+        "json spaces": 0,
+        "case sensitive routing": false,
+        "strict routing": false,
+        "view cache": true,
+        "view engine": null,
+        "views": "path:./views",
+        "route": "/"
+    }
+}
+```
+
+Additional notes:
+- The `env` setting will be set to the environment value as derived by kraken-js, so what is put here will be overwritten
+at runtime.
+- Set the `view engine` property to the one of the `view engines` property names (see the section `View Engine Configuration`)
+to enable it for template rendering.
+- The optional `view` property is a special case in which you can set a path to a module which exports a constructor implementing
+the view API as defined by the module `express/lib/view`. If set, kraken-js will attempt to load the specified module and
+configure express to use it for resolving views.
+
+For example:
+
+```js
+{
+    "express": {
+        "view": "path:./lib/MyCustomViewResolver"
+    }
+}
+```
+
+
+### View Engine Configuration
+kraken-js looks to the `view engines` config property to understand how to load and initialize renderers. The value of the
+`view engines` property is an object mapping the desired file extension to engine config settings. For example:
+```js
+{
+    "view engines": {
+        "jade": {
+            "module": "consolidate"
+        },
+        "html": {
+            "name": "ejs",
+            "module": "ejs",
+            "renderer": "renderFile"
+        },
+        "dust": {
+            "module": "adaro",
+            "renderer": {
+                "method": "dust",
+                "arguments": [{
+                    "cache": false,
+                    "helpers": ["dust-helpers-whatevermodule"]
+                }]
+            }
+        },
+        "js": {
+            "module": "adaro",
+            "renderer": {
+                "method": "js",
+                "arguments": [{ "cache": false }]
+            }
+        }
+    }
+}
+```
+
+The available engine configuration options are:
+
+- `module` (*String*) - This is the node module that provides the renderer implementation. The value can be the name of a
+module installed via npm, or it can be a module in your project referred to via file path, for example `"module": "path:./lib/renderer"`.
+- `name` (*String*, optional) - Set this if the name of the rendering engine is different from the desired file extension.
+For example, you chose to use ejs, but want to use the "html" file extension for your templates. Additionally, if the
+renderer function exported by the module is not the file extension and a "renderer" property is not defined, this value will be used.
+- `renderer` (*String|Object*, optional) - The renderer property allows you to explicitly identify the property or the
+factory method exported by the module that should be used when settings the renderer. Set the value to a String to identify
+that the renderer is exported by that name, or an object with the properties "method" and "arguments" to identify a factory method.
+For example, using ejs you could set this property to "renderFile" or "__express" as the ejs module exports a renderer directly.
+
+## Tests
+```bash
+$ npm test
+```
+
+## Coverage
+```bash
+$ npm run-script cover && open coverage/lcov-report/index.html
+```
+
+## Reading app configs from within the kraken app
+
+There are two different ways. You can
+
+* Read it in your `onconfig` handler as mentioned above.
+```
+function (config, callback) {
+    var value = config.get('<key>');
+    ...
+    ...
+    callback(null, config);
+}
+```
+* Read it off the `req` object by doing `req.app.kraken.get('<config-key>')`. So it would look like:
+```
+router.get('/', function (req, res) {
+    var value = req.app.kraken.get('<key>');
+    ...
+    ...
+});
+
+```

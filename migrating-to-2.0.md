@@ -1,84 +1,10 @@
-# unreleased
+# Migrating to kraken-js 2.0
 
-- deprecate domains
+The kraken 2.0 migration is extremely straight forward.
 
-# Release Notes
+Please be aware that in the next major release, the included 404 and 500 error handling middleware (opt-in) will be removed. In 2.0, if you use these middlewares, you will begin to see deprecation warnings.
 
-kraken-js v2.2.0
-Released: 2017-23-10
-
-## Changes
-
-  * **Core:**
-
-    1. Allow config path to be configurable
-
-      [Implementation](https://github.com/krakenjs/kraken-js/commit/6a643e5c740a21740a2adfd81a12ea0518755db7), [Pull Request](https://github.com/krakenjs/kraken-js/pull/473)
-
-    2. Updates dependencies
-
-      [Pull Request](https://github.com/krakenjs/kraken-js/pull/481)
-
-    3. Updates `lusca` dependency to 1.5.1
-
-      [Pull Request](https://github.com/krakenjs/kraken-js/pull/493)
-
-    4. Enables Lusca XSS protection by default
-
-      [Pull Request](https://github.com/krakenjs/kraken-js/pull/477)
-
----
-
-kraken-js v2.1.0
-Released: 2016-01-04
-
-## Changes
-
-  * **Core:**
-
-    1. Add more robust error handler for both inside and outside of the middleware continuation
-
-      [Implementation](https://github.com/krakenjs/kraken-js/compare/v2.0.1...v2.1.0), [Pull Request](https://github.com/krakenjs/kraken-js/pull/435)
-
----
-
-kraken-js v2.0.1
-Released: 2015-12-04
-
-## Changes
-
-  * **Core:**
-
-    1. Set morgan option to log request even if server crashes
-
-      [Implementation](https://github.com/krakenjs/kraken-js/commit/8febdea2423ce76608cc5167575f69a68eb97787), [Pull Request](https://github.com/krakenjs/kraken-js/pull/430)
-
----
-
-kraken-js v2.0.0
-Released: 2015-10-07
-
-## Bug Fixes
-
-  * **Core:**
-
-    1. Fix occasional double close error on shutdown
-
-      [Issue](https://github.com/krakenjs/kraken-js/issues/402), [Pull Request](https://github.com/krakenjs/kraken-js/pull/419)
-
-## Changes
-
-  * **Core:**
-
-    1. Add `shutdownHeaders` option to shutdown middleware
-
-      [Pull Request](https://github.com/krakenjs/kraken-js/pull/373)
-
-    2. Print deprecation warnings for the included 404 and 500 handlers.
-
-      [Implementation](https://github.com/krakenjs/kraken-js/commit/a6b3fae2ba25703573c317143ad4d2a1a9c3a937), [Issue](https://github.com/krakenjs/kraken-js/issues/359), [Pull Request](https://github.com/krakenjs/kraken-js/pull/361)
-
-## Breaking Changes
+Please review the following breaking changes introduced by dependencies:
 
   * **Dependency:** meddleware (v1 -> v3)
 
@@ -133,3 +59,4 @@ Released: 2015-10-07
       >// result
       >{ "KEY": "fromConfig", "OTHER_KEY": "fromEnv", "THIRD_KEY": "fromArgv" }
       >```
+

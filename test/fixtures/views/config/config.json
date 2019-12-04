@@ -1,0 +1,56 @@
+{
+    "view engines": {
+
+        "ejs": {
+            "module": "consolidate"
+        },
+
+        "dust": {
+            "module": "path:./lib/renderer",
+            "name": "dust"
+        },
+
+        "dustx": {
+            "module": "path:./lib/renderer"
+        },
+
+        "html": {
+            "module": "ejs",
+            "name": "ejs",
+            "renderer": "renderFile"
+        },
+
+        "htmlx": {
+            "module": "path:./lib/renderer",
+            "name": "dust",
+            "renderer": {
+                "method": "dustFactory",
+                "arguments": []
+            }
+        },
+
+        "jade": {
+            "module": "jade",
+            "renderer": "renderFile"
+        },
+
+        "custom": {
+            "module": "path:./lib/renderer",
+            "name": "dust"
+        }
+
+    },
+
+    "express": {
+        "view engine": "html",
+        "view": "path:./lib/View"
+    },
+
+    "middleware": {
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
+        }
+    }
+}

@@ -8,6 +8,8 @@
     "couch": false,
     "wsh": false,
 
+    "esversion": 6,
+
     "jquery": false,
     "prototypejs": false,
     "mootools": false,
@@ -64,6 +66,6 @@
 
     "maxparams": 5,
     "maxdepth": 3,
-    "maxstatements": 30,
+    "maxstatements": 20,
     "maxcomplexity": 8
 }

@@ -1,0 +1,34 @@
+{
+    "middleware": {
+        "shutdown": {
+            "enabled": true,
+            "priority": 0,
+            "module": {
+                "name": "path:../middleware/shutdown",
+                "arguments": [{
+                    "timeout": 30000,
+                    "template": null,
+                    "shutdownHeaders": {
+                        "Custom-Header1": "Header1",
+                        "Custom-Header2": "Header2"
+                    }
+                }]
+            }
+        },
+        "router": {
+            "enabled": true,
+            "priority": 120,
+            "module": "express-enrouten",
+            "arguments": [
+                {
+                    "index": "path:./fixtures/middleware/routes"
+                }
+            ]
+        },
+        "favicon": {
+            "module": {
+                "arguments": [ "path:../public/favicon.ico" ]
+            }
+        }
+    }
+}

@@ -1,0 +1,4 @@
+{
+    "nestedB" : "import:./nestedB.json",
+    "seasons": ["spring", "autumn", "summer", "winter"]
+}
