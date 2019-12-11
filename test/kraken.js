@@ -178,33 +178,23 @@ test('kraken', function (t) {
         app.use(kraken(options));
     });
 
-    t.test('onkrakenmount > start listening post bootstrap', function (t) {
+    t.test('onkrakenmount', function (t) {
         var options, app;
 
-        t.plan(4);
+        t.plan(3);
 
         function start() {
-            t.pass('server started');
+            t.pass('bootstrap successful');
         }
 
         function error(err) {
-            t.error(err, 'server startup failed');
+            t.error(err, 'bootstrap failed');
         }
 
         options = {
             onkrakenmount: function (app) {
-                const serverListen = app.listen;
-                app.listen =  () => {
-                    return new Promise((resolve , reject) => {
-                        app.on('start', () => {
-                            return resolve(serverListen.apply(app, arguments));
-                        });
-
-                        app.on('error', () => {
-                            return reject(serverListen.apply(app, arguments));
-                        });
-                    });
-                }
+                t.ok(app.mountpath, 'app instance exist');
+                t.equal(arguments.length, 2, 'length of args is 2');
             }
         };
 
@@ -212,24 +202,6 @@ test('kraken', function (t) {
         app.on('start', start);
         app.on('error', error);
         app.use(kraken(options));
-
-        const server = app.listen();
-
-        t.equal(server && server.listening, undefined, 'server hasn\'t started and isn\'t listening');
-
-        server.then(server => {
-            t.equal(server.listening, true, 'Server is listening');
-
-            request(`http://127.0.0.1:${server.address().port}`)
-            .get('/')
-            .expect(404)
-            .end(function(err, res) {
-                server.close();
-                t.ok(!err, `server returns without error`);
-                t.end();
-            });
-
-        });
     });
 
     t.test('server 503 until started', function (t) {
