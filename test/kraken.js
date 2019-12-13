@@ -181,7 +181,7 @@ test('kraken', function (t) {
     t.test('onkrakenmount', function (t) {
         var options, app;
 
-        t.plan(3);
+        t.plan(4);
 
         function start() {
             t.pass('bootstrap successful');
@@ -194,6 +194,7 @@ test('kraken', function (t) {
         options = {
             onkrakenmount: function (app) {
                 t.ok(app.mountpath, 'app instance exist');
+                t.ok(app instanceof Function, 'app is a function');
                 t.equal(arguments.length, 2, 'length of args is 2');
             }
         };
