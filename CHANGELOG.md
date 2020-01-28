@@ -1,6 +1,7 @@
 # unreleased
 
 - deprecate domains
+- add onKrakenMount property; removed node v4, v6 and added node 10 in travis CI config (#514)
 
 # Release Notes
 

@@ -178,6 +178,32 @@ test('kraken', function (t) {
         app.use(kraken(options));
     });
 
+    t.test('onKrakenMount', function (t) {
+        var options, app;
+
+        t.plan(4);
+
+        function start() {
+            t.pass('bootstrap successful');
+        }
+
+        function error(err) {
+            t.error(err, 'bootstrap failed');
+        }
+
+        options = {
+            onKrakenMount: function (app) {
+                t.ok(app.mountpath, 'app instance exist');
+                t.ok(app instanceof Function, 'app is a function');
+                t.equal(arguments.length, 2, 'length of args is 2');
+            }
+        };
+
+        app = express();
+        app.on('start', start);
+        app.on('error', error);
+        app.use(kraken(options));
+    });
 
     t.test('server 503 until started', function (t) {
         var options, app, server;
