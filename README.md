@@ -104,6 +104,9 @@ var options = {
 };
 ```
 
+#### `onKrakenMount` (*Function*, optional)
+Provides a synchronus hook which executes once kraken mounts. It take express `app` instance as first argument, and `options` as the second. The signature of this handler is `function (app, options)`.
+
 #### `uncaughtException` (*Function*, optional)
 Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/krakenjs/endgame) module for defaults.
 
