@@ -93,7 +93,6 @@
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
-    "shush": "^1.0.0",
-    "util.promisify": "^1.0.0"
+    "shush": "^1.0.0"
   }
 }
