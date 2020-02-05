@@ -1,5 +1,13 @@
 # Release Notes
 
+kraken-js v2.3.0
+Released: 2020-02-04
+
+## Changes
+
+- deprecate domains
+- add onKrakenMount property; removed node v4, v6 and added node 10 in travis CI config (#514)
+
 kraken-js v2.2.0
 Released: 2017-23-10
 

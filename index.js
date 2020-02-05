@@ -37,10 +37,10 @@ module.exports = function (options) {
     }
 
     options = options || {};
-    options.protocols    = options.protocols || {};
-    options.onconfig     = options.onconfig || noop;
-    options.basedir      = options.basedir || path.dirname(caller());
-    options.mountpath    = null;
+    options.protocols = options.protocols || {};
+    options.onconfig = options.onconfig || noop;
+    options.basedir = options.basedir || path.dirname(caller());
+    options.mountpath = null;
     options.inheritViews = !!options.inheritViews;
 
     debug('kraken options\n', options);
@@ -67,6 +67,10 @@ module.exports = function (options) {
         // subsequently deleted, the `mountpath` is
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
+
+        // on krakenmount
+        const onKrakenMount = options.onKrakenMount;
+        onKrakenMount && onKrakenMount(parent, options);
 
         start = parent.emit.bind(parent, 'start');
         error = parent.emit.bind(parent, 'error');

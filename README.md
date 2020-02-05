@@ -2,7 +2,7 @@
 
 # kraken.js
 
-[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js)  
+[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js) [![Greenkeeper badge](https://badges.greenkeeper.io/krakenjs/kraken-js.svg)](https://greenkeeper.io/)  
 
 Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
 For more information and examples check out [krakenjs.com](http://krakenjs.com)
@@ -104,8 +104,11 @@ var options = {
 };
 ```
 
+#### `onKrakenMount` (*Function*, optional)
+Provides a synchronous hook which executes once kraken mounts. It takes an express `app` instance as the first argument, and `options` as the second. The signature of this handler is `function (app, options)`.
+
 #### `uncaughtException` (*Function*, optional)
-Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/totherik/endgame) module for defaults.
+Handler for `uncaughtException` errors outside of the middleware chain. See the [endgame](https://github.com/krakenjs/endgame) module for defaults.
 
 For uncaught errors in the middleware chain, see `shutdown` middleware instead.
 
@@ -338,7 +341,7 @@ More complicated examples include configuring the session middleware to use a sh
       "middleware": {
           "session": {
               "module": {
-                  // use our own module instead
+                  // use your own module instead
                   "name": "path:./lib/middleware/redis-session",
                   "arguments": [
                       // express-session configuration
