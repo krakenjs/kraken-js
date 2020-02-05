@@ -1,5 +1,3 @@
-# unreleased
-
 # Release Notes
 
 kraken-js v2.3.0
