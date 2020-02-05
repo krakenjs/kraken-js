@@ -2,7 +2,7 @@
 
 # kraken.js
 
-[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js)  
+[![Build Status](https://travis-ci.org/krakenjs/kraken-js.svg?branch=v1.0.x)](https://travis-ci.org/krakenjs/kraken-js) [![Greenkeeper badge](https://badges.greenkeeper.io/krakenjs/kraken-js.svg)](https://greenkeeper.io/)  
 
 Kraken builds upon [express](http://expressjs.com/) and enables environment-aware, dynamic configuration, advanced middleware capabilities, security, and app lifecycle events.
 For more information and examples check out [krakenjs.com](http://krakenjs.com)
