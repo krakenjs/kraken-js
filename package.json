@@ -67,7 +67,7 @@
     "jade": "^1.9.2",
     "jshint": "^2.6.3",
     "supertest": "^4.0.2",
-    "tape": "^4.0.0"
+    "tape": "^5.0.0"
   },
   "peerDependencies": {
     "express": "^4.8.4"
