@@ -4,6 +4,7 @@ process.env.NODE_ENV='_krakendev';
 
 var test = require('tape');
 var path = require('path');
+var { execSync } = require('child_process');
 var express = require('express');
 var request = require('supertest');
 var kraken = require('../');
@@ -11,9 +12,16 @@ var kraken = require('../');
 
 test('views', function (t) {
 
+    const cwd = process.cwd();
+    const basedir = path.join(__dirname, 'fixtures', 'views');
+    process.chdir(basedir);
+    execSync('npm install --package-lock=false', { cwd: basedir });
+    test.onFinish(function finish() {
+        process.chdir(cwd);
+    });
 
     t.test('renderer', function (t) {
-        var basedir, app;
+        var app;
 
         function start() {
             var server;
@@ -25,8 +33,6 @@ test('views', function (t) {
 
             server = request(app).get('/').expect(200, 'Hello, world!', done);
         }
-
-        basedir = path.join(__dirname, 'fixtures', 'views');
 
         app = express();
         app.use(kraken(basedir));
@@ -51,7 +57,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'ejs');
                 cb(null, settings);
@@ -81,7 +87,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'jade');
                 cb(null, settings);
@@ -111,7 +117,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'dust');
                 cb(null, settings);
@@ -141,7 +147,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'htmlx');
                 cb(null, settings);
@@ -171,7 +177,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'dustx');
                 cb(null, settings);
@@ -200,7 +206,7 @@ test('views', function (t) {
         }
 
         options = {
-            basedir: path.join(__dirname, 'fixtures', 'views'),
+            basedir,
             onconfig: function (settings, cb) {
                 settings.set('express:view engine', 'custom');
                 cb(null, settings);
@@ -208,6 +214,35 @@ test('views', function (t) {
         };
 
         app = express();
+        app.use(kraken(options));
+        app.on('start', start);
+        app.on('error', t.error.bind(t));
+    });
+
+
+    t.test('custom renderer module implementation', function (t) {
+        const app = express();
+
+        function start() {
+
+            function done(err) {
+                t.error(err);
+                t.end();
+            }
+
+            const server = request(app).get('/').expect(200, 'Hello, world! [Source: index.txt]', done);
+        }
+
+        const options = {
+            basedir,
+            onconfig: function (settings, cb) {
+                const exCfg = settings.get('express');
+                exCfg['view engine'] = 'txt';
+                delete exCfg['view'];
+                cb(null, settings);
+            }
+        };
+
         app.use(kraken(options));
         app.on('start', start);
         app.on('error', t.error.bind(t));
