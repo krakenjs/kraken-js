@@ -1,6 +1,7 @@
 # unreleased
 
 - Include process.cwd while resolving module for view engine. It is possible that kraken-js module is deployed outside application root.
+- Use confit@3x
 
 # Release Notes
 
