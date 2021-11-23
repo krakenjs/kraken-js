@@ -1,9 +1,14 @@
 # unreleased
 
-- Include process.cwd while resolving module for view engine. It is possible that kraken-js module is deployed outside application root.
-- Use confit@3x
-
 # Release Notes
+
+kraken-js v2.4.0
+Released: 2021-11-23
+
+## Changes
+
+- Include process.cwd while resolving module for view engine. It is possible that kraken-js module is deployed outside application root. [Pull Request](https://github.com/krakenjs/kraken-js/pull/526)
+- Use confit@3x [Pull Request](https://github.com/krakenjs/kraken-js/pull/527)
 
 kraken-js v2.3.0
 Released: 2020-02-04
@@ -12,6 +17,8 @@ Released: 2020-02-04
 
 - deprecate domains
 - add onKrakenMount property; removed node v4, v6 and added node 10 in travis CI config (#514)
+
+---
 
 kraken-js v2.2.0
 Released: 2017-23-10
