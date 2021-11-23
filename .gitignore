@@ -21,6 +21,7 @@ npm-debug.log
 package-lock.json
 
 .project
+.vscode
 .idea
 .settings
 .iml

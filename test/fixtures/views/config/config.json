@@ -34,6 +34,13 @@
             "renderer": "renderFile"
         },
 
+        "txt": { 
+            "module": "test-text-renderer",
+            "renderer": {
+                "method": "txtHandler"
+            }
+        },
+
         "custom": {
             "module": "path:./lib/renderer",
             "name": "dust"
