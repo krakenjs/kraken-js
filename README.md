@@ -112,6 +112,17 @@ Handler for `uncaughtException` errors outside of the middleware chain. See the 
 
 For uncaught errors in the middleware chain, see `shutdown` middleware instead.
 
+#### `confit` (*Object*, optional)
+In rare cases, it may be useful to pass options directly to the confit module used within [lib/config.js](lib/config.js#71).
+For example, if [confit/shortstop is conflicting with environment variables](https://github.com/krakenjs/kraken-js/issues/470), you can explicitly ignore those environment variables:
+```javascript
+var options = {
+    confit: {
+        envignore: ['troublesome_environment_variable']
+    }
+};
+```
+
 ## Config Protocols
 kraken comes with the following shortstop protocol handlers by default:
 #### `import:`
