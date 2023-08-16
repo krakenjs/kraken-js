@@ -1,5 +1,12 @@
 # unreleased
 
+kraken-js v2.5.0
+Released 2023-08-16
+
+## Changes
+
+- Options can now be passed directly to confit via `{ confit: {} }`. This can be used to mitigate issue #470. [Pull Request](https://github.com/krakenjs/kraken-js/pull/528)
+
 # Release Notes
 
 kraken-js v2.4.0
