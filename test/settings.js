@@ -91,4 +91,24 @@ test('settings', function (t) {
 
     });
 
+    t.test('should accept confit options', function (t) {
+      var options, app, basedir;
+
+      process.env.krakenjs_test_settings_should_accept_confit_options = 'foo';
+
+      function onconfig(config, cb) {
+        var ignoredEnvVar = config.get('krakenjs_test_settings_should_accept_confit_options');
+        t.equal(ignoredEnvVar, undefined);
+        t.end();
+      }
+
+      app = express();
+      app.use(kraken({
+        basedir: path.join(__dirname, 'fixtures', 'settings'),
+        onconfig: onconfig,
+        confit: {
+            envignore: ['krakenjs_test_settings_should_accept_confit_options']
+        }
+      }));
+    });
 });
