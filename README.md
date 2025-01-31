@@ -1,4 +1,5 @@
-**ATTENTION: kraken-js is not actively accepting new features**
+> [!CAUTION]
+> The kraken-js repo is not actively monitored or accepting new features. It is recommended not to use this for new products and migrate away for existing ones.
 
 ![kraken-js](public/krakenLogo.png)
 
