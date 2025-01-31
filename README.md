@@ -1,3 +1,5 @@
+**ATTENTION: kraken-js is not actively accepting new features**
+
 ![kraken-js](public/krakenLogo.png)
 
 # kraken.js
