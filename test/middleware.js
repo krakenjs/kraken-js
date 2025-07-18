@@ -81,7 +81,7 @@ test('middleware', function (t) {
                 t.equal(typeof req.body, 'object');
                 t.equal(typeof req.files, 'object');
                 t.equal(typeof req.files.file, 'object');
-                t.equal(req.files.file.name, 'lazerz.jpg');
+                t.equal(req.files.file[0].originalFilename, 'lazerz.jpg');
                 res.status(200).end();
             });
 
