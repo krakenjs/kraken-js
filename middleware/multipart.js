@@ -18,8 +18,10 @@
 'use strict';
 
 var fs = require('fs'),
-    IncomingForm = require('formidable').IncomingForm,
+    formidable = require('formidable'),
+    { firstValues } = require('formidable/src/helpers/firstValues.js'),
     debug = require('debuglog')('kraken/middleware/multipart');
+var IncomingForm = formidable.IncomingForm;
 
 
 /**
@@ -67,8 +69,10 @@ function cleanify(files) {
  * @param file a formidable File object
  */
 function funlink(file) {
-    var path = file.path;
-    debug('removing', file.name);
+    // Handle both formidable 1.x and 3.x file object properties
+    var path = file.filepath || file.path; // 3.x uses filepath, 1.x uses path
+    var name = file.originalFilename || file.name; // 3.x uses originalFilename, 1.x uses name
+    debug('removing', name);
     if (typeof path === 'string') {
         fs.unlink(path, function (err) {
             if (err) {
@@ -91,10 +95,37 @@ module.exports = function (config) {
                 return;
             }
 
-            req.body = fields;
-            req.files = files;
-            res.once('finish', cleanify(files));
+            // Use firstValues to handle formidable 3.x array format
+            req.body = firstValues(form, fields);
+            req.files = addBackwardCompatibility(firstValues(form, files));
+            res.once('finish', cleanify(req.files));
             next();
         });
     });
 };
+
+
+/**
+ * Add backward compatibility properties to file objects
+ * @param files the files object from formidable
+ */
+function addBackwardCompatibility(files) {
+    if (!files) {
+        return {};
+    }
+    
+    Object.keys(files).forEach(function(key) {
+        var file = files[key];
+        if (file) {
+            // Add backward compatibility properties for both formidable versions
+            file.path = file.filepath || file.path;
+            file.name = file.originalFilename || file.name;
+            file.type = file.mimetype || file.type;
+            // Also add forward compatibility
+            file.filepath = file.filepath || file.path;
+            file.originalFilename = file.originalFilename || file.name;
+            file.mimetype = file.mimetype || file.type;
+        }
+    });
+    return files;
+}
