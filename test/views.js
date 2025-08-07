@@ -89,7 +89,7 @@ test('views', function (t) {
         options = {
             basedir,
             onconfig: function (settings, cb) {
-                settings.set('express:view engine', 'jade');
+                settings.set('express:view engine', 'pug');
                 cb(null, settings);
             }
         };

@@ -59,13 +59,13 @@
     "node": ">= 20"
   },
   "devDependencies": {
-    "consolidate": "^1.0.4",
-    "dustjs-linkedin": "^2.7.5",
+    "consolidate": "^0.16.0",
+    "dustjs-linkedin": "^3.0.1",
     "ejs": "^3.1.10",
     "express": "^4.8.4",
     "istanbul": "^0.4.5",
-    "jade": "^1.9.2",
     "jshint": "^2.6.3",
+    "pug": "^3.0.3",
     "supertest": "^7.1.4",
     "tape": "^5.9.0"
   },
