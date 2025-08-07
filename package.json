@@ -56,11 +56,11 @@
     }
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "devDependencies": {
     "consolidate": "^1.0.4",
-    "dustjs-linkedin": "^3.0.1",
+    "dustjs-linkedin": "^2.7.5",
     "ejs": "^3.1.10",
     "express": "^4.8.4",
     "istanbul": "^0.4.5",
@@ -85,7 +85,7 @@
     "endgame": "^1.0.0",
     "express-enrouten": "^1.2.0",
     "express-session": "^1.10.4",
-    "formidable": "^1.0.17",
+    "formidable": "^3.5.4",
     "lusca": "^1.5.1",
     "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
