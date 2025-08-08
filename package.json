@@ -74,7 +74,6 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
-    "body-parser": "^2.2.0",
     "caller": "^1.0.0",
     "compression": "^1.4.3",
     "confit": "^3.0.0",
@@ -90,7 +89,6 @@
     "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
     "serve-favicon": "^2.2.0",
-    "serve-static": "^2.2.0",
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
