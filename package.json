@@ -56,25 +56,24 @@
     }
   ],
   "engines": {
-    "node": ">= 4"
+    "node": ">= 20"
   },
   "devDependencies": {
-    "consolidate": "^0.15.1",
-    "dustjs-linkedin": "^2.6.2",
-    "ejs": "^2.3.1",
+    "consolidate": "^0.16.0",
+    "dustjs-linkedin": "^3.0.1",
+    "ejs": "^3.1.10",
     "express": "^4.8.4",
     "istanbul": "^0.4.5",
-    "jade": "^1.9.2",
     "jshint": "^2.6.3",
-    "supertest": "^4.0.2",
-    "tape": "^4.0.0"
+    "pug": "^3.0.3",
+    "supertest": "^7.1.4",
+    "tape": "^5.9.0"
   },
   "peerDependencies": {
     "express": "^4.8.4"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
-    "body-parser": "^1.12.2",
     "caller": "^1.0.0",
     "compression": "^1.4.3",
     "confit": "^3.0.0",
@@ -85,12 +84,11 @@
     "endgame": "^1.0.0",
     "express-enrouten": "^1.2.0",
     "express-session": "^1.10.4",
-    "formidable": "^1.0.17",
+    "formidable": "^3.5.4",
     "lusca": "^1.5.1",
     "meddleware": "^3.0.2",
     "morgan": "^1.5.2",
     "serve-favicon": "^2.2.0",
-    "serve-static": "^1.9.2",
     "shortstop": "^1.0.1",
     "shortstop-handlers": "^1.0.0",
     "shortstop-resolve": "^1.0.1",
