@@ -70,8 +70,8 @@ function cleanify(files) {
  */
 function funlink(file) {
     // Handle both formidable 1.x and 3.x file object properties
-    var path = file.filepath || file.path; // 3.x uses filepath, 1.x uses path
-    var name = file.originalFilename || file.name; // 3.x uses originalFilename, 1.x uses name
+    var path = file.filepath ?? file.path; // 3.x uses filepath, 1.x uses path
+    var name = file.originalFilename ?? file.name; // 3.x uses originalFilename, 1.x uses name
     debug('removing', name);
     if (typeof path === 'string') {
         fs.unlink(path, function (err) {
@@ -118,13 +118,9 @@ function addBackwardCompatibility(files) {
         var file = files[key];
         if (file) {
             // Add backward compatibility properties for both formidable versions
-            file.path = file.filepath || file.path;
-            file.name = file.originalFilename || file.name;
-            file.type = file.mimetype || file.type;
-            // Also add forward compatibility
-            file.filepath = file.filepath || file.path;
-            file.originalFilename = file.originalFilename || file.name;
-            file.mimetype = file.mimetype || file.type;
+            file.path ??= file.filepath;
+            file.name ??= file.originalFilename;
+            file.type ??= file.mimetype;
         }
     });
     return files;
