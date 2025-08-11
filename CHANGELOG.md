@@ -1,5 +1,14 @@
 # unreleased
 
+## 2.6.0
+
+- Now requires Node v20 and later
+- Updated `formidable` dependency to `^3.5.4`
+  - Added compatibility layer to preserve current Kraken API
+- Updated several devDependencies
+
+## Release Notes
+
 kraken-js v2.5.0
 Released 2023-08-16
 
